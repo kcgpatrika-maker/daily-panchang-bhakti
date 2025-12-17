@@ -1,54 +1,29 @@
 <script src="data.js"></script>
 
 <script>
-/* ========= ALIAS MAP (English + Short Names) ========= */
 const aliasMap = {
   shiv: "शिव",
   shiva: "शिव",
   mahadev: "शिव",
-  bholenath: "शिव",
 
   hanuman: "हनुमान",
   bajrang: "हनुमान",
-  bajrangbali: "हनुमान",
 
   diwali: "दीपावली",
-  deepavali: "दीपावली",
-  deepawali: "दीपावली"
+  deepavali: "दीपावली"
 };
 
-/* ========= SEO PAGES ========= */
-const seoPages = {
-  "शिव": "shiv.html",
-  "हनुमान": "hanuman.html",
-  "दीपावली": "diwali.html"
-};
-
-function handleAsk() {
-  let input = document.getElementById("askInput").value.trim().toLowerCase();
-  const box = document.getElementById("askResult");
+function ask() {
+  let input = document.getElementById("query").value.trim().toLowerCase();
+  const box = document.getElementById("result");
   box.innerHTML = "";
 
   if (!input) return;
 
-  // 🔹 English → Hindi
   if (aliasMap[input]) {
     input = aliasMap[input];
   }
 
-  // 🔹 SEO page direct
-  for (let key in seoPages) {
-    if (input.includes(key)) {
-      box.innerHTML = `
-        <a href="${seoPages[key]}" class="seo-link">
-          👉 ${key} से जुड़ी पूरी जानकारी पढ़ें
-        </a>
-      `;
-      return;
-    }
-  }
-
-  // 🔹 bhaktiData smart search
   const found = bhaktiData.find(item =>
     item.name && item.name.includes(input)
   );
@@ -57,18 +32,23 @@ function handleAsk() {
     found.contents.forEach(c => {
       const btn = document.createElement("button");
       btn.textContent = c.type + " : पूरा पढ़ें";
-      btn.onclick = () =>
-        openModal(found.name + " – " + c.type, c.info);
+      btn.onclick = () => openModal(
+        found.name + " – " + c.type,
+        c.info
+      );
       box.appendChild(btn);
     });
     return;
   }
 
-  // 🔹 Nothing found
   box.innerText = "🙏 जानकारी शीघ्र जोड़ी जाएगी।";
 }
 
-/* ========= MODAL ========= */
+function resetAsk() {
+  document.getElementById("query").value = "";
+  document.getElementById("result").innerHTML = "";
+}
+
 function openModal(title, body) {
   document.getElementById("modalTitle").innerText = title;
   document.getElementById("modalBody").innerText = body;
@@ -77,10 +57,5 @@ function openModal(title, body) {
 
 function closeModal() {
   document.getElementById("askModal").style.display = "none";
-}
-
-function resetAsk() {
-  document.getElementById("askInput").value = "";
-  document.getElementById("askResult").innerHTML = "";
 }
 </script>
