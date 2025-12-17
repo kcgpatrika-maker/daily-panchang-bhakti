@@ -47,9 +47,27 @@
 
 <script>
 const data = [
-  {name:"हनुमान", short_info:"हनुमान जी की आरती, पूजा विधि", full_info:"पूरा हनुमान चालीसा और पूजा विधि..."},
-  {name:"शिव", short_info:"शिव जी की पूजा विधि, आरती", full_info:"पूर्ण शिव पूजा विधि, मंत्र, आरती..."},
-  {name:"प्रदोष व्रत", short_info:"हर महीने की तिथि पर होता है", full_info:"प्रदोष व्रत का पूरा विवरण और पूजा विधि..."}
+  {
+    name: "हनुमान जी",
+    contents: [
+      {"type":"प्रार्थना","info":"हनुमान जी की प्रार्थना विधि..."},
+      {"type":"चालीसा","info":"हनुमान चालीसा पूरी..."},
+      {"type":"आरती","info":"हनुमान जी की आरती..."},
+      {"type":"पूजा विधि","info":"हनुमान पूजा विधि..."},
+      {"type":"प्रमुख स्तोत्र","info":"हनुमान स्तोत्र पूरी..."}
+    ]
+  },
+  {
+    name: "भगवान शिव",
+    contents: [
+      {"type":"प्रार्थना","info":"शिव जी की प्रार्थना विधि..."},
+      {"type":"चालीसा","info":"शिव चालीसा पूरी..."},
+      {"type":"आरती","info":"शिव जी की आरती..."},
+      {"type":"पूजा विधि","info":"शिव पूजा विधि..."},
+      {"type":"प्रमुख स्तोत्र","info":"शिव स्तोत्र पूरी..."}
+    ]
+  }
+  // आप इसी तरह अन्य देवताओं और त्योहारों की entries जोड़ सकते हैं
 ];
 
 const searchBox = document.getElementById("searchBox");
@@ -60,10 +78,14 @@ searchBox.addEventListener("input", function() {
   const query = this.value.toLowerCase();
   resultArea.innerHTML = "";
   const results = data.filter(item => item.name.toLowerCase().includes(query));
+  
   results.forEach(item => {
-    const div = document.createElement("div");
-    div.innerHTML = `<strong>${item.name}</strong>: ${item.short_info} <button onclick="alert('${item.full_info}')">पूरा पढ़ें</button>`;
-    resultArea.appendChild(div);
+    item.contents.forEach(content => {
+      const div = document.createElement("div");
+      div.style.marginBottom = "8px";
+      div.innerHTML = `<strong>${content.type}</strong>: <button onclick="alert('${content.info}')">पूरा पढ़ें</button>`;
+      resultArea.appendChild(div);
+    });
   });
 });
 
