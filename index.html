@@ -1,61 +1,115 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>भक्ति पंचांग</title>
+
+<style>
+body { font-family: sans-serif; background:#fff8e1; margin:0; padding:12px }
+.card { background:#fff; padding:15px; margin-bottom:12px; border-radius:12px }
+input { width:100%; padding:10px; margin:8px 0 }
+button { width:100%; padding:10px; margin-top:6px; background:#ff9800; color:#fff; border:none; border-radius:8px }
+button:hover { background:#fb8c00 }
+
+.modal {
+  display:none;
+  position:fixed;
+  inset:0;
+  background:rgba(0,0,0,0.6);
+  z-index:999;
+}
+.modal-content {
+  background:#fff;
+  margin:10% auto;
+  padding:20px;
+  width:90%;
+  max-height:75%;
+  overflow-y:auto;
+  border-radius:12px;
+}
+.close { float:right; font-size:22px; cursor:pointer }
+</style>
+</head>
+
+<body>
+
+<div class="card">
+<h2>📅 आज का पंचांग</h2>
+<p>वार: बुधवार</p>
+<p>विक्रम संवत: 2082 | शक संवत: 1947</p>
+<p>मास: पौष | तिथि: कृष्ण पक्ष त्रयोदशी</p>
+</div>
+
+<div class="card ask-box">
+<h3>🙏 देवी-देवता या त्योहार खोजें</h3>
+<input id="askInput" placeholder="नाम लिखें (Shiv / Hanuman / Diwali)">
+<button onclick="handleAsk()">Ask</button>
+<button onclick="resetAsk()">Reset</button>
+<div id="askResult"></div>
+</div>
+
+<div id="askModal" class="modal">
+  <div class="modal-content">
+    <span class="close" onclick="closeModal()">×</span>
+    <h3 id="modalTitle"></h3>
+    <div id="modalBody"></div>
+  </div>
+</div>
+
+<footer class="card">
+© 2025 | भक्ति पंचांग | संकलन एवं प्रस्तुति: कैलाश गौतम
+</footer>
+
 <script src="data.js"></script>
 
 <script>
 const aliasMap = {
-  shiv: "शिव",
-  shiva: "शिव",
-  mahadev: "शिव",
-
-  hanuman: "हनुमान",
-  bajrang: "हनुमान",
-
-  diwali: "दीपावली",
-  deepavali: "दीपावली"
+  shiv:"शिव", shiva:"शिव", mahadev:"शिव",
+  hanuman:"हनुमान", bajrangbali:"हनुमान",
+  diwali:"दीपावली", deepavali:"दीपावली"
 };
 
-function ask() {
-  let input = document.getElementById("query").value.trim().toLowerCase();
-  const box = document.getElementById("result");
-  box.innerHTML = "";
+const seoPages = {
+  "शिव":"shiv.html",
+  "हनुमान":"hanuman.html",
+  "दीपावली":"diwali.html"
+};
 
-  if (!input) return;
+function handleAsk(){
+  let input = document.getElementById("askInput").value.trim().toLowerCase();
+  const box = document.getElementById("askResult");
+  box.innerHTML="";
 
-  if (aliasMap[input]) {
-    input = aliasMap[input];
+  if(aliasMap[input]) input = aliasMap[input];
+
+  if(seoPages[input]){
+    box.innerHTML = `<a href="${seoPages[input]}">👉 पूरी जानकारी पढ़ें</a>`;
+    return;
   }
 
-  const found = bhaktiData.find(item =>
-    item.name && item.name.includes(input)
-  );
-
-  if (found && found.contents) {
-    found.contents.forEach(c => {
-      const btn = document.createElement("button");
-      btn.textContent = c.type + " : पूरा पढ़ें";
-      btn.onclick = () => openModal(
-        found.name + " – " + c.type,
-        c.info
-      );
-      box.appendChild(btn);
+  const found = bhaktiData.find(d => d.name === input);
+  if(found){
+    found.contents.forEach(c=>{
+      const b=document.createElement("button");
+      b.textContent=c.type+" : पूरा पढ़ें";
+      b.onclick=()=>openModal(found.name+" – "+c.type,c.info);
+      box.appendChild(b);
     });
     return;
   }
 
-  box.innerText = "🙏 जानकारी शीघ्र जोड़ी जाएगी।";
+  box.innerText="🙏 जानकारी शीघ्र जोड़ी जाएगी।";
 }
 
-function resetAsk() {
-  document.getElementById("query").value = "";
-  document.getElementById("result").innerHTML = "";
+function openModal(t,b){
+  modalTitle.innerText=t;
+  modalBody.innerText=b;
+  askModal.style.display="block";
 }
-
-function openModal(title, body) {
-  document.getElementById("modalTitle").innerText = title;
-  document.getElementById("modalBody").innerText = body;
-  document.getElementById("askModal").style.display = "block";
-}
-
-function closeModal() {
-  document.getElementById("askModal").style.display = "none";
-}
+function closeModal(){ askModal.style.display="none"; }
+function resetAsk(){ askInput.value=""; askResult.innerHTML=""; }
 </script>
+
+</body>
+</html>
