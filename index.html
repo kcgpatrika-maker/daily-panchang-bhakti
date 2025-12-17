@@ -1,166 +1,123 @@
 <!DOCTYPE html>
 <html lang="hi">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>भक्ति पंचांग | आज का पंचांग</title>
-
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>भक्ति पंचांग</title>
 <script src="data.js"></script>
 
 <style>
-body{
-  margin:0;
-  font-family: system-ui, sans-serif;
-  background:#fff8e1;
-  color:#4e342e;
-}
-header{
-  background:linear-gradient(90deg,#ff9800,#ffb300);
-  padding:12px;
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  color:#fff;
-}
-header h1{
-  font-size:18px;
-  margin:0;
-}
-header button{
-  background:#fff;
-  border:none;
-  border-radius:6px;
-  padding:5px 8px;
-  margin-left:5px;
-}
-.section{
-  padding:15px;
-}
-.card{
-  background:#fff;
-  border-radius:12px;
-  padding:15px;
-  margin-bottom:15px;
-  box-shadow:0 3px 8px rgba(0,0,0,0.1);
-}
-.highlight{
-  background:linear-gradient(135deg,#ffe082,#ffcc80);
-  border-left:6px solid #ff6f00;
-}
-.highlight h3{
-  margin-top:0;
-}
-.ask-box input{
-  width:70%;
-  padding:8px;
-}
-.ask-box button{
-  padding:8px;
-}
-.result button{
-  display:block;
-  width:100%;
-  margin:5px 0;
-}
-footer{
-  text-align:center;
-  padding:10px;
-  background:#fff3e0;
-  font-size:14px;
-}
+body{margin:0;font-family:system-ui;background:#fff8e1;color:#4e342e}
+header{background:linear-gradient(90deg,#ff9800,#ffb300);padding:12px;display:flex;justify-content:space-between;align-items:center;color:#fff}
+header h1{margin:0;font-size:18px}
+header button{background:#fff;border:none;border-radius:6px;padding:5px 8px;margin-left:5px}
+.section{padding:15px}
+.card{background:#fff;border-radius:12px;padding:15px;margin-bottom:15px;box-shadow:0 3px 8px rgba(0,0,0,.1)}
+.highlight{background:linear-gradient(135deg,#ffe082,#ffcc80);border-left:6px solid #ff6f00}
+.ask-box input{width:65%;padding:8px}
+.ask-box button{padding:8px;margin-left:4px}
+.result button{display:block;width:100%;margin:6px 0}
+footer{text-align:center;padding:10px;background:#fff3e0;font-size:14px}
+
+/* MODAL */
+.modal{display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,.6);z-index:1000}
+.modal-content{background:#fff;border-radius:12px;margin:10% auto;padding:15px;width:90%;max-height:70%;overflow-y:auto}
+.modal h3{margin-top:0}
+.close{float:right;font-size:20px;cursor:pointer}
 </style>
 </head>
 
 <body>
 
 <header>
-  <h1>🕉️ भक्ति पंचांग</h1>
-  <div>
-    <button onclick="sharePage()">Share</button>
-    <button onclick="copyLink()">Link</button>
-  </div>
+<h1>🕉️ भक्ति पंचांग</h1>
+<div>
+<button onclick="sharePage()">Share</button>
+<button onclick="copyLink()">Link</button>
+</div>
 </header>
 
 <div class="section">
 
-  <!-- PANCHANG -->
-  <div class="card">
-    <h2>📅 आज का पंचांग</h2>
-    <p>वार: <b id="vaar"></b></p>
-    <p>विक्रम संवत: <b id="vikram"></b> | शक संवत: <b id="shak"></b></p>
-    <p>मास: <b id="maas"></b></p>
-    <p>तिथि: <b id="tithi"></b></p>
-  </div>
+<div class="card">
+<h2>📅 आज का पंचांग</h2>
+<p>वार: <b id="vaar"></b></p>
+<p>विक्रम संवत: <b id="vikram"></b> | शक संवत: <b id="shak"></b></p>
+<p>मास: <b id="maas"></b></p>
+<p>तिथि: <b id="tithi"></b></p>
+</div>
 
-  <!-- HIGHLIGHT FESTIVAL -->
-  <div class="card highlight">
-    <h3>🔔 आज का व्रत / त्योहार</h3>
-    <ul id="festivalList"></ul>
-  </div>
+<div class="card highlight">
+<h3>🔔 आज का व्रत / त्योहार</h3>
+<ul id="festivalList"></ul>
+</div>
 
-  <!-- ASK SECTION -->
-  <div class="card ask-box">
-    <h3>🙏 देवी-देवता या त्योहार खोजें</h3>
-    <input id="query" placeholder="नाम लिखें..." />
-    <button onclick="ask()">Ask</button>
-    <button onclick="resetAsk()">Reset</button>
-    <div class="result" id="result"></div>
-  </div>
+<div class="card ask-box">
+<h3>🙏 देवी-देवता या त्योहार खोजें</h3>
+<input id="query" placeholder="नाम लिखें...">
+<button onclick="ask()">Ask</button>
+<button onclick="resetAsk()">Reset</button>
+<div id="result" class="result"></div>
+</div>
 
 </div>
 
 <footer>
-  © 2025 | भक्ति पंचांग
+© 2025 | भक्ति पंचांग
 </footer>
 
-<script>
-document.getElementById("vaar").innerText = todayControl.vaar;
-document.getElementById("vikram").innerText = todayControl.vikramSamvat;
-document.getElementById("shak").innerText = todayControl.shakSamvat;
-document.getElementById("maas").innerText = todayControl.maas;
-document.getElementById("tithi").innerText = todayControl.tithi;
+<!-- MODAL -->
+<div class="modal" id="modal">
+<div class="modal-content">
+<span class="close" onclick="closeModal()">×</span>
+<h3 id="modalTitle"></h3>
+<p id="modalBody"></p>
+</div>
+</div>
 
-const festUL = document.getElementById("festivalList");
-todayControl.vratTyohar.forEach(f=>{
-  const li = document.createElement("li");
-  li.innerText = f;
-  festUL.appendChild(li);
+<script>
+vaar.innerText=todayControl.vaar;
+vikram.innerText=todayControl.vikramSamvat;
+shak.innerText=todayControl.shakSamvat;
+maas.innerText=todayControl.maas;
+tithi.innerText=todayControl.tithi;
+
+todayControl.vratTyohar.forEach(v=>{
+let li=document.createElement("li");
+li.innerText=v;
+festivalList.appendChild(li);
 });
 
 function ask(){
-  const q = document.getElementById("query").value.trim();
-  const res = document.getElementById("result");
-  res.innerHTML = "";
-  if(!q) return;
-  const found = bhaktiData.find(d=>d.name.includes(q));
-  if(!found){
-    res.innerHTML = "कुछ नहीं मिला।";
-    return;
-  }
-  found.contents.forEach(c=>{
-    const btn = document.createElement("button");
-    btn.innerText = c.type + " : पूरा पढ़ें";
-    btn.onclick = ()=>alert(c.info);
-    res.appendChild(btn);
-  });
+const q=query.value.trim();
+result.innerHTML="";
+if(!q)return;
+const found=bhaktiData.find(d=>d.name.includes(q));
+if(!found){result.innerHTML="कुछ नहीं मिला";return;}
+found.contents.forEach(c=>{
+let b=document.createElement("button");
+b.innerText=c.type+" : पूरा पढ़ें";
+b.onclick=()=>openModal(c.type,c.info);
+result.appendChild(b);
+});
 }
 
-function resetAsk(){
-  document.getElementById("query").value="";
-  document.getElementById("result").innerHTML="";
+function openModal(title,body){
+modalTitle.innerText=title;
+modalBody.innerText=body;
+modal.style.display="block";
 }
+
+function closeModal(){modal.style.display="none"}
+function resetAsk(){query.value="";result.innerHTML=""}
 
 function sharePage(){
-  if(navigator.share){
-    navigator.share({title:"भक्ति पंचांग",url:location.href});
-  }else{
-    alert("Share supported नहीं है");
-  }
+if(navigator.share)navigator.share({title:"भक्ति पंचांग",url:location.href});
+else alert("Share supported नहीं");
 }
-
 function copyLink(){
-  navigator.clipboard.writeText(location.href);
-  alert("Link copied");
+navigator.clipboard.writeText(location.href);
+alert("Link copied");
 }
 </script>
 
