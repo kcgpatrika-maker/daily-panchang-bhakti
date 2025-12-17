@@ -1,182 +1,59 @@
-<!DOCTYPE html>
-<html lang="hi">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+/***********************
+ STEP–3B : DAILY CONTROL DATA
+************************/
 
-<title>आज का पंचांग | व्रत-त्योहार | भक्ति पंचांग</title>
+/* ===== TODAY CONTROL =====
+आज की जानकारी यहीं बदलनी होगी
+*/
+const todayControl = {
+  date: "17-12-2025",           // DD-MM-YYYY
+  vaar: "बुधवार",
+  vikramSamvat: "2082",
+  shakSamvat: "1947",
+  maas: "पौष",
+  tithi: "कृष्ण पक्ष त्रयोदशी",
 
-<meta name="description" content="आज का पंचांग, व्रत-त्योहार, देवी-देवता की पूजा विधि, आरती, चालीसा और प्रमुख स्तोत्र। दैनिक अपडेटेड भक्ति पंचांग।">
+  vratTyohar: [
+    "प्रदोष व्रत",
+    "महाशिवरात्रि (पार्थिव पूजा)"
+  ]
+};
 
-<meta name="keywords" content="आज का पंचांग, आज का व्रत, हिंदू पंचांग, भक्ति, पूजा विधि, आरती, चालीसा">
+/* ===== SUN & MOON (optional – बाद में भर सकते हैं) ===== */
+const sunMoonData = {
+  sunrise: "--",
+  sunset: "--",
+  moonrise: "--",
+  moonset: "--"
+};
 
-<meta name="robots" content="index, follow">
+/* ===== DEITIES & FESTIVALS CONTENT ===== */
+const bhaktiData = [
+  {
+    name: "भगवान शिव",
+    contents: [
+      { type: "प्रार्थना", info: "ॐ नमः शिवाय। भगवान शिव की प्रार्थना..." },
+      { type: "चालीसा", info: "शिव चालीसा का सम्पूर्ण पाठ..." },
+      { type: "आरती", info: "ॐ जय शिव ओंकारा..." },
+      { type: "पूजा विधि", info: "शिव पूजा की विधि, सामग्री और क्रम..." },
+      { type: "प्रमुख स्तोत्र", info: "शिव तांडव स्तोत्र, रुद्राष्टकम..." }
+    ]
+  },
 
-<!-- Open Graph -->
-<meta property="og:title" content="आज का पंचांग | भक्ति पंचांग">
-<meta property="og:description" content="दैनिक पंचांग, व्रत-त्योहार और भक्ति सामग्री एक जगह।">
-<meta property="og:type" content="website">
-<meta property="og:url" content="">
-<meta property="og:image" content="">
+  {
+    name: "दीपावली",
+    contents: [
+      { type: "पूजा विधि", info: "लक्ष्मी–गणेश पूजा की विधि..." },
+      { type: "महत्व", info: "दीपावली का धार्मिक एवं आध्यात्मिक महत्व..." }
+    ]
+  },
 
-<!-- Freshness -->
-<meta name="revisit-after" content="1 days">
-
-<script src="data.js"></script>
-
-<style>
-body{margin:0;font-family:system-ui;background:#fff8e1;color:#4e342e}
-header{background:linear-gradient(90deg,#ff9800,#ffb300);padding:12px;display:flex;justify-content:space-between;align-items:center;color:#fff}
-header h1{margin:0;font-size:18px}
-header button{background:#fff;border:none;border-radius:6px;padding:5px 8px;margin-left:5px}
-.section{padding:15px}
-.card{background:#fff;border-radius:12px;padding:15px;margin-bottom:15px;box-shadow:0 3px 8px rgba(0,0,0,.1)}
-.highlight{background:linear-gradient(135deg,#ffe082,#ffcc80);border-left:6px solid #ff6f00}
-.ask-box input{width:65%;padding:8px}
-.ask-box button{padding:8px;margin-left:4px}
-.result button{display:block;width:100%;margin:6px 0}
-footer{text-align:center;padding:10px;background:#fff3e0;font-size:14px}
-
-/* MODAL */
-.modal{display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,.6);z-index:1000}
-.modal-content{background:#fff;border-radius:12px;margin:10% auto;padding:15px;width:90%;max-height:70%;overflow-y:auto}
-.close{float:right;font-size:20px;cursor:pointer}
-</style>
-</head>
-
-<body>
-
-<header>
-<h1>🕉️ भक्ति पंचांग</h1>
-<div>
-<button onclick="sharePage()">Share</button>
-<button onclick="copyLink()">Link</button>
-</div>
-</header>
-
-<div class="section">
-
-<!-- PANCHANG -->
-<div class="card">
-<h2>📅 आज का पंचांग</h2>
-<p>तारीख: <b id="dateText"></b></p>
-<p>वार: <b id="vaar"></b></p>
-
-<p>
-🌅 सूर्योदय: <b id="sunrise"></b> &nbsp;&nbsp;
-🌇 सूर्यास्त: <b id="sunset"></b>
-</p>
-
-<p>
-🌙 चंद्रोदय: <b id="moonrise"></b> &nbsp;&nbsp;
-🌑 चंद्रास्त: <b id="moonset"></b>
-</p>
-
-<p>विक्रम संवत: <b id="vikram"></b> | शक संवत: <b id="shak"></b></p>
-<p>मास: <b id="maas"></b></p>
-<p>तिथि: <b id="tithi"></b></p>
-</div>
-
-<!-- FESTIVAL -->
-<div class="card highlight">
-<h3>🔔 आज का व्रत / त्योहार</h3>
-<ul id="festivalList"></ul>
-</div>
-
-<!-- ASK -->
-<div class="card ask-box">
-  <h3>🙏 देवी-देवता या त्योहार खोजें</h3>
-  <label for="query" style="display:none;">देवी-देवता या त्योहार नाम</label>
-  <input id="query" placeholder="नाम लिखें...">
-  <button onclick="ask()">Ask</button>
-  <button onclick="resetAsk()">Reset</button>
-  <div id="result" class="result"></div>
-</div>
-
-<!-- Key Pages Links -->
-<div class="card" style="margin-top:15px;">
-  <h3>🔗 प्रमुख भक्ति पेज</h3>
-  <ul style="padding-left:18px;">
-    <li><a href="shiv.html">भगवान शिव – पूजा, आरती, चालीसा</a></li>
-    <li><a href="hanuman.html">हनुमान जी – चालीसा, आरती</a></li>
-    <li><a href="diwali.html">दीपावली – पूजा विधि एवं महत्व</a></li>
-  </ul>
-</div>
-
-<footer>
-  <div style="line-height:1.6">
-    © 2025 | भक्ति पंचांग  
-    <br>
-    दैनिक पंचांग, व्रत-त्योहार एवं भक्ति जानकारी हेतु एक सरल प्रयास  
-    <br>
-    संकलन एवं प्रस्तुति: कैलाश गौतम
-  </div>
-</footer>
-
-<!-- MODAL -->
-<div class="modal" id="modal">
-<div class="modal-content">
-<span class="close" onclick="closeModal()">×</span>
-<h3 id="modalTitle"></h3>
-<p id="modalBody"></p>
-</div>
-</div>
-
-<script>
-/* PANCHANG DATA */
-dateText.innerText = todayControl.date;
-vaar.innerText = todayControl.vaar;
-vikram.innerText = todayControl.vikramSamvat;
-shak.innerText = todayControl.shakSamvat;
-maas.innerText = todayControl.maas;
-tithi.innerText = todayControl.tithi;
-
-sunrise.innerText = sunMoonData.sunrise;
-sunset.innerText = sunMoonData.sunset;
-moonrise.innerText = sunMoonData.moonrise;
-moonset.innerText = sunMoonData.moonset;
-
-/* FESTIVALS */
-todayControl.vratTyohar.forEach(v=>{
-  let li=document.createElement("li");
-  li.innerText=v;
-  festivalList.appendChild(li);
-});
-
-/* ASK */
-function ask(){
-const q=query.value.trim();
-result.innerHTML="";
-if(!q)return;
-const found=bhaktiData.find(d=>d.name.includes(q));
-if(!found){result.innerHTML="कुछ नहीं मिला";return;}
-found.contents.forEach(c=>{
-let b=document.createElement("button");
-b.innerText=c.type+" : पूरा पढ़ें";
-b.onclick=()=>openModal(c.type,c.info);
-result.appendChild(b);
-});
-}
-function resetAsk(){query.value="";result.innerHTML=""}
-
-/* MODAL */
-function openModal(t,b){
-modalTitle.innerText=t;
-modalBody.innerText=b;
-modal.style.display="block";
-}
-function closeModal(){modal.style.display="none"}
-
-/* SHARE */
-function sharePage(){
-if(navigator.share)navigator.share({title:"भक्ति पंचांग",url:location.href});
-else alert("Share supported नहीं");
-}
-function copyLink(){
-navigator.clipboard.writeText(location.href);
-alert("Link copied");
-}
-</script>
-
-</body>
-</html>
+  {
+    name: "हनुमान",
+    contents: [
+      { type: "प्रार्थना", info: "हनुमान जी की प्रार्थना..." },
+      { type: "चालीसा", info: "श्री हनुमान चालीसा..." },
+      { type: "आरती", info: "आरती कीजै हनुमान लला की..." }
+    ]
+  }
+];
