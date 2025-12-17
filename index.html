@@ -35,13 +35,43 @@
   <hr>
 
   <h2>देवी-देवता या त्योहार खोजें</h2>
-  <p>(यह सेक्शन अगले स्टेप में काम करेगा)</p>
+  <input type="text" id="searchBox" placeholder="देवी-देवता या त्योहार का नाम लिखें">
+  <button id="resetBtn">Reset</button>
+  <div id="resultArea"></div>
 
   <hr>
 
   <footer>
     <p>© 2025 | भक्ति पंचांग</p>
   </footer>
+
+<script>
+const data = [
+  {name:"हनुमान", short_info:"हनुमान जी की आरती, पूजा विधि", full_info:"पूरा हनुमान चालीसा और पूजा विधि..."},
+  {name:"शिव", short_info:"शिव जी की पूजा विधि, आरती", full_info:"पूर्ण शिव पूजा विधि, मंत्र, आरती..."},
+  {name:"प्रदोष व्रत", short_info:"हर महीने की तिथि पर होता है", full_info:"प्रदोष व्रत का पूरा विवरण और पूजा विधि..."}
+];
+
+const searchBox = document.getElementById("searchBox");
+const resultArea = document.getElementById("resultArea");
+const resetBtn = document.getElementById("resetBtn");
+
+searchBox.addEventListener("input", function() {
+  const query = this.value.toLowerCase();
+  resultArea.innerHTML = "";
+  const results = data.filter(item => item.name.toLowerCase().includes(query));
+  results.forEach(item => {
+    const div = document.createElement("div");
+    div.innerHTML = `<strong>${item.name}</strong>: ${item.short_info} <button onclick="alert('${item.full_info}')">पूरा पढ़ें</button>`;
+    resultArea.appendChild(div);
+  });
+});
+
+resetBtn.addEventListener("click", function() {
+  searchBox.value = "";
+  resultArea.innerHTML = "";
+});
+</script>
 
 </body>
 </html>
