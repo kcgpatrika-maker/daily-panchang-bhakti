@@ -1,98 +1,146 @@
 <!DOCTYPE html>
 <html lang="hi">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>आज का पंचांग</title>
-  <meta name="description" content="आज का पंचांग, व्रत और त्योहार – सरल और स्पष्ट जानकारी">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>आज का पंचांग</title>
+<meta name="description" content="आज का पंचांग, व्रत, त्योहार और देवी-देवताओं की पूजा जानकारी">
+<style>
+body{font-family:Arial;padding:16px;}
+input,button{padding:8px;margin:5px;}
+#resultArea div{margin-bottom:10px;}
+.modal{display:none;position:fixed;z-index:99;left:0;top:0;width:100%;height:100%;background:rgba(0,0,0,0.6);}
+.modal-content{background:#fff;margin:10% auto;padding:20px;border-radius:8px;width:90%;max-width:500px;max-height:70%;overflow-y:auto;}
+.close{float:right;font-size:22px;cursor:pointer;}
+</style>
 </head>
+
 <body>
 
-  <h1>आज का पंचांग</h1>
+<h1>आज का पंचांग</h1>
 
-  <p><strong>तारीख:</strong> 17 दिसम्बर 2025</p>
-  <p><strong>वार:</strong> बुधवार</p>
+<p><strong>तारीख:</strong> 17 दिसम्बर 2025</p>
+<p><strong>वार:</strong> बुधवार</p>
 
-  <p>
-    <strong>सूर्योदय:</strong> -- &nbsp;&nbsp;
-    <strong>सूर्यास्त:</strong> --
-  </p>
-  <p>
-    <strong>चन्द्रोदय:</strong> -- &nbsp;&nbsp;
-    <strong>चन्द्रास्त:</strong> --
-  </p>
+<p><strong>सूर्योदय:</strong> -- | <strong>सूर्यास्त:</strong> --</p>
+<p><strong>चन्द्रोदय:</strong> -- | <strong>चन्द्रास्त:</strong> --</p>
 
-  <p><strong>विक्रम संवत:</strong> 2082</p>
-  <p><strong>शक संवत:</strong> 1947</p>
-  <p><strong>मास:</strong> पौष</p>
-  <p><strong>तिथि:</strong> कृष्ण पक्ष त्रयोदशी</p>
+<p><strong>विक्रम संवत:</strong> 2082</p>
+<p><strong>शक संवत:</strong> 1947</p>
+<p><strong>मास:</strong> पौष</p>
+<p><strong>तिथि:</strong> कृष्ण पक्ष त्रयोदशी</p>
 
-  <hr>
+<hr>
 
-  <h2>आज का व्रत / त्योहार</h2>
-  <p>• आज कोई प्रमुख व्रत नहीं है</p>
+<h2>देवी-देवता या त्योहार पूछें</h2>
 
-  <hr>
+<input type="text" id="searchBox" placeholder="नाम लिखें...">
+<button onclick="ask()">Ask</button>
+<button onclick="resetAll()">Reset</button>
 
-  <h2>देवी-देवता या त्योहार खोजें</h2>
-  <input type="text" id="searchBox" placeholder="देवी-देवता या त्योहार का नाम लिखें">
-  <button id="resetBtn">Reset</button>
-  <div id="resultArea"></div>
+<div id="resultArea"></div>
 
-  <hr>
+<hr>
 
-  <footer>
-    <p>© 2025 | भक्ति पंचांग</p>
-  </footer>
+<footer>
+<p>© 2025 | भक्ति पंचांग | Kailash Gautam</p>
+</footer>
+
+<!-- Modal -->
+<div id="modal" class="modal">
+<div class="modal-content">
+<span class="close" onclick="closeModal()">×</span>
+<div id="modalText"></div>
+</div>
+</div>
 
 <script>
 const data = [
-  {
-    name: "हनुमान जी",
-    contents: [
-      {"type":"प्रार्थना","info":"हनुमान जी की प्रार्थना विधि..."},
-      {"type":"चालीसा","info":"हनुमान चालीसा पूरी..."},
-      {"type":"आरती","info":"हनुमान जी की आरती..."},
-      {"type":"पूजा विधि","info":"हनुमान पूजा विधि..."},
-      {"type":"प्रमुख स्तोत्र","info":"हनुमान स्तोत्र पूरी..."}
-    ]
-  },
-  {
-    name: "भगवान शिव",
-    contents: [
-      {"type":"प्रार्थना","info":"शिव जी की प्रार्थना विधि..."},
-      {"type":"चालीसा","info":"शिव चालीसा पूरी..."},
-      {"type":"आरती","info":"शिव जी की आरती..."},
-      {"type":"पूजा विधि","info":"शिव पूजा विधि..."},
-      {"type":"प्रमुख स्तोत्र","info":"शिव स्तोत्र पूरी..."}
-    ]
-  }
-  // आप इसी तरह अन्य देवताओं और त्योहारों की entries जोड़ सकते हैं
+{
+name:"भगवान शिव",
+contents:[
+{type:"प्रार्थना",info:"शिव जी की प्रार्थना..."},
+{type:"चालीसा",info:"शिव चालीसा..."},
+{type:"आरती",info:"शिव आरती..."},
+{type:"पूजा विधि",info:"शिव पूजा विधि..."},
+{type:"प्रमुख स्तोत्र",info:"शिव स्तोत्र..."}
+]
+},
+{
+name:"हनुमान जी",
+contents:[
+{type:"प्रार्थना",info:"हनुमान प्रार्थना..."},
+{type:"चालीसा",info:"हनुमान चालीसा..."},
+{type:"आरती",info:"हनुमान आरती..."},
+{type:"पूजा विधि",info:"हनुमान पूजा विधि..."},
+{type:"प्रमुख स्तोत्र",info:"हनुमान स्तोत्र..."}
+]
+},
+{
+name:"दीपावली",
+contents:[
+{type:"पूजा विधि",info:"दीपावली लक्ष्मी-गणेश पूजा विधि..."},
+{type:"महत्व",info:"दीपावली का धार्मिक महत्व..."}
+]
+},
+{
+name:"होली",
+contents:[
+{type:"पूजा विधि",info:"होलिका दहन विधि..."},
+{type:"महत्व",info:"होली पर्व का महत्व..."}
+]
+},
+{
+name:"महाशिवरात्रि",
+contents:[
+{type:"व्रत विधि",info:"महाशिवरात्रि व्रत विधि..."},
+{type:"महत्व",info:"महाशिवरात्रि का महत्व..."}
+]
+},
+{
+name:"एकादशी",
+contents:[
+{type:"व्रत विधि",info:"एकादशी व्रत विधि..."},
+{type:"महत्व",info:"एकादशी व्रत का महत्व..."}
+]
+},
+{
+name:"प्रदोष",
+contents:[
+{type:"व्रत विधि",info:"प्रदोष व्रत पूजा विधि..."},
+{type:"महत्व",info:"प्रदोष व्रत का महत्व..."}
+]
+}
 ];
 
-const searchBox = document.getElementById("searchBox");
-const resultArea = document.getElementById("resultArea");
-const resetBtn = document.getElementById("resetBtn");
-
-searchBox.addEventListener("input", function() {
-  const query = this.value.toLowerCase();
-  resultArea.innerHTML = "";
-  const results = data.filter(item => item.name.toLowerCase().includes(query));
-  
-  results.forEach(item => {
-    item.contents.forEach(content => {
-      const div = document.createElement("div");
-      div.style.marginBottom = "8px";
-      div.innerHTML = `<strong>${content.type}</strong>: <button onclick="alert('${content.info}')">पूरा पढ़ें</button>`;
-      resultArea.appendChild(div);
-    });
-  });
+function ask(){
+const q=document.getElementById("searchBox").value.toLowerCase();
+const res=document.getElementById("resultArea");
+res.innerHTML="";
+data.filter(d=>d.name.toLowerCase().includes(q))
+.forEach(d=>{
+d.contents.forEach(c=>{
+const div=document.createElement("div");
+div.innerHTML=`<strong>${d.name} – ${c.type}</strong> 
+<button onclick="openModal('${c.info}')">पूरा पढ़ें</button>`;
+res.appendChild(div);
 });
-
-resetBtn.addEventListener("click", function() {
-  searchBox.value = "";
-  resultArea.innerHTML = "";
 });
+}
+
+function resetAll(){
+document.getElementById("searchBox").value="";
+document.getElementById("resultArea").innerHTML="";
+}
+
+function openModal(text){
+document.getElementById("modalText").innerText=text;
+document.getElementById("modal").style.display="block";
+}
+
+function closeModal(){
+document.getElementById("modal").style.display="none";
+}
 </script>
 
 </body>
