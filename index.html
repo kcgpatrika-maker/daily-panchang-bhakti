@@ -22,7 +22,6 @@ footer{text-align:center;padding:10px;background:#fff3e0;font-size:14px}
 /* MODAL */
 .modal{display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,.6);z-index:1000}
 .modal-content{background:#fff;border-radius:12px;margin:10% auto;padding:15px;width:90%;max-height:70%;overflow-y:auto}
-.modal h3{margin-top:0}
 .close{float:right;font-size:20px;cursor:pointer}
 </style>
 </head>
@@ -39,19 +38,34 @@ footer{text-align:center;padding:10px;background:#fff3e0;font-size:14px}
 
 <div class="section">
 
+<!-- PANCHANG -->
 <div class="card">
 <h2>📅 आज का पंचांग</h2>
+<p>तारीख: <b id="dateText"></b></p>
 <p>वार: <b id="vaar"></b></p>
+
+<p>
+🌅 सूर्योदय: <b id="sunrise"></b> &nbsp;&nbsp;
+🌇 सूर्यास्त: <b id="sunset"></b>
+</p>
+
+<p>
+🌙 चंद्रोदय: <b id="moonrise"></b> &nbsp;&nbsp;
+🌑 चंद्रास्त: <b id="moonset"></b>
+</p>
+
 <p>विक्रम संवत: <b id="vikram"></b> | शक संवत: <b id="shak"></b></p>
 <p>मास: <b id="maas"></b></p>
 <p>तिथि: <b id="tithi"></b></p>
 </div>
 
+<!-- FESTIVAL -->
 <div class="card highlight">
 <h3>🔔 आज का व्रत / त्योहार</h3>
 <ul id="festivalList"></ul>
 </div>
 
+<!-- ASK -->
 <div class="card ask-box">
 <h3>🙏 देवी-देवता या त्योहार खोजें</h3>
 <input id="query" placeholder="नाम लिखें...">
@@ -63,7 +77,7 @@ footer{text-align:center;padding:10px;background:#fff3e0;font-size:14px}
 </div>
 
 <footer>
-© 2025 | भक्ति पंचांग
+© 2025 | भक्ति पंचांग | kailash gautam
 </footer>
 
 <!-- MODAL -->
@@ -76,18 +90,27 @@ footer{text-align:center;padding:10px;background:#fff3e0;font-size:14px}
 </div>
 
 <script>
-vaar.innerText=todayControl.vaar;
-vikram.innerText=todayControl.vikramSamvat;
-shak.innerText=todayControl.shakSamvat;
-maas.innerText=todayControl.maas;
-tithi.innerText=todayControl.tithi;
+/* PANCHANG DATA */
+dateText.innerText = todayControl.date;
+vaar.innerText = todayControl.vaar;
+vikram.innerText = todayControl.vikramSamvat;
+shak.innerText = todayControl.shakSamvat;
+maas.innerText = todayControl.maas;
+tithi.innerText = todayControl.tithi;
 
+sunrise.innerText = sunMoonData.sunrise;
+sunset.innerText = sunMoonData.sunset;
+moonrise.innerText = sunMoonData.moonrise;
+moonset.innerText = sunMoonData.moonset;
+
+/* FESTIVALS */
 todayControl.vratTyohar.forEach(v=>{
-let li=document.createElement("li");
-li.innerText=v;
-festivalList.appendChild(li);
+  let li=document.createElement("li");
+  li.innerText=v;
+  festivalList.appendChild(li);
 });
 
+/* ASK */
 function ask(){
 const q=query.value.trim();
 result.innerHTML="";
@@ -101,16 +124,17 @@ b.onclick=()=>openModal(c.type,c.info);
 result.appendChild(b);
 });
 }
-
-function openModal(title,body){
-modalTitle.innerText=title;
-modalBody.innerText=body;
-modal.style.display="block";
-}
-
-function closeModal(){modal.style.display="none"}
 function resetAsk(){query.value="";result.innerHTML=""}
 
+/* MODAL */
+function openModal(t,b){
+modalTitle.innerText=t;
+modalBody.innerText=b;
+modal.style.display="block";
+}
+function closeModal(){modal.style.display="none"}
+
+/* SHARE */
 function sharePage(){
 if(navigator.share)navigator.share({title:"भक्ति पंचांग",url:location.href});
 else alert("Share supported नहीं");
