@@ -1,96 +1,72 @@
 <!DOCTYPE html>
 <html lang="hi">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>भक्ति पंचांग</title>
-<meta name="description" content="आज का पंचांग, व्रत, त्योहार और देवी-देवताओं की पूजा जानकारी">
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>भक्ति पंचांग | आज का पंचांग</title>
+
+<script src="data.js"></script>
 
 <style>
 body{
-  font-family: Arial, sans-serif;
   margin:0;
-  background:#FFF8E1;
-  color:#4E342E;
+  font-family: system-ui, sans-serif;
+  background:#fff8e1;
+  color:#4e342e;
 }
 header{
-  background:linear-gradient(45deg,#FFB300,#FB8C00);
-  color:#fff;
+  background:linear-gradient(90deg,#ff9800,#ffb300);
   padding:12px;
   display:flex;
   justify-content:space-between;
   align-items:center;
+  color:#fff;
+}
+header h1{
+  font-size:18px;
+  margin:0;
 }
 header button{
   background:#fff;
-  color:#FB8C00;
   border:none;
-  padding:6px 10px;
-  margin-left:6px;
   border-radius:6px;
-  cursor:pointer;
+  padding:5px 8px;
+  margin-left:5px;
 }
-main{
-  padding:16px;
+.section{
+  padding:15px;
 }
-h1,h2{
-  color:#E65100;
+.card{
+  background:#fff;
+  border-radius:12px;
+  padding:15px;
+  margin-bottom:15px;
+  box-shadow:0 3px 8px rgba(0,0,0,0.1);
 }
-.box{
-  background:#FFF3E0;
-  padding:12px;
-  border-radius:10px;
-  margin-bottom:16px;
+.highlight{
+  background:linear-gradient(135deg,#ffe082,#ffcc80);
+  border-left:6px solid #ff6f00;
 }
-input,button{
+.highlight h3{
+  margin-top:0;
+}
+.ask-box input{
+  width:70%;
   padding:8px;
-  border-radius:6px;
-  border:1px solid #FB8C00;
-  margin:4px 2px;
 }
-button.ask{
-  background:#FB8C00;
-  color:white;
-}
-button.reset{
-  background:#FFE0B2;
-}
-#resultArea div{
-  background:#FFFDE7;
+.ask-box button{
   padding:8px;
-  margin:6px 0;
-  border-radius:6px;
+}
+.result button{
+  display:block;
+  width:100%;
+  margin:5px 0;
 }
 footer{
-  background:#FFE0B2;
   text-align:center;
   padding:10px;
+  background:#fff3e0;
   font-size:14px;
-}
-
-/* Modal */
-.modal{
-  display:none;
-  position:fixed;
-  z-index:99;
-  left:0;top:0;
-  width:100%;height:100%;
-  background:rgba(0,0,0,0.6);
-}
-.modal-content{
-  background:#FFF8E1;
-  margin:10% auto;
-  padding:16px;
-  width:90%;
-  max-width:500px;
-  max-height:70%;
-  overflow-y:auto;
-  border-radius:10px;
-}
-.close{
-  float:right;
-  font-size:22px;
-  cursor:pointer;
 }
 </style>
 </head>
@@ -98,130 +74,94 @@ footer{
 <body>
 
 <header>
-  <strong>🙏 भक्ति पंचांग</strong>
+  <h1>🕉️ भक्ति पंचांग</h1>
   <div>
-    <button onclick="sharePage()">🔗 Share</button>
-    <button onclick="copyLink()">📋 Copy</button>
+    <button onclick="sharePage()">Share</button>
+    <button onclick="copyLink()">Link</button>
   </div>
 </header>
 
-<main>
+<div class="section">
 
-<h1>आज का पंचांग</h1>
+  <!-- PANCHANG -->
+  <div class="card">
+    <h2>📅 आज का पंचांग</h2>
+    <p>वार: <b id="vaar"></b></p>
+    <p>विक्रम संवत: <b id="vikram"></b> | शक संवत: <b id="shak"></b></p>
+    <p>मास: <b id="maas"></b></p>
+    <p>तिथि: <b id="tithi"></b></p>
+  </div>
 
-<div class="box">
-<p><strong>तारीख:</strong> <span id="dateText"></span></p>
-<p><strong>वार:</strong> <span id="vaar"></span></p>
+  <!-- HIGHLIGHT FESTIVAL -->
+  <div class="card highlight">
+    <h3>🔔 आज का व्रत / त्योहार</h3>
+    <ul id="festivalList"></ul>
+  </div>
 
-<p>
-<strong>सूर्योदय:</strong> <span id="sunrise"></span> |
-<strong>सूर्यास्त:</strong> <span id="sunset"></span>
-</p>
+  <!-- ASK SECTION -->
+  <div class="card ask-box">
+    <h3>🙏 देवी-देवता या त्योहार खोजें</h3>
+    <input id="query" placeholder="नाम लिखें..." />
+    <button onclick="ask()">Ask</button>
+    <button onclick="resetAsk()">Reset</button>
+    <div class="result" id="result"></div>
+  </div>
 
-<p>
-<strong>चन्द्रोदय:</strong> <span id="moonrise"></span> |
-<strong>चन्द्रास्त:</strong> <span id="moonset"></span>
-</p>
-
-<p><strong>विक्रम संवत:</strong> <span id="vikram"></span></p>
-<p><strong>शक संवत:</strong> <span id="shak"></span></p>
-<p><strong>मास:</strong> <span id="maas"></span></p>
-<p><strong>तिथि:</strong> <span id="tithi"></span></p>
 </div>
-
-<div class="box">
-<h2>आज का व्रत / त्योहार</h2>
-<ul id="festivalList"></ul>
-</div>
-
-<div class="box">
-<h2>देवी-देवता या त्योहार पूछें</h2>
-<input id="searchBox" placeholder="नाम लिखें">
-<button class="ask" onclick="ask()">Ask</button>
-<button class="reset" onclick="resetAll()">Reset</button>
-<div id="resultArea"></div>
-</div>
-
-</main>
 
 <footer>
-© 2025 | भक्ति पंचांग | Kailash Gautam
+  © 2025 | भक्ति पंचांग
 </footer>
 
-<!-- Modal -->
-<div id="modal" class="modal">
-  <div class="modal-content">
-    <span class="close" onclick="closeModal()">×</span>
-    <div id="modalText"></div>
-  </div>
-</div>
-
-<script src="data.js"></script>
-
 <script>
-function loadPanchang(){
-  const d=new Date();
-  document.getElementById("dateText").innerText=
-    d.toLocaleDateString('hi-IN',{day:'numeric',month:'long',year:'numeric'});
+document.getElementById("vaar").innerText = todayControl.vaar;
+document.getElementById("vikram").innerText = todayControl.vikramSamvat;
+document.getElementById("shak").innerText = todayControl.shakSamvat;
+document.getElementById("maas").innerText = todayControl.maas;
+document.getElementById("tithi").innerText = todayControl.tithi;
 
-  const days=["रविवार","सोमवार","मंगलवार","बुधवार","गुरुवार","शुक्रवार","शनिवार"];
-  document.getElementById("vaar").innerText=days[d.getDay()];
-
-  sunrise.innerText=dailyPanchang.sunrise;
-  sunset.innerText=dailyPanchang.sunset;
-  moonrise.innerText=dailyPanchang.moonrise;
-  moonset.innerText=dailyPanchang.moonset;
-  vikram.innerText=dailyPanchang.vikramSamvat;
-  shak.innerText=dailyPanchang.shakSamvat;
-  maas.innerText=dailyPanchang.maas;
-  tithi.innerText=dailyPanchang.tithi;
-
-  const key=String(d.getDate()).padStart(2,'0')+"-"+String(d.getMonth()+1).padStart(2,'0');
-  const fest=todayFestivals[key]||["आज कोई प्रमुख व्रत नहीं"];
-  festivalList.innerHTML="";
-  fest.forEach(f=>{
-    let li=document.createElement("li");
-    li.innerText=f;
-    festivalList.appendChild(li);
-  });
-}
+const festUL = document.getElementById("festivalList");
+todayControl.vratTyohar.forEach(f=>{
+  const li = document.createElement("li");
+  li.innerText = f;
+  festUL.appendChild(li);
+});
 
 function ask(){
-  const q=searchBox.value.toLowerCase();
-  resultArea.innerHTML="";
-  bhaktiData.filter(d=>d.name.toLowerCase().includes(q))
-  .forEach(d=>{
-    d.contents.forEach(c=>{
-      let div=document.createElement("div");
-      div.innerHTML=`<strong>${d.name} – ${c.type}</strong>
-      <button onclick="openModal('${c.info}')">पूरा पढ़ें</button>`;
-      resultArea.appendChild(div);
-    });
+  const q = document.getElementById("query").value.trim();
+  const res = document.getElementById("result");
+  res.innerHTML = "";
+  if(!q) return;
+  const found = bhaktiData.find(d=>d.name.includes(q));
+  if(!found){
+    res.innerHTML = "कुछ नहीं मिला।";
+    return;
+  }
+  found.contents.forEach(c=>{
+    const btn = document.createElement("button");
+    btn.innerText = c.type + " : पूरा पढ़ें";
+    btn.onclick = ()=>alert(c.info);
+    res.appendChild(btn);
   });
 }
 
-function resetAll(){
-  searchBox.value="";
-  resultArea.innerHTML="";
+function resetAsk(){
+  document.getElementById("query").value="";
+  document.getElementById("result").innerHTML="";
 }
-
-function openModal(t){
-  modalText.innerText=t;
-  modal.style.display="block";
-}
-function closeModal(){ modal.style.display="none"; }
 
 function sharePage(){
   if(navigator.share){
     navigator.share({title:"भक्ति पंचांग",url:location.href});
-  }else alert("Share supported नहीं");
+  }else{
+    alert("Share supported नहीं है");
+  }
 }
+
 function copyLink(){
   navigator.clipboard.writeText(location.href);
   alert("Link copied");
 }
-
-window.onload=loadPanchang;
 </script>
 
 </body>
