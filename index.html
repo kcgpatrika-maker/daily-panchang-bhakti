@@ -1,59 +1,86 @@
-/***********************
- STEP–3B : DAILY CONTROL DATA
-************************/
+<script src="data.js"></script>
 
-/* ===== TODAY CONTROL =====
-आज की जानकारी यहीं बदलनी होगी
-*/
-const todayControl = {
-  date: "17-12-2025",           // DD-MM-YYYY
-  vaar: "बुधवार",
-  vikramSamvat: "2082",
-  shakSamvat: "1947",
-  maas: "पौष",
-  tithi: "कृष्ण पक्ष त्रयोदशी",
+<script>
+/* ========= ALIAS MAP (English + Short Names) ========= */
+const aliasMap = {
+  shiv: "शिव",
+  shiva: "शिव",
+  mahadev: "शिव",
+  bholenath: "शिव",
 
-  vratTyohar: [
-    "प्रदोष व्रत",
-    "महाशिवरात्रि (पार्थिव पूजा)"
-  ]
+  hanuman: "हनुमान",
+  bajrang: "हनुमान",
+  bajrangbali: "हनुमान",
+
+  diwali: "दीपावली",
+  deepavali: "दीपावली",
+  deepawali: "दीपावली"
 };
 
-/* ===== SUN & MOON (optional – बाद में भर सकते हैं) ===== */
-const sunMoonData = {
-  sunrise: "--",
-  sunset: "--",
-  moonrise: "--",
-  moonset: "--"
+/* ========= SEO PAGES ========= */
+const seoPages = {
+  "शिव": "shiv.html",
+  "हनुमान": "hanuman.html",
+  "दीपावली": "diwali.html"
 };
 
-/* ===== DEITIES & FESTIVALS CONTENT ===== */
-const bhaktiData = [
-  {
-    name: "भगवान शिव",
-    contents: [
-      { type: "प्रार्थना", info: "ॐ नमः शिवाय। भगवान शिव की प्रार्थना..." },
-      { type: "चालीसा", info: "शिव चालीसा का सम्पूर्ण पाठ..." },
-      { type: "आरती", info: "ॐ जय शिव ओंकारा..." },
-      { type: "पूजा विधि", info: "शिव पूजा की विधि, सामग्री और क्रम..." },
-      { type: "प्रमुख स्तोत्र", info: "शिव तांडव स्तोत्र, रुद्राष्टकम..." }
-    ]
-  },
+function handleAsk() {
+  let input = document.getElementById("askInput").value.trim().toLowerCase();
+  const box = document.getElementById("askResult");
+  box.innerHTML = "";
 
-  {
-    name: "दीपावली",
-    contents: [
-      { type: "पूजा विधि", info: "लक्ष्मी–गणेश पूजा की विधि..." },
-      { type: "महत्व", info: "दीपावली का धार्मिक एवं आध्यात्मिक महत्व..." }
-    ]
-  },
+  if (!input) return;
 
-  {
-    name: "हनुमान",
-    contents: [
-      { type: "प्रार्थना", info: "हनुमान जी की प्रार्थना..." },
-      { type: "चालीसा", info: "श्री हनुमान चालीसा..." },
-      { type: "आरती", info: "आरती कीजै हनुमान लला की..." }
-    ]
+  // 🔹 English → Hindi
+  if (aliasMap[input]) {
+    input = aliasMap[input];
   }
-];
+
+  // 🔹 SEO page direct
+  for (let key in seoPages) {
+    if (input.includes(key)) {
+      box.innerHTML = `
+        <a href="${seoPages[key]}" class="seo-link">
+          👉 ${key} से जुड़ी पूरी जानकारी पढ़ें
+        </a>
+      `;
+      return;
+    }
+  }
+
+  // 🔹 bhaktiData smart search
+  const found = bhaktiData.find(item =>
+    item.name && item.name.includes(input)
+  );
+
+  if (found && found.contents) {
+    found.contents.forEach(c => {
+      const btn = document.createElement("button");
+      btn.textContent = c.type + " : पूरा पढ़ें";
+      btn.onclick = () =>
+        openModal(found.name + " – " + c.type, c.info);
+      box.appendChild(btn);
+    });
+    return;
+  }
+
+  // 🔹 Nothing found
+  box.innerText = "🙏 जानकारी शीघ्र जोड़ी जाएगी।";
+}
+
+/* ========= MODAL ========= */
+function openModal(title, body) {
+  document.getElementById("modalTitle").innerText = title;
+  document.getElementById("modalBody").innerText = body;
+  document.getElementById("askModal").style.display = "block";
+}
+
+function closeModal() {
+  document.getElementById("askModal").style.display = "none";
+}
+
+function resetAsk() {
+  document.getElementById("askInput").value = "";
+  document.getElementById("askResult").innerHTML = "";
+}
+</script>
