@@ -159,20 +159,21 @@ footer{
 
 <header>
   <div class="header-top">
-    <h1>🕉️ Aaj Ka Panchang – Bhakti Guide</h1>
-    <div class="header-actions">
-      <button onclick="sharePage()">Share</button>
-      <button onclick="copyLink()">Link</button>
-    </div>
-  </div>
+  <h1>🕉️ Aaj Ka Panchang – Bhakti Guide</h1>
+</div>
+
+<div style="display:flex;justify-content:space-between;align-items:center;margin-top:4px;">
   <div class="tagline">पंचांग • पूजन • त्योहार की जानकारी</div>
-</header>
+  <div class="header-actions">
+    <button onclick="sharePage()">Share</button>
+  </div>
+</div>
 
 <div class="section">
 
 <!-- PANCHANG -->
 <div class="card panchang">
-  <p><b id="dateText"></b> | <b id="vaar"></b></p>
+  <p>📅 <b id="dateText"></b> | <b id="vaar"></b></p>
 
   <p>
     🌅 सूर्योदय: <b id="sunrise"></b> |
@@ -183,13 +184,13 @@ footer{
     🌑 चंद्रास्त: <b id="moonset"></b>
   </p>
 
-  <p>संवत: <b id="vikram"></b> | <b id="shak"></b></p>
+  <p>विक्रम संवत: <b id="vikram"></b> | शक संवत: <b id="shak"></b></p>
   <p>मास: <b id="maas"></b> | तिथि: <b id="tithi"></b></p>
 </div>
 
 <!-- FESTIVAL -->
 <div class="card highlight">
-  <h3>🔔 आज का व्रत / त्योहार</h3>
+  <h3>🔴 आज का व्रत / त्योहार</h3>
   <ul id="festivalList"></ul>
 </div>
 
