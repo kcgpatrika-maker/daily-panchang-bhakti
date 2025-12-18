@@ -6,8 +6,8 @@
 
 <title>Aaj Ka Panchang – Bhakti Guide</title>
 
-<meta name="description" content="आज का पंचांग, व्रत-त्योहार, देवी-देवता की पूजा विधि, आरती, चालीसा और प्रमुख स्तोत्र।">
-<meta name="keywords" content="आज का पंचांग, व्रत, पूजा, आरती, चालीसा, भक्ति पंचांग">
+<meta name="description" content="आज का पंचांग, व्रत-त्योहार, देवी-देवता की पूजा विधि, आरती, चालीसा और स्तोत्र।">
+<meta name="keywords" content="आज का पंचांग, व्रत, पूजा, आरती, चालीसा, भक्ति">
 <meta name="robots" content="index, follow">
 
 <script src="data.js"></script>
@@ -17,7 +17,7 @@ body{
   margin:0;
   font-family:system-ui;
   background:#fff8e1;
-  color:#4e342e
+  color:#4e342e;
 }
 
 /* HEADER */
@@ -26,19 +26,19 @@ header{
   padding:10px 12px;
   color:#fff;
 }
-.header-top{
+.header-title{
+  font-size:17px;
+  font-weight:600;
+  white-space:nowrap;
+}
+.header-row{
   display:flex;
   justify-content:space-between;
   align-items:center;
 }
-header h1{
-  margin:0;
-  font-size:17px;
-  white-space:nowrap;
-}
-.header-actions{
-  display:flex;
-  gap:6px;
+.tagline{
+  font-size:13px;
+  margin-top:4px;
 }
 .header-actions button{
   background:#fff;
@@ -46,11 +46,6 @@ header h1{
   border-radius:6px;
   padding:5px 8px;
   font-size:12px;
-}
-.tagline{
-  font-size:13px;
-  margin-top:4px;
-  opacity:.95;
 }
 
 /* COMMON */
@@ -60,17 +55,19 @@ header h1{
   border-radius:12px;
   padding:12px;
   margin-bottom:12px;
-  box-shadow:0 2px 6px rgba(0,0,0,.1)
+  box-shadow:0 2px 6px rgba(0,0,0,.1);
 }
 
 /* PANCHANG */
-.panchang p{margin:6px 0;font-size:14px}
+.panchang p{
+  margin:6px 0;
+  font-size:14px;
+}
 
 /* FESTIVAL */
 .highlight{
   background:linear-gradient(135deg,#ffe082,#ffcc80);
   border-left:5px solid #ff6f00;
-  padding:10px;
 }
 .highlight h3{
   margin:0 0 6px;
@@ -80,9 +77,7 @@ header h1{
   margin:0;
   padding-left:18px;
 }
-.highlight li{
-  font-size:14px;
-}
+.highlight li{font-size:14px}
 
 /* ASK */
 .ask-box h3{
@@ -92,7 +87,6 @@ header h1{
 .ask-row{
   display:flex;
   gap:6px;
-  flex-wrap:wrap;
 }
 .ask-row input{
   flex:1;
@@ -108,17 +102,13 @@ header h1{
 }
 
 /* KEY PAGES */
-.key-pages h3{
-  margin:0 0 6px;
-  font-size:15px;
-}
 .key-pages ul{
   margin:0;
   padding-left:18px;
 }
 .key-pages li{
-  font-size:14px;
   margin:4px 0;
+  font-size:14px;
 }
 
 /* FOOTER */
@@ -127,16 +117,16 @@ footer{
   padding:10px;
   background:#fff3e0;
   font-size:13px;
+  color:#4e342e;
 }
 
 /* MODAL */
 .modal{
   display:none;
   position:fixed;
-  top:0;left:0;
-  width:100%;height:100%;
+  inset:0;
   background:rgba(0,0,0,.6);
-  z-index:1000
+  z-index:1000;
 }
 .modal-content{
   background:#fff;
@@ -145,12 +135,12 @@ footer{
   padding:15px;
   width:90%;
   max-height:70%;
-  overflow-y:auto
+  overflow-y:auto;
 }
 .close{
   float:right;
   font-size:20px;
-  cursor:pointer
+  cursor:pointer;
 }
 </style>
 </head>
@@ -158,16 +148,14 @@ footer{
 <body>
 
 <header>
-  <div class="header-top">
-  <h1>🕉️ Aaj Ka Panchang – Bhakti Guide</h1>
-</div>
-
-<div style="display:flex;justify-content:space-between;align-items:center;margin-top:4px;">
-  <div class="tagline">पंचांग • पूजन • त्योहार की जानकारी</div>
-  <div class="header-actions">
-    <button onclick="sharePage()">Share</button>
+  <div class="header-row">
+    <div class="header-title">🕉️ Aaj Ka Panchang – Bhakti Guide</div>
+    <div class="header-actions">
+      <button onclick="sharePage()">Share</button>
+    </div>
   </div>
-</div>
+  <div class="tagline">पंचांग • पूजन • त्योहार की जानकारी</div>
+</header>
 
 <div class="section">
 
@@ -179,6 +167,7 @@ footer{
     🌅 सूर्योदय: <b id="sunrise"></b> |
     🌇 सूर्यास्त: <b id="sunset"></b>
   </p>
+
   <p>
     🌙 चंद्रोदय: <b id="moonrise"></b> |
     🌑 चंद्रास्त: <b id="moonset"></b>
@@ -232,8 +221,11 @@ footer{
 </div>
 
 <script>
-/* DATA */
-dateText.innerText = todayControl.date;
+/* DATE FORMAT – हिंदी माह */
+const monthNames = ["जनवरी","फरवरी","मार्च","अप्रैल","मई","जून","जुलाई","अगस्त","सितंबर","अक्टूबर","नवंबर","दिसंबर"];
+const d = todayControl.date.split("-");
+dateText.innerText = d[0] + " " + monthNames[parseInt(d[1])-1] + " " + d[2];
+
 vaar.innerText = todayControl.vaar;
 vikram.innerText = todayControl.vikramSamvat;
 shak.innerText = todayControl.shakSamvat;
@@ -245,8 +237,9 @@ sunset.innerText = sunMoonData.sunset;
 moonrise.innerText = sunMoonData.moonrise;
 moonset.innerText = sunMoonData.moonset;
 
+/* FESTIVAL */
 todayControl.vratTyohar.forEach(v=>{
-  let li=document.createElement("li");
+  const li=document.createElement("li");
   li.innerText=v;
   festivalList.appendChild(li);
 });
@@ -259,7 +252,7 @@ function ask(){
   const found=bhaktiData.find(d=>d.name.includes(q));
   if(!found){result.innerHTML="कुछ नहीं मिला";return;}
   found.contents.forEach(c=>{
-    let b=document.createElement("button");
+    const b=document.createElement("button");
     b.innerText=c.type+" : पूरा पढ़ें";
     b.onclick=()=>openModal(c.type,c.info);
     result.appendChild(b);
@@ -279,10 +272,6 @@ function closeModal(){modal.style.display="none"}
 function sharePage(){
   if(navigator.share)
     navigator.share({title:"Aaj Ka Panchang – Bhakti Guide",url:location.href});
-}
-function copyLink(){
-  navigator.clipboard.writeText(location.href);
-  alert("Link copied");
 }
 </script>
 
