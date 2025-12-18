@@ -15,9 +15,9 @@
 <style>
 body{margin:0;font-family:system-ui;background:#fff8e1;color:#4e342e}
 header{background:linear-gradient(90deg,#ff9800,#ffb300);padding:10px;color:#fff}
-header h1{margin:0;font-size:18px}
+header h1{margin:0;font-size:17px;white-space:nowrap;}
 header p{margin:4px 0 0;font-size:14px;opacity:.95}
-.header-top{display:flex;justify-content:space-between;align-items:center}
+.header-top div{display:flex;gap:6px;}
 header button{background:#fff;border:none;border-radius:6px;padding:4px 7px;margin-left:5px}
 
 .section{padding:12px}
@@ -58,10 +58,10 @@ footer{text-align:center;padding:8px;background:#fff3e0;font-size:13px}
 <!-- PANCHANG -->
 <div class="card">
 <p>📅 <b id="dateText"></b> | <b id="vaar"></b></p>
-<p>🌅 <b id="sunrise"></b> | 🌇 <b id="sunset"></b></p>
-<p>🌙 <b id="moonrise"></b> | 🌑 <b id="moonset"></b></p>
+<p>🌅 सूर्योदय: <b id="sunrise"></b> | 🌇 सूर्यास्त: <b id="sunset"></b></p>
+<p>🌙 चंद्रोदय: <b id="moonrise"></b> | 🌑 चंद्रास्त: <b id="moonset"></b></p>
 <p>संवत: <b id="vikram"></b> | <b id="shak"></b></p>
-<p>मास: <b id="maas"></b> | तिथि: <b id="tithi"></b></p>
+<p>मास: <b id="maas"></b> &nbsp; | &nbsp; तिथि: <b id="tithi"></b></p>
 </div>
 
 <!-- FESTIVAL -->
@@ -71,7 +71,7 @@ footer{text-align:center;padding:8px;background:#fff3e0;font-size:13px}
 </div>
 
 <!-- ASK -->
-<div class="card ask-box">
+<div style="display:flex;gap:6px;flex-wrap:wrap">
   <h3>🙏 पूजा / देवता / त्योहार खोजें</h3>
   <input id="query" placeholder="देवी-देवता या त्योहार का नाम लिखें">
   <button onclick="ask()">Ask</button>
