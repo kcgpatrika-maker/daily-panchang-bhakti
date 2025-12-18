@@ -4,38 +4,34 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>आज का पंचांग | व्रत-त्योहार | भक्ति पंचांग</title>
+<title>Aaj Ka Panchang – Bhakti Guide</title>
 
-<meta name="description" content="आज का पंचांग, व्रत-त्योहार, देवी-देवता की पूजा विधि, आरती, चालीसा और प्रमुख स्तोत्र। दैनिक अपडेटेड भक्ति पंचांग।">
-
-<meta name="keywords" content="आज का पंचांग, आज का व्रत, हिंदू पंचांग, भक्ति, पूजा विधि, आरती, चालीसा">
-
+<meta name="description" content="आज का पंचांग, व्रत-त्योहार, देवी-देवता की पूजा विधि, आरती, चालीसा और प्रमुख स्तोत्र।">
+<meta name="keywords" content="आज का पंचांग, भक्ति गाइड, व्रत त्योहार, पूजा विधि, आरती, चालीसा">
 <meta name="robots" content="index, follow">
-
-<!-- Open Graph -->
-<meta property="og:title" content="आज का पंचांग | भक्ति पंचांग">
-<meta property="og:description" content="दैनिक पंचांग, व्रत-त्योहार और भक्ति सामग्री एक जगह।">
-<meta property="og:type" content="website">
-<meta property="og:url" content="">
-<meta property="og:image" content="">
-
-<!-- Freshness -->
-<meta name="revisit-after" content="1 days">
 
 <script src="data.js"></script>
 
 <style>
 body{margin:0;font-family:system-ui;background:#fff8e1;color:#4e342e}
-header{background:linear-gradient(90deg,#ff9800,#ffb300);padding:12px;display:flex;justify-content:space-between;align-items:center;color:#fff}
+header{background:linear-gradient(90deg,#ff9800,#ffb300);padding:10px;color:#fff}
 header h1{margin:0;font-size:18px}
-header button{background:#fff;border:none;border-radius:6px;padding:5px 8px;margin-left:5px}
-.section{padding:15px}
-.card{background:#fff;border-radius:12px;padding:15px;margin-bottom:15px;box-shadow:0 3px 8px rgba(0,0,0,.1)}
-.highlight{background:linear-gradient(135deg,#ffe082,#ffcc80);border-left:6px solid #ff6f00}
-.ask-box input{width:65%;padding:8px}
+header p{margin:4px 0 0;font-size:14px;opacity:.95}
+.header-top{display:flex;justify-content:space-between;align-items:center}
+header button{background:#fff;border:none;border-radius:6px;padding:4px 7px;margin-left:5px}
+
+.section{padding:12px}
+.card{background:#fff;border-radius:12px;padding:12px;margin-bottom:12px;box-shadow:0 3px 8px rgba(0,0,0,.1)}
+.card p{margin:6px 0;font-size:14px}
+
+.highlight{background:linear-gradient(135deg,#ffe082,#ffcc80);border-left:5px solid #ff6f00}
+
+.ask-box h3{margin-top:0}
+.ask-box input{width:68%;padding:8px}
 .ask-box button{padding:8px;margin-left:4px}
 .result button{display:block;width:100%;margin:6px 0}
-footer{text-align:center;padding:10px;background:#fff3e0;font-size:14px}
+
+footer{text-align:center;padding:8px;background:#fff3e0;font-size:13px}
 
 /* MODAL */
 .modal{display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,.6);z-index:1000}
@@ -47,34 +43,25 @@ footer{text-align:center;padding:10px;background:#fff3e0;font-size:14px}
 <body>
 
 <header>
-<h1>🕉️ भक्ति पंचांग</h1>
-<div>
-<button onclick="sharePage()">Share</button>
-<button onclick="copyLink()">Link</button>
-</div>
+  <div class="header-top">
+    <h1>🕉️ Aaj Ka Panchang – Bhakti Guide</h1>
+    <div>
+      <button onclick="sharePage()">Share</button>
+      <button onclick="copyLink()">Link</button>
+    </div>
+  </div>
+  <p>पंचांग • व्रत • पूजन • त्योहार की जानकारी</p>
 </header>
 
 <div class="section">
 
 <!-- PANCHANG -->
 <div class="card">
-<h2>📅 आज का पंचांग</h2>
-<p>तारीख: <b id="dateText"></b></p>
-<p>वार: <b id="vaar"></b></p>
-
-<p>
-🌅 सूर्योदय: <b id="sunrise"></b> &nbsp;&nbsp;
-🌇 सूर्यास्त: <b id="sunset"></b>
-</p>
-
-<p>
-🌙 चंद्रोदय: <b id="moonrise"></b> &nbsp;&nbsp;
-🌑 चंद्रास्त: <b id="moonset"></b>
-</p>
-
-<p>विक्रम संवत: <b id="vikram"></b> | शक संवत: <b id="shak"></b></p>
-<p>मास: <b id="maas"></b></p>
-<p>तिथि: <b id="tithi"></b></p>
+<p>📅 <b id="dateText"></b> | <b id="vaar"></b></p>
+<p>🌅 <b id="sunrise"></b> | 🌇 <b id="sunset"></b></p>
+<p>🌙 <b id="moonrise"></b> | 🌑 <b id="moonset"></b></p>
+<p>संवत: <b id="vikram"></b> | <b id="shak"></b></p>
+<p>मास: <b id="maas"></b> | तिथि: <b id="tithi"></b></p>
 </div>
 
 <!-- FESTIVAL -->
@@ -85,32 +72,25 @@ footer{text-align:center;padding:10px;background:#fff3e0;font-size:14px}
 
 <!-- ASK -->
 <div class="card ask-box">
-  <h3>🙏 देवी-देवता या त्योहार खोजें</h3>
-  <label for="query" style="display:none;">देवी-देवता या त्योहार नाम</label>
-  <input id="query" placeholder="नाम लिखें...">
+  <h3>🙏 पूजा / देवता / त्योहार खोजें</h3>
+  <input id="query" placeholder="देवी-देवता या त्योहार का नाम लिखें">
   <button onclick="ask()">Ask</button>
   <button onclick="resetAsk()">Reset</button>
   <div id="result" class="result"></div>
 </div>
 
-<!-- Key Pages Links -->
-<div class="card" style="margin-top:15px;">
+<!-- LINKS -->
+<div class="card">
   <h3>🔗 प्रमुख भक्ति पेज</h3>
-  <ul style="padding-left:18px;">
-    <li><a href="shiv.html">भगवान शिव – पूजा, आरती, चालीसा</a></li>
-    <li><a href="hanuman.html">हनुमान जी – चालीसा, आरती</a></li>
-    <li><a href="diwali.html">दीपावली – पूजा विधि एवं महत्व</a></li>
+  <ul>
+    <li><a href="shiv.html">भगवान शिव</a></li>
+    <li><a href="hanuman.html">हनुमान जी</a></li>
+    <li><a href="diwali.html">दीपावली</a></li>
   </ul>
 </div>
 
 <footer>
-  <div style="line-height:1.6">
-    © 2025 | भक्ति पंचांग  
-    <br>
-    दैनिक पंचांग, व्रत-त्योहार एवं भक्ति जानकारी हेतु एक सरल प्रयास  
-    <br>
-    संकलन एवं प्रस्तुति: कैलाश गौतम
-  </div>
+© 2025 • Bhakti Panchang • कैलाश गौतम
 </footer>
 
 <!-- MODAL -->
@@ -123,27 +103,23 @@ footer{text-align:center;padding:10px;background:#fff3e0;font-size:14px}
 </div>
 
 <script>
-/* PANCHANG DATA */
-dateText.innerText = todayControl.date;
-vaar.innerText = todayControl.vaar;
-vikram.innerText = todayControl.vikramSamvat;
-shak.innerText = todayControl.shakSamvat;
-maas.innerText = todayControl.maas;
-tithi.innerText = todayControl.tithi;
+dateText.innerText=todayControl.date;
+vaar.innerText=todayControl.vaar;
+vikram.innerText=todayControl.vikramSamvat;
+shak.innerText=todayControl.shakSamvat;
+maas.innerText=todayControl.maas;
+tithi.innerText=todayControl.tithi;
+sunrise.innerText=sunMoonData.sunrise;
+sunset.innerText=sunMoonData.sunset;
+moonrise.innerText=sunMoonData.moonrise;
+moonset.innerText=sunMoonData.moonset;
 
-sunrise.innerText = sunMoonData.sunrise;
-sunset.innerText = sunMoonData.sunset;
-moonrise.innerText = sunMoonData.moonrise;
-moonset.innerText = sunMoonData.moonset;
-
-/* FESTIVALS */
 todayControl.vratTyohar.forEach(v=>{
-  let li=document.createElement("li");
-  li.innerText=v;
-  festivalList.appendChild(li);
+let li=document.createElement("li");
+li.innerText=v;
+festivalList.appendChild(li);
 });
 
-/* ASK */
 function ask(){
 const q=query.value.trim();
 result.innerHTML="";
@@ -159,7 +135,6 @@ result.appendChild(b);
 }
 function resetAsk(){query.value="";result.innerHTML=""}
 
-/* MODAL */
 function openModal(t,b){
 modalTitle.innerText=t;
 modalBody.innerText=b;
@@ -167,10 +142,8 @@ modal.style.display="block";
 }
 function closeModal(){modal.style.display="none"}
 
-/* SHARE */
 function sharePage(){
-if(navigator.share)navigator.share({title:"भक्ति पंचांग",url:location.href});
-else alert("Share supported नहीं");
+if(navigator.share)navigator.share({title:"Bhakti Panchang",url:location.href});
 }
 function copyLink(){
 navigator.clipboard.writeText(location.href);
