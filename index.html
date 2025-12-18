@@ -222,38 +222,62 @@ footer{
 </div>
 
 <script>
-/* DATE FORMAT – हिंदी माह */
-const monthNames = ["जनवरी","फरवरी","मार्च","अप्रैल","मई","जून","जुलाई","अगस्त","सितंबर","अक्टूबर","नवंबर","दिसंबर"];
-const d = todayControl.date.split("-");
-dateText.innerText = d[0] + " " + monthNames[parseInt(d[1])-1] + " " + d[2];
+const API_URL = "https://bhakti-panchang-backend.onrender.com/api/panchang/today";
 
-vaar.innerText = todayControl.vaar;
-vikram.innerText = todayControl.vikramSamvat;
-shak.innerText = todayControl.shakSamvat;
-maas.innerText = todayControl.maas;
-tithi.innerText = todayControl.tithi;
+/* FETCH PANCHANG FROM BACKEND */
+fetch(API_URL)
+  .then(res => res.json())
+  .then(data => {
+    dateText.innerText = data.date;
+    vaar.innerText = data.vaar;
+    vikram.innerText = data.vikramSamvat;
+    shak.innerText = "शक संवत " + data.shakSamvat;
+    maas.innerText = data.maas;
+    tithi.innerText = data.tithi;
 
-sunrise.innerText = sunMoonData.sunrise;
-sunset.innerText = sunMoonData.sunset;
-moonrise.innerText = sunMoonData.moonrise;
-moonset.innerText = sunMoonData.moonset;
+    sunrise.innerText = data.sunMoon.sunrise || "--";
+    sunset.innerText  = data.sunMoon.sunset || "--";
+    moonrise.innerText = data.sunMoon.moonrise || "--";
+    moonset.innerText  = data.sunMoon.moonset || "--";
 
-/* FESTIVAL */
-todayControl.vratTyohar.forEach(v=>{
-  const li=document.createElement("li");
-  li.innerText=v;
-  festivalList.appendChild(li);
-});
+    festivalList.innerHTML = "";
+    data.vratTyohar.forEach(v => {
+      let li = document.createElement("li");
+      li.innerText = v;
+      festivalList.appendChild(li);
+    });
+  })
+  .catch(() => {
+    /* FALLBACK – data.js */
+    dateText.innerText = todayControl.date;
+    vaar.innerText = todayControl.vaar;
+    vikram.innerText = todayControl.vikramSamvat;
+    shak.innerText = "शक संवत " + todayControl.shakSamvat;
+    maas.innerText = todayControl.maas;
+    tithi.innerText = todayControl.tithi;
 
-/* ASK */
+    sunrise.innerText = sunMoonData.sunrise;
+    sunset.innerText = sunMoonData.sunset;
+    moonrise.innerText = sunMoonData.moonrise;
+    moonset.innerText = sunMoonData.moonset;
+
+    festivalList.innerHTML = "";
+    todayControl.vratTyohar.forEach(v => {
+      let li = document.createElement("li");
+      li.innerText = v;
+      festivalList.appendChild(li);
+    });
+  });
+
+/* ASK (UNCHANGED) */
 function ask(){
   const q=query.value.trim();
   result.innerHTML="";
-  if(!q) return;
+  if(!q)return;
   const found=bhaktiData.find(d=>d.name.includes(q));
   if(!found){result.innerHTML="कुछ नहीं मिला";return;}
   found.contents.forEach(c=>{
-    const b=document.createElement("button");
+    let b=document.createElement("button");
     b.innerText=c.type+" : पूरा पढ़ें";
     b.onclick=()=>openModal(c.type,c.info);
     result.appendChild(b);
@@ -271,8 +295,11 @@ function closeModal(){modal.style.display="none"}
 
 /* SHARE */
 function sharePage(){
-  if(navigator.share)
-    navigator.share({title:"Aaj Ka Panchang – Bhakti Guide",url:location.href});
+  if(navigator.share)navigator.share({title:"Bhakti Panchang",url:location.href});
+}
+function copyLink(){
+  navigator.clipboard.writeText(location.href);
+  alert("Link copied");
 }
 </script>
 
