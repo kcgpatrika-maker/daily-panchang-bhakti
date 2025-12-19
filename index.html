@@ -6,31 +6,100 @@
 
 <title>Aaj Ka Panchang – Bhakti Guide</title>
 
-<meta name="description" content="आज का पंचांग, व्रत-त्योहार, पूजा विधि, आरती, चालीसा और स्तोत्र। दैनिक भक्ति गाइड।">
+<meta name="description" content="आज का पंचांग, व्रत-त्योहार, देवी-देवता की पूजा विधि, आरती, चालीसा और प्रमुख स्तोत्र।">
 <meta name="robots" content="index, follow">
 
 <style>
-body{margin:0;font-family:system-ui;background:#fff8e1;color:#4e342e}
-header{background:linear-gradient(90deg,#ff9800,#ffb300);padding:10px 12px;color:#fff}
-.header-top{display:flex;justify-content:space-between;align-items:center}
-header h1{margin:0;font-size:18px;white-space:nowrap}
-.header-actions button{background:#fff;border:none;border-radius:6px;padding:5px 8px;margin-left:6px}
-.punchline{font-size:13px;margin-top:4px}
-
+body{
+  margin:0;
+  font-family:system-ui;
+  background:#fff8e1;
+  color:#4e342e;
+}
+header{
+  background:linear-gradient(90deg,#ff9800,#ffb300);
+  padding:12px;
+  color:#fff;
+}
+.header-top{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+}
+header h1{
+  margin:0;
+  font-size:18px;
+  white-space:nowrap;
+}
+.header-actions button{
+  background:#fff;
+  border:none;
+  border-radius:6px;
+  padding:5px 8px;
+  margin-left:6px;
+}
+.tagline{
+  font-size:14px;
+  margin-top:6px;
+}
 .section{padding:12px}
-.card{background:#fff;border-radius:12px;padding:12px;margin-bottom:12px;box-shadow:0 2px 6px rgba(0,0,0,.1)}
-.highlight{background:linear-gradient(135deg,#ffe082,#ffcc80);border-left:6px solid #ff6f00}
-
-.ask-box input{width:100%;padding:8px;margin:6px 0}
-.ask-actions{display:flex;gap:6px}
-.ask-actions button{flex:1;padding:8px}
-.result button{display:block;width:100%;margin:6px 0}
-
-footer{text-align:center;padding:10px;background:#fff3e0;font-size:13px}
-
-.modal{display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,.6);z-index:1000}
-.modal-content{background:#fff;border-radius:12px;margin:10% auto;padding:15px;width:90%;max-height:70%;overflow-y:auto}
-.close{float:right;font-size:20px;cursor:pointer}
+.card{
+  background:#fff;
+  border-radius:12px;
+  padding:12px;
+  margin-bottom:12px;
+  box-shadow:0 3px 8px rgba(0,0,0,.1)
+}
+.highlight{
+  background:linear-gradient(135deg,#ffe082,#ffcc80);
+  border-left:6px solid #ff6f00
+}
+.ask-box input{
+  width:100%;
+  padding:8px;
+  margin-bottom:8px;
+}
+.ask-actions{
+  display:flex;
+  gap:8px;
+}
+.ask-actions button{
+  flex:1;
+  padding:8px;
+}
+.result button{
+  display:block;
+  width:100%;
+  margin:6px 0;
+}
+footer{
+  text-align:center;
+  padding:10px;
+  background:#fff3e0;
+  font-size:13px;
+}
+.modal{
+  display:none;
+  position:fixed;
+  top:0;left:0;
+  width:100%;height:100%;
+  background:rgba(0,0,0,.6);
+  z-index:1000
+}
+.modal-content{
+  background:#fff;
+  border-radius:12px;
+  margin:15% auto;
+  padding:15px;
+  width:90%;
+  max-height:70%;
+  overflow-y:auto
+}
+.close{
+  float:right;
+  font-size:20px;
+  cursor:pointer
+}
 </style>
 </head>
 
@@ -43,27 +112,43 @@ footer{text-align:center;padding:10px;background:#fff3e0;font-size:13px}
       <button onclick="sharePage()">🔗</button>
     </div>
   </div>
-  <div class="punchline">पंचांग • पूजन • त्योहार की जानकारी</div>
+  <div class="tagline">पंचांग • पूजन • त्योहार की जानकारी</div>
 </header>
 
 <div class="section">
 
+<!-- PANCHANG -->
 <div class="card">
   <h3>📅 आज का पंचांग</h3>
-  <p>🗓️ <b id="dateText">--</b> | <b id="vaar">--</b></p>
-  <p>🌅 सूर्योदय: <b id="sunrise">--</b> | 🌇 सूर्यास्त: <b id="sunset">--</b></p>
-  <p>🌙 चंद्रोदय: <b id="moonrise">--</b> | 🌑 चंद्रास्त: <b id="moonset">--</b></p>
-  <p>मास: <b id="maas">--</b> | तिथि: <b id="tithi">--</b></p>
-  <p>विक्रम संवत: <b id="vikram">--</b> | शक संवत: <b id="shak">--</b></p>
+  <p>📆 <b id="date"></b> | <b id="vaar"></b></p>
+
+  <p>
+    🌅 सूर्योदय: <b id="sunrise"></b> &nbsp;
+    🌇 सूर्यास्त: <b id="sunset"></b>
+  </p>
+
+  <p>
+    🌙 चंद्रोदय: <b id="moonrise"></b> &nbsp;
+    🌑 चंद्रास्त: <b id="moonset"></b>
+  </p>
+
+  <p>
+    विक्रम संवत: <b id="vikram"></b> |
+    शक संवत: <b id="shak"></b>
+  </p>
+
+  <p>मास / तिथि: <b id="maas"></b> – <b id="tithi"></b></p>
 </div>
 
+<!-- VRAT -->
 <div class="card highlight">
   <h3>🔔 आज का व्रत / त्योहार</h3>
-  <ul id="festivalList"></ul>
+  <ul id="vratList"></ul>
 </div>
 
+<!-- ASK -->
 <div class="card ask-box">
-  <h3>🙏 देवी-देवता या त्योहार खोजें</h3>
+  <h3>🙏 पूजा, देवी-देवता या त्योहार खोजें</h3>
   <input id="query" placeholder="देवी-देवता या त्योहार का नाम लिखें">
   <div class="ask-actions">
     <button onclick="ask()">Ask</button>
@@ -75,10 +160,11 @@ footer{text-align:center;padding:10px;background:#fff3e0;font-size:13px}
 </div>
 
 <footer>
-© 2025 | भक्ति पंचांग<br>
-संकलन एवं प्रस्तुति: कैलाश गौतम
+  © 2025 | Bhakti Panchang  
+  <br>संकलन एवं प्रस्तुति: कैलाश गौतम
 </footer>
 
+<!-- MODAL -->
 <div class="modal" id="modal">
   <div class="modal-content">
     <span class="close" onclick="closeModal()">×</span>
@@ -88,48 +174,53 @@ footer{text-align:center;padding:10px;background:#fff3e0;font-size:13px}
 </div>
 
 <script>
-/* 🔗 BACKEND URL — यही बदलना है */
-const BACKEND_URL = "https://bhakti-panchang-backend.onrender.com/panchang";
+const API = "https://bhakti-panchang-backend.onrender.com/api/panchang";
 
-/* FETCH PANCHANG */
-fetch(BACKEND_URL)
+fetch(API)
 .then(r=>r.json())
 .then(d=>{
-  dateText.innerText=d.date;
+  date.innerText=d.date;
   vaar.innerText=d.vaar;
   vikram.innerText=d.vikramSamvat;
   shak.innerText=d.shakSamvat;
   maas.innerText=d.maas;
   tithi.innerText=d.tithi;
-
   sunrise.innerText=d.sunMoon.sunrise;
   sunset.innerText=d.sunMoon.sunset;
   moonrise.innerText=d.sunMoon.moonrise;
   moonset.innerText=d.sunMoon.moonset;
 
-  festivalList.innerHTML="";
-  d.vratTyohar.forEach(v=>{
-    let li=document.createElement("li");
-    li.innerText=v;
-    festivalList.appendChild(li);
-  });
+  vratList.innerHTML="";
+  if(d.vratTyohar.length===0){
+    vratList.innerHTML="<li>कोई विशेष व्रत नहीं</li>";
+  }else{
+    d.vratTyohar.forEach(v=>{
+      const li=document.createElement("li");
+      li.innerText=v;
+      vratList.appendChild(li);
+    });
+  }
 });
 
-/* ASK (placeholder – next step AI) */
 function ask(){
-  result.innerHTML="🔜 अगला स्टेप: AI Ask system";
+  result.innerHTML="यह सुविधा अगले चरण में जोड़ी जाएगी";
 }
 function resetAsk(){
   query.value="";
   result.innerHTML="";
 }
-
-/* MODAL */
-function closeModal(){modal.style.display="none"}
-
-/* SHARE */
 function sharePage(){
-  if(navigator.share) navigator.share({title:document.title,url:location.href});
+  if(navigator.share){
+    navigator.share({title:document.title,url:location.href});
+  }
+}
+function openModal(t,b){
+  modalTitle.innerText=t;
+  modalBody.innerText=b;
+  modal.style.display="block";
+}
+function closeModal(){
+  modal.style.display="none";
 }
 </script>
 
