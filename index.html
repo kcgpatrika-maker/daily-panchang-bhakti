@@ -145,8 +145,56 @@ fetch(API_URL)
 })
 .catch(()=>{ console.log("Backend unavailable"); });
 
-function ask(){ result.innerHTML="यह सुविधा अगले चरण में जोड़ी जाएगी"; }
-function resetAsk(){ query.value=""; result.innerHTML=""; }
+<script>
+function ask(){
+  const q = query.value.trim();
+  result.innerHTML = "";
+
+  if(!q) return;
+
+  // backend-agnostic, simple matching
+  const data = [
+    {
+      key: ["शिव","shiv","mahadev"],
+      items: ["प्रार्थना","चालीसा","आरती","पूजा विधि","प्रमुख स्तोत्र"]
+    },
+    {
+      key: ["हनुमान","hanuman"],
+      items: ["प्रार्थना","चालीसा","आरती","पूजा विधि","प्रमुख स्तोत्र"]
+    },
+    {
+      key: ["दीपावली","diwali"],
+      items: ["पूजा विधि","महत्व","आरती","मंत्र"]
+    }
+  ];
+
+  let found = null;
+  for(const d of data){
+    if(d.key.some(k => q.toLowerCase().includes(k))){
+      found = d;
+      break;
+    }
+  }
+
+  if(!found){
+    result.innerHTML = "इस नाम से अभी सामग्री उपलब्ध नहीं है";
+    return;
+  }
+
+  found.items.forEach(type=>{
+    const btn = document.createElement("button");
+    btn.innerText = type + " : पूरा पढ़ें";
+    btn.onclick = ()=>openModal(type, type + " की सामग्री यहाँ दिखाई जाएगी।");
+    result.appendChild(btn);
+  });
+}
+
+function resetAsk(){
+  query.value = "";
+  result.innerHTML = "";
+}
+</script>
+
 function sharePage(){ if(navigator.share)navigator.share({title:document.title,url:location.href}); }
 </script>
 
