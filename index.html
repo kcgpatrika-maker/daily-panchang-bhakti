@@ -6,110 +6,63 @@
 
 <title>Aaj Ka Panchang – Bhakti Guide</title>
 
-<meta name="description" content="आज का पंचांग, व्रत-त्योहार, देवी-देवता की पूजा विधि, आरती, चालीसा और प्रमुख स्तोत्र।">
+<meta name="description" content="आज का पंचांग, व्रत-त्योहार, देवी-देवता की पूजा विधि, आरती, चालीसा और स्तोत्र।">
+<meta name="keywords" content="आज का पंचांग, व्रत, पूजा, आरती, चालीसा, भक्ति">
 <meta name="robots" content="index, follow">
 
+<script src="data.js"></script>
+
 <style>
-body{
-  margin:0;
-  font-family:system-ui;
-  background:#fff8e1;
-  color:#4e342e;
-}
-header{
-  background:linear-gradient(90deg,#ff9800,#ffb300);
-  padding:12px;
-  color:#fff;
-}
-.header-top{
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-}
-header h1{
-  margin:0;
-  font-size:18px;
-  white-space:nowrap;
-}
-.header-actions button{
-  background:#fff;
-  border:none;
-  border-radius:6px;
-  padding:5px 8px;
-  margin-left:6px;
-}
-.tagline{
-  font-size:14px;
-  margin-top:6px;
-}
+body{margin:0;font-family:system-ui;background:#fff8e1;color:#4e342e}
+
+/* HEADER */
+header{background:linear-gradient(90deg,#ff9800,#ffb300);padding:10px 12px;color:#fff}
+.header-row{display:flex;justify-content:space-between;align-items:center}
+.header-title{font-size:17px;font-weight:600;white-space:nowrap}
+.tagline{font-size:13px;margin-top:4px}
+.header-actions button{background:#fff;border:none;border-radius:6px;padding:5px 8px;font-size:12px}
+
+/* COMMON */
 .section{padding:12px}
-.card{
-  background:#fff;
-  border-radius:12px;
-  padding:12px;
-  margin-bottom:12px;
-  box-shadow:0 3px 8px rgba(0,0,0,.1)
-}
-.highlight{
-  background:linear-gradient(135deg,#ffe082,#ffcc80);
-  border-left:6px solid #ff6f00
-}
-.ask-box input{
-  width:100%;
-  padding:8px;
-  margin-bottom:8px;
-}
-.ask-actions{
-  display:flex;
-  gap:8px;
-}
-.ask-actions button{
-  flex:1;
-  padding:8px;
-}
-.result button{
-  display:block;
-  width:100%;
-  margin:6px 0;
-}
-footer{
-  text-align:center;
-  padding:10px;
-  background:#fff3e0;
-  font-size:13px;
-}
-.modal{
-  display:none;
-  position:fixed;
-  top:0;left:0;
-  width:100%;height:100%;
-  background:rgba(0,0,0,.6);
-  z-index:1000
-}
-.modal-content{
-  background:#fff;
-  border-radius:12px;
-  margin:15% auto;
-  padding:15px;
-  width:90%;
-  max-height:70%;
-  overflow-y:auto
-}
-.close{
-  float:right;
-  font-size:20px;
-  cursor:pointer
-}
+.card{background:#fff;border-radius:12px;padding:12px;margin-bottom:12px;box-shadow:0 2px 6px rgba(0,0,0,.1)}
+
+/* PANCHANG */
+.panchang p{margin:6px 0;font-size:14px}
+
+/* FESTIVAL */
+.highlight{background:linear-gradient(135deg,#ffe082,#ffcc80);border-left:5px solid #ff6f00}
+.highlight h3{margin:0 0 6px;font-size:15px;color:#b71c1c}
+.highlight ul{margin:0;padding-left:18px}
+.highlight li{font-size:14px}
+
+/* ASK */
+.ask-box h3{margin:0 0 8px;font-size:15px}
+.ask-row{display:flex;gap:6px}
+.ask-row input{flex:1;padding:8px}
+.ask-row button{padding:8px 10px}
+.result button{display:block;width:100%;margin-top:6px}
+
+/* KEY PAGES */
+.key-pages ul{margin:0;padding-left:18px}
+.key-pages li{margin:4px 0;font-size:14px}
+
+/* FOOTER */
+footer{text-align:center;padding:10px;background:#fff3e0;font-size:13px;color:#4e342e}
+
+/* MODAL */
+.modal{display:none;position:fixed;inset:0;background:rgba(0,0,0,.6);z-index:1000}
+.modal-content{background:#fff;border-radius:12px;margin:12% auto;padding:15px;width:90%;max-height:70%;overflow-y:auto}
+.close{float:right;font-size:20px;cursor:pointer}
 </style>
 </head>
 
 <body>
 
 <header>
-  <div class="header-top">
-    <h1>🕉️ Aaj Ka Panchang – Bhakti Guide</h1>
+  <div class="header-row">
+    <div class="header-title">🕉️ Aaj Ka Panchang – Bhakti Guide</div>
     <div class="header-actions">
-      <button onclick="sharePage()">🔗</button>
+      <button onclick="sharePage()">Share</button>
     </div>
   </div>
   <div class="tagline">पंचांग • पूजन • त्योहार की जानकारी</div>
@@ -118,110 +71,83 @@ footer{
 <div class="section">
 
 <!-- PANCHANG -->
-<div class="card">
-  <h3>📅 आज का पंचांग</h3>
-  <p>📆 <b id="date"></b> | <b id="vaar"></b></p>
+<div class="card panchang">
+  <p>📅 <b id="dateText"></b> | <b id="vaar"></b></p>
 
-  <p>
-    🌅 सूर्योदय: <b id="sunrise"></b> &nbsp;
-    🌇 सूर्यास्त: <b id="sunset"></b>
-  </p>
+  <p>🌅 सूर्योदय: <b id="sunrise"></b> | 🌇 सूर्यास्त: <b id="sunset"></b></p>
+  <p>🌙 चंद्रोदय: <b id="moonrise"></b> | 🌑 चंद्रास्त: <b id="moonset"></b></p>
 
-  <p>
-    🌙 चंद्रोदय: <b id="moonrise"></b> &nbsp;
-    🌑 चंद्रास्त: <b id="moonset"></b>
-  </p>
-
-  <p>
-    विक्रम संवत: <b id="vikram"></b> |
-    शक संवत: <b id="shak"></b>
-  </p>
-
-  <p>मास / तिथि: <b id="maas"></b> – <b id="tithi"></b></p>
+  <p>विक्रम संवत: <b id="vikram"></b> | शक संवत: <b id="shak"></b></p>
+  <p>मास / तिथि: <b id="maas"></b> | <b id="tithi"></b></p>
 </div>
 
-<!-- VRAT -->
+<!-- FESTIVAL -->
 <div class="card highlight">
   <h3>🔔 आज का व्रत / त्योहार</h3>
-  <ul id="vratList"></ul>
+  <ul id="festivalList"></ul>
 </div>
 
 <!-- ASK -->
 <div class="card ask-box">
-  <h3>🙏 पूजा, देवी-देवता या त्योहार खोजें</h3>
-  <input id="query" placeholder="देवी-देवता या त्योहार का नाम लिखें">
-  <div class="ask-actions">
+  <h3>🙏 पूजा / देवता / त्योहार खोजें</h3>
+  <div class="ask-row">
+    <input id="query" placeholder="देवी-देवता या त्योहार का नाम लिखें">
     <button onclick="ask()">Ask</button>
     <button onclick="resetAsk()">Reset</button>
   </div>
   <div id="result" class="result"></div>
 </div>
 
+<!-- KEY PAGES -->
+<div class="card key-pages">
+  <h3>🔗 प्रमुख भक्ति पेज</h3>
+  <ul>
+    <li><a href="shiv.html">भगवान शिव</a></li>
+    <li><a href="hanuman.html">हनुमान जी</a></li>
+    <li><a href="diwali.html">दीपावली</a></li>
+  </ul>
+</div>
+
 </div>
 
 <footer>
-  © 2025 | Bhakti Panchang  
-  <br>संकलन एवं प्रस्तुति: कैलाश गौतम
+© 2025 | भक्ति पंचांग<br>
+संकलन एवं प्रस्तुति: कैलाश गौतम
 </footer>
 
-<!-- MODAL -->
-<div class="modal" id="modal">
-  <div class="modal-content">
-    <span class="close" onclick="closeModal()">×</span>
-    <h3 id="modalTitle"></h3>
-    <p id="modalBody"></p>
-  </div>
-</div>
-
 <script>
-const API = "https://bhakti-panchang-backend.onrender.com/api/panchang";
+const API_URL="https://bhakti-panchang-backend.onrender.com/api/panchang/today";
 
-fetch(API)
+fetch(API_URL)
 .then(r=>r.json())
 .then(d=>{
-  date.innerText=d.date;
+  dateText.innerText=d.date;
   vaar.innerText=d.vaar;
   vikram.innerText=d.vikramSamvat;
   shak.innerText=d.shakSamvat;
   maas.innerText=d.maas;
   tithi.innerText=d.tithi;
-  sunrise.innerText=d.sunMoon.sunrise;
-  sunset.innerText=d.sunMoon.sunset;
-  moonrise.innerText=d.sunMoon.moonrise;
-  moonset.innerText=d.sunMoon.moonset;
+  sunrise.innerText=d.sunMoon.sunrise||"--";
+  sunset.innerText=d.sunMoon.sunset||"--";
+  moonrise.innerText=d.sunMoon.moonrise||"--";
+  moonset.innerText=d.sunMoon.moonset||"--";
 
-  vratList.innerHTML="";
-  if(d.vratTyohar.length===0){
-    vratList.innerHTML="<li>कोई विशेष व्रत नहीं</li>";
+  festivalList.innerHTML="";
+  if(!d.vratTyohar || d.vratTyohar.length===0){
+    festivalList.innerHTML="<li>आज कोई विशेष व्रत / दिवस नहीं</li>";
   }else{
     d.vratTyohar.forEach(v=>{
-      const li=document.createElement("li");
+      let li=document.createElement("li");
       li.innerText=v;
-      vratList.appendChild(li);
+      festivalList.appendChild(li);
     });
   }
-});
+})
+.catch(()=>{ console.log("Backend unavailable"); });
 
-function ask(){
-  result.innerHTML="यह सुविधा अगले चरण में जोड़ी जाएगी";
-}
-function resetAsk(){
-  query.value="";
-  result.innerHTML="";
-}
-function sharePage(){
-  if(navigator.share){
-    navigator.share({title:document.title,url:location.href});
-  }
-}
-function openModal(t,b){
-  modalTitle.innerText=t;
-  modalBody.innerText=b;
-  modal.style.display="block";
-}
-function closeModal(){
-  modal.style.display="none";
-}
+function ask(){ result.innerHTML="यह सुविधा अगले चरण में जोड़ी जाएगी"; }
+function resetAsk(){ query.value=""; result.innerHTML=""; }
+function sharePage(){ if(navigator.share)navigator.share({title:document.title,url:location.href}); }
 </script>
 
 </body>
