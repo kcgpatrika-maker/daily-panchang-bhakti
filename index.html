@@ -154,16 +154,18 @@ async function ask() {
       const res = await fetch(`https://bhakti-panchang-backend.onrender.com/api/ask-bhakti?q=${encodeURIComponent(q)}&type=${encodeURIComponent(t)}`);
       const data = await res.json();
 
-      b.onclick = () => {
-  modalTitle.innerText = t + " – " + data.title;
-  modalBody.innerHTML = `
-    <p>${data.content}</p>
-    <p><b>स्रोत:</b> <a href="${data.source}" target="_blank">${data.source}</a></p>
-  `;
+modalBody.innerHTML = `
+<p>${data.content || "जानकारी उपलब्ध नहीं है।"}</p>
+<p>स्रोत: <a href="${data.source}" target="_blank">${data.source}</a></p>
+`;
   modal.style.display = "block";
 };
     result.appendChild(b);
   }
+}
+if(!data.content){
+  alert("इस विषय की जानकारी अभी उपलब्ध नहीं है");
+  return;
 }
 
 function resetAsk() {
