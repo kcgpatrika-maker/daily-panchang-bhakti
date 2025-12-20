@@ -101,6 +101,7 @@ footer{text-align:center;padding:10px;background:#fff3e0;font-size:13px;color:#4
     <span class="close" onclick="closeModal()">×</span>
     <h3 id="modalTitle"></h3>
     <p id="modalBody"></p>
+    <p id="modalPDF"></p>
   </div>
 </div>
 
@@ -133,52 +134,38 @@ fetch("https://bhakti-panchang-backend.onrender.com/api/panchang")
   }
 });
 
-function ask(){
+<script>
+async function ask() {
   const q = query.value.trim();
   result.innerHTML = "";
   if(!q) return;
 
-  ["आरती","चालीसा","मंत्र","स्तोत्र","पूजा विधि"].forEach(type=>{
-    const b = document.createElement("button");
-    b.innerText = type;
-    b.onclick = () => loadBhakti(q, type);
-    result.appendChild(b);
-  });
-}
+  const types = ["आरती","चालीसा","पूजा विधि","मंत्र","कथा/स्तोत्र"];
 
-function loadBhakti(q, type){
-  fetch(`https://bhakti-panchang-backend.onrender.com/api/ask-bhakti?q=${encodeURIComponent(q)}&type=${encodeURIComponent(type)}`)
-  .then(r=>r.json())
-  .then(d=>{
-    modalTitle.innerText = d.title || `${q} ${type}`;
-    modalBody.innerHTML = `
-      <div style="white-space:pre-wrap;line-height:1.7;font-size:14px">
-        ${d.content || "कंटेंट उपलब्ध नहीं"}
-      </div>
-      <hr>
-      <small>
-        स्रोत: 
-        <a href="${d.more_url}" target="_blank" rel="nofollow noopener">
-          ${d.source || "Wikipedia"}
-        </a>
-      </small>
-    `;
-    modal.style.display = "block";
-  })
-  .catch(()=>{
-    modalTitle.innerText = type;
-    modalBody.innerText = "कंटेंट लोड नहीं हो पाया।";
-    modal.style.display = "block";
-  });
+  for(const t of types) {
+    const b = document.createElement("button");
+    b.innerText = t + " : पूरा पढ़ें";
+    b.onclick = async () => {
+      const res = await fetch(`https://bhakti-panchang-backend.onrender.com/api/ask-bhakti?q=${encodeURIComponent(q)}&type=${encodeURIComponent(t)}`);
+      const data = await res.json();
+
+      modalTitle.innerText = data.title;
+      modalBody.innerHTML = `<p>${data.content}</p>
+                             <p>स्रोत: <a href="${data.source}" target="_blank">${data.source}</a></p>`;
+      if(data.pdf) modalPDF.innerHTML = `<p><a href="${data.pdf}" target="_blank">PDF डाउनलोड करें</a></p>`;
+      else modalPDF.innerHTML = "";
+      modal.style.display = "block";
+    };
+    result.appendChild(b);
+  }
 }
 
 function resetAsk() {
   query.value = "";
   result.innerHTML = "";
 }
-
-/* MODAL */
 function closeModal() { modal.style.display = "none"; }
+</script>
 
 /* SHARE */
 function sharePage(){
