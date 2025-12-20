@@ -133,38 +133,43 @@ fetch("https://bhakti-panchang-backend.onrender.com/api/panchang")
   }
 });
 
-/* =========================
-   ASK LOGIC (Wikipedia summary + source)
-   ========================= */
-async function ask() {
+function ask(){
   const q = query.value.trim();
   result.innerHTML = "";
   if(!q) return;
 
-  try {
-    const res = await fetch(`https://bhakti-panchang-backend.onrender.com/api/ask-bhakti?q=${encodeURIComponent(q)}`);
-    const data = await res.json();
+  ["आरती","चालीसा","मंत्र","स्तोत्र","पूजा विधि"].forEach(type=>{
+    const b = document.createElement("button");
+    b.innerText = type;
+    b.onclick = () => loadBhakti(q, type);
+    result.appendChild(b);
+  });
+}
 
-    if(!data.success){
-      alert("जानकारी लोड नहीं हो सकी।");
-      return;
-    }
-
-    ["आरती","चालीसा","पूजा विधि","मंत्र","कथा"].forEach(t=>{
-      const b = document.createElement("button");
-      b.innerText = t + " : पूरा पढ़ें";
-      b.onclick = () => {
-        modalTitle.innerText = t + " – " + data.title;
-        modalBody.innerHTML = `<p>${data.preview}</p>
-                               <p>स्रोत: <a href="${data.source}" target="_blank">${data.source}</a></p>`;
-        modal.style.display = "block";
-      };
-      result.appendChild(b);
-    });
-
-  } catch(err){
-    alert("नेटवर्क या डेटा लोड में समस्या।");
-  }
+function loadBhakti(q, type){
+  fetch(`https://bhakti-panchang-backend.onrender.com/api/ask-bhakti?q=${encodeURIComponent(q)}&type=${encodeURIComponent(type)}`)
+  .then(r=>r.json())
+  .then(d=>{
+    modalTitle.innerText = d.title || `${q} ${type}`;
+    modalBody.innerHTML = `
+      <div style="white-space:pre-wrap;line-height:1.7;font-size:14px">
+        ${d.content || "कंटेंट उपलब्ध नहीं"}
+      </div>
+      <hr>
+      <small>
+        स्रोत: 
+        <a href="${d.more_url}" target="_blank" rel="nofollow noopener">
+          ${d.source || "Wikipedia"}
+        </a>
+      </small>
+    `;
+    modal.style.display = "block";
+  })
+  .catch(()=>{
+    modalTitle.innerText = type;
+    modalBody.innerText = "कंटेंट लोड नहीं हो पाया।";
+    modal.style.display = "block";
+  });
 }
 
 function resetAsk() {
