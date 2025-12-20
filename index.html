@@ -154,13 +154,14 @@ async function ask() {
       const res = await fetch(`https://bhakti-panchang-backend.onrender.com/api/ask-bhakti?q=${encodeURIComponent(q)}&type=${encodeURIComponent(t)}`);
       const data = await res.json();
 
-      modalTitle.innerText = data.title;
-      modalBody.innerHTML = `<p>${data.content}</p>
-                             <p>स्रोत: <a href="${data.source}" target="_blank">${data.source}</a></p>`;
-      if(data.pdf) modalPDF.innerHTML = `<p><a href="${data.pdf}" target="_blank">PDF डाउनलोड करें</a></p>`;
-      else modalPDF.innerHTML = "";
-      modal.style.display = "block";
-    };
+      b.onclick = () => {
+  modalTitle.innerText = t + " – " + data.title;
+  modalBody.innerHTML = `
+    <p>${data.content}</p>
+    <p><b>स्रोत:</b> <a href="${data.source}" target="_blank">${data.source}</a></p>
+  `;
+  modal.style.display = "block";
+};
     result.appendChild(b);
   }
 }
