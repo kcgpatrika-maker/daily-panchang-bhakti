@@ -125,27 +125,26 @@ footer{text-align:center;padding:10px;background:#fff3e0;font-size:13px;color:#4
 </div>
 
 <script>
-/* BACKEND PANCHANG */
 fetch("https://bhakti-panchang-backend.onrender.com/api/panchang")
 .then(r=>r.json())
 .then(d=>{
-  dateText.innerText=d.date;
-  vaar.innerText=d.vaar;
-  vikram.innerText=d.vikramSamvat;
-  shak.innerText=d.shakSamvat;
-  maas.innerText=d.maas;
-  tithi.innerText=d.tithi;
+  dateText.innerText = d.date;
+  vaar.innerText = d.day;
+  vikram.innerText = d.vikram_samvat;
+  shak.innerText = d.shak_samvat;
+  maas.innerText = d.masa;
+  tithi.innerText = d.paksha_tithi;
 
-  sunrise.innerText=d.sunMoon.sunrise;
-  sunset.innerText=d.sunMoon.sunset;
-  moonrise.innerText=d.sunMoon.moonrise;
-  moonset.innerText=d.sunMoon.moonset;
+  sunrise.innerText = d.sunrise;
+  sunset.innerText = d.sunset;
+  moonrise.innerText = d.moonrise;
+  moonset.innerText = d.moonset;
 
   festivalList.innerHTML="";
-  if(d.vratTyohar.length===0){
+  if(d.vrat_tyohar.length===0){
     festivalList.innerHTML="<li>कोई विशेष व्रत नहीं</li>";
   }else{
-    d.vratTyohar.forEach(v=>{
+    d.vrat_tyohar.forEach(v=>{
       let li=document.createElement("li");
       li.innerText=v;
       festivalList.appendChild(li);
