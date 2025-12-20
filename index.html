@@ -95,7 +95,12 @@ footer{text-align:center;padding:10px;background:#fff3e0;font-size:13px;color:#4
     <button onclick="ask()">Ask</button>
     <button onclick="resetAsk()">Reset</button>
   </div>
-  <div id="result" class="result"></div>
+  <div id="result" class="result">
+    <!-- Ask slides dynamically populated here -->
+  </div>
+  <div id="ads-placeholder" style="margin-top:10px; text-align:center;">
+    <!-- Future Google Ads here -->
+  </div>
 </div>
 
 <!-- PAGES -->
@@ -125,15 +130,12 @@ footer{text-align:center;padding:10px;background:#fff3e0;font-size:13px;color:#4
 </div>
 
 <script>
-/* ====== BACKEND PANCHANG ====== */
 async function loadPanchang() {
   try {
     const res = await fetch("https://bhakti-panchang-backend.onrender.com/api/panchang");
     const d = await res.json();
 
-    function safeText(val, fallback="आज उपलब्ध नहीं") {
-      return val != null && val.toString().trim() !== "" ? val : fallback;
-    }
+    function safeText(val,fallback="आज उपलब्ध नहीं"){return val!=null && val.toString().trim()!=="" ? val : fallback;}
 
     dateText.innerText = safeText(d.date);
     vaar.innerText = safeText(d.day);
@@ -141,57 +143,56 @@ async function loadPanchang() {
     shak.innerText = safeText(d.shak_samvat);
     maas.innerText = safeText(d.masa);
     tithi.innerText = safeText(d.paksha_tithi);
-
     sunrise.innerText = safeText(d.sunrise);
     sunset.innerText = safeText(d.sunset);
     moonrise.innerText = safeText(d.moonrise);
     moonset.innerText = safeText(d.moonset);
 
     // Vrat/Tyohar
-    festivalList.innerHTML = "";
+    festivalList.innerHTML="";
     if(!d.vrat_tyohar || d.vrat_tyohar.length===0){
       festivalList.innerHTML="<li>कोई विशेष व्रत नहीं</li>";
     } else {
       d.vrat_tyohar.forEach(v=>{
-        let li = document.createElement("li");
-        li.innerText = v;
+        let li=document.createElement("li");
+        li.innerText=v;
         festivalList.appendChild(li);
       });
     }
 
     // Ask slides
     const askSection = document.getElementById("result");
-    askSection.innerHTML = "";
-    if(d.ask_slides && d.ask_slides.length > 0){
+    askSection.innerHTML="";
+    if(d.ask_slides && d.ask_slides.length>0){
       d.ask_slides.forEach(slide=>{
-        const div = document.createElement("div");
-        div.className = "slide card";
-        div.style.marginBottom = "8px";
-        div.innerHTML = `<h3>${safeText(slide.title)}</h3><p>${safeText(slide.content,"विवरण उपलब्ध नहीं")}</p>`;
+        const div=document.createElement("div");
+        div.className="slide card";
+        div.style.marginBottom="8px";
+        div.innerHTML=`<h3>${safeText(slide.title)}</h3><p>${safeText(slide.content,"विवरण उपलब्ध नहीं")}</p>`;
         askSection.appendChild(div);
       });
     } else {
-      askSection.innerHTML = "<p>सूचना उपलब्ध नहीं</p>";
+      askSection.innerHTML="<p>सूचना उपलब्ध नहीं</p>";
     }
 
-  } catch(err) {
-    console.error("Panchang fetch error:", err);
-    dateText.innerText = "डेटा उपलब्ध नहीं";
-    vaar.innerText = "-";
-    vikram.innerText = "-";
-    shak.innerText = "-";
-    maas.innerText = "-";
-    tithi.innerText = "-";
-    sunrise.innerText = "-";
-    sunset.innerText = "-";
-    moonrise.innerText = "-";
-    moonset.innerText = "-";
-    festivalList.innerHTML = "<li>कोई विशेष व्रत नहीं</li>";
-    document.getElementById("result").innerHTML = "<p>Ask slides उपलब्ध नहीं</p>";
+  } catch(err){
+    console.error("Panchang fetch error:",err);
+    dateText.innerText="डेटा उपलब्ध नहीं";
+    vaar.innerText="-";
+    vikram.innerText="-";
+    shak.innerText="-";
+    maas.innerText="-";
+    tithi.innerText="-";
+    sunrise.innerText="-";
+    sunset.innerText="-";
+    moonrise.innerText="-";
+    moonset.innerText="-";
+    festivalList.innerHTML="<li>कोई विशेष व्रत नहीं</li>";
+    document.getElementById("result").innerHTML="<p>Ask slides उपलब्ध नहीं</p>";
   }
 }
 
-/* ====== ASK SEARCH LOGIC ====== */
+/* ASK LOGIC */
 function ask(){
   const q=query.value.trim();
   const askSection = document.getElementById("result");
@@ -201,7 +202,7 @@ function ask(){
   ["प्रार्थना","आरती","चालीसा","पूजा विधि","स्तोत्र"].forEach(t=>{
     let b=document.createElement("button");
     b.innerText=t+" : पूरा पढ़ें";
-    b.onclick=()=>openModal(t, q+" की "+t+" अगले चरण में जोड़ी जाएगी।");
+    b.onclick=()=>openModal(t,q+" की "+t+" अगले चरण में जोड़ी जाएगी।");
     askSection.appendChild(b);
   });
 }
@@ -211,24 +212,15 @@ function resetAsk(){
   document.getElementById("result").innerHTML="";
 }
 
-/* ====== MODAL ====== */
-function openModal(t,b){
-  modalTitle.innerText=t;
-  modalBody.innerText=b;
-  modal.style.display="block";
-}
-function closeModal(){
-  modal.style.display="none";
-}
+/* MODAL */
+function openModal(t,b){modalTitle.innerText=t;modalBody.innerText=b;modal.style.display="block";}
+function closeModal(){modal.style.display="none";}
 
-/* ====== SHARE ====== */
-function sharePage(){
-  if(navigator.share)
-    navigator.share({title:"Panchang Bhakti Guide",url:location.href});
-}
+/* SHARE */
+function sharePage(){if(navigator.share) navigator.share({title:"Panchang Bhakti Guide",url:location.href});}
 
-/* ====== LOAD PANCHANG ON PAGE LOAD ====== */
-window.addEventListener("DOMContentLoaded", loadPanchang);
+/* LOAD PANCHANG ON PAGE LOAD */
+window.addEventListener("DOMContentLoaded",loadPanchang);
 </script>
 
 </body>
