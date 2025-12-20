@@ -130,6 +130,7 @@ footer{text-align:center;padding:10px;background:#fff3e0;font-size:13px;color:#4
 </div>
 
 <script>
+/* ====== BACKEND PANCHANG ====== */
 async function loadPanchang() {
   try {
     const res = await fetch("https://bhakti-panchang-backend.onrender.com/api/panchang");
@@ -192,17 +193,34 @@ async function loadPanchang() {
   }
 }
 
-/* ASK LOGIC */
+/* ====== INTERACTIVE ASK LOGIC ====== */
 function ask(){
-  const q=query.value.trim();
+  const q = query.value.trim();
   const askSection = document.getElementById("result");
   askSection.innerHTML="";
   if(!q) return;
 
-  ["प्रार्थना","आरती","चालीसा","पूजा विधि","स्तोत्र"].forEach(t=>{
-    let b=document.createElement("button");
-    b.innerText=t+" : पूरा पढ़ें";
-    b.onclick=()=>openModal(t,q+" की "+t+" अगले चरण में जोड़ी जाएगी।");
+  // Slides categories
+  const categories = ["आरती","चालीसा","पूजा विधि","मंत्र","कथा"];
+
+  categories.forEach(cat => {
+    const b = document.createElement("button");
+    b.innerText = cat;
+    b.style.margin="4px";
+    b.style.padding="6px 10px";
+    b.style.borderRadius="6px";
+    b.style.border="none";
+    b.style.background="#ff9800";
+    b.style.color="#fff";
+    b.style.cursor="pointer";
+
+    // Click → Google search
+    b.onclick = () => {
+      const searchQuery = `${q} ${cat}`;
+      const url = `https://www.google.com/search?q=${encodeURIComponent(searchQuery)}`;
+      window.open(url, "_blank");
+    };
+
     askSection.appendChild(b);
   });
 }
@@ -212,14 +230,14 @@ function resetAsk(){
   document.getElementById("result").innerHTML="";
 }
 
-/* MODAL */
+/* ====== MODAL (Optional, remains in case needed) ====== */
 function openModal(t,b){modalTitle.innerText=t;modalBody.innerText=b;modal.style.display="block";}
 function closeModal(){modal.style.display="none";}
 
-/* SHARE */
+/* ====== SHARE ====== */
 function sharePage(){if(navigator.share) navigator.share({title:"Panchang Bhakti Guide",url:location.href});}
 
-/* LOAD PANCHANG ON PAGE LOAD */
+/* ====== LOAD PANCHANG ON PAGE LOAD ====== */
 window.addEventListener("DOMContentLoaded",loadPanchang);
 </script>
 
