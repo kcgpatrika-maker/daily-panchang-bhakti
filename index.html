@@ -105,73 +105,80 @@ footer{text-align:center;padding:10px;background:#fff3e0;font-size:13px;color:#4
 </div>
 
 <script>
-/* BACKEND PANCHANG FETCH */
+/* BACKEND PANCHANG */
 fetch("https://bhakti-panchang-backend.onrender.com/api/panchang")
 .then(r=>r.json())
 .then(d=>{
-  dateText.innerText=d.date;
-  vaar.innerText=d.day;
-  vikram.innerText=d.vikram_samvat;
-  shak.innerText=d.shak_samvat;
-  maas.innerText=d.masa;
-  tithi.innerText=d.paksha_tithi;
-  sunrise.innerText=d.sunMoon?.sunrise || "आज उपलब्ध नहीं";
-  sunset.innerText=d.sunMoon?.sunset || "आज उपलब्ध नहीं";
-  moonrise.innerText=d.sunMoon?.moonrise || "आज उपलब्ध नहीं";
-  moonset.innerText=d.sunMoon?.moonset || "आज उपलब्ध नहीं";
+  dateText.innerText = d.date;
+  vaar.innerText = d.day;
+  vikram.innerText = d.vikram_samvat;
+  shak.innerText = d.shak_samvat;
+  maas.innerText = d.masa;
+  tithi.innerText = d.paksha_tithi;
 
-  festivalList.innerHTML="";
+  sunrise.innerText = d.sunMoon.sunrise;
+  sunset.innerText = d.sunMoon.sunset;
+  moonrise.innerText = d.sunMoon.moonrise;
+  moonset.innerText = d.sunMoon.moonset;
+
+  festivalList.innerHTML = "";
   if(d.vrat_tyohar.length===0){
-    festivalList.innerHTML="<li>कोई विशेष व्रत नहीं</li>";
+    festivalList.innerHTML = "<li>कोई विशेष व्रत नहीं</li>";
   }else{
     d.vrat_tyohar.forEach(v=>{
-      let li=document.createElement("li");
-      li.innerText=v;
+      let li = document.createElement("li");
+      li.innerText = v;
       festivalList.appendChild(li);
     });
   }
 });
 
-/* ASK LOGIC (Wikipedia summary) */
-async function ask(){
+/* =========================
+   ASK LOGIC (Wikipedia summary + source)
+   ========================= */
+async function ask() {
   const q = query.value.trim();
-  result.innerHTML="";
+  result.innerHTML = "";
   if(!q) return;
 
-  ["प्रार्थना","आरती","चालीसा","पूजा विधि","स्तोत्र"].forEach(t=>{
-    let b = document.createElement("button");
-    b.innerText = t + " : पढ़ें";
-    b.onclick = async () => {
-      try {
-        const res = await fetch(`https://bhakti-panchang-backend.onrender.com/api/ask-bhakti?q=${encodeURIComponent(q + " " + t)}`);
-        const data = await res.json();
-        if(data.success){
-          openModal(data.title, data.preview + "\n\nस्रोत: " + data.source);
-        } else {
-          openModal(t, data.message);
-        }
-      } catch(err){
-        openModal(t, "डेटा लोड नहीं हो पाया");
-      }
-    };
-    result.appendChild(b);
-  });
+  try {
+    const res = await fetch(`https://bhakti-panchang-backend.onrender.com/api/ask-bhakti?q=${encodeURIComponent(q)}`);
+    const data = await res.json();
+
+    if(!data.success){
+      alert("जानकारी लोड नहीं हो सकी।");
+      return;
+    }
+
+    ["आरती","चालीसा","पूजा विधि","मंत्र","कथा"].forEach(t=>{
+      const b = document.createElement("button");
+      b.innerText = t + " : पूरा पढ़ें";
+      b.onclick = () => {
+        modalTitle.innerText = t + " – " + data.title;
+        modalBody.innerHTML = `<p>${data.preview}</p>
+                               <p>स्रोत: <a href="${data.source}" target="_blank">${data.source}</a></p>`;
+        modal.style.display = "block";
+      };
+      result.appendChild(b);
+    });
+
+  } catch(err){
+    alert("नेटवर्क या डेटा लोड में समस्या।");
+  }
 }
 
-function resetAsk(){ query.value=""; result.innerHTML=""; }
+function resetAsk() {
+  query.value = "";
+  result.innerHTML = "";
+}
 
 /* MODAL */
-function openModal(t,b){
-  modalTitle.innerText=t;
-  modalBody.innerText=b;
-  modal.style.display="block";
-}
-function closeModal(){ modal.style.display="none"; }
+function closeModal() { modal.style.display = "none"; }
 
 /* SHARE */
 function sharePage(){
   if(navigator.share)
-    navigator.share({title:"Panchang Bhakti Guide",url:location.href});
+    navigator.share({title:"Panchang Bhakti Guide", url:location.href});
 }
 </script>
 
