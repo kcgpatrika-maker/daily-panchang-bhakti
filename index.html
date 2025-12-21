@@ -106,73 +106,62 @@ footer{text-align:center;padding:10px;background:#fff3e0;font-size:13px;color:#4
 </div>
 
 <script>
-(async function loadPanchang(){
-  try {
-    const r = await fetch("https://bhakti-panchang-backend.onrender.com/api/panchang");
-    const d = await r.json();
+/* PANCHANG */
+fetch("https://bhakti-panchang-backend.onrender.com/api/panchang")
+.then(r=>r.json())
+.then(d=>{
+  dateText.innerText = d.date;
+  vaar.innerText = d.day;
+  vikram.innerText = d.vikram_samvat;
+  shak.innerText = d.shak_samvat;
+  maas.innerText = d.masa;
+  tithi.innerText = d.paksha_tithi;
 
-    dateText.innerText = d.date || "-";
-    vaar.innerText = d.day || "-";
-    vikram.innerText = d.vikram_samvat || "-";
-    shak.innerText = d.shak_samvat || "-";
-    maas.innerText = d.masa || "-";
-    tithi.innerText = d.paksha_tithi || "-";
+  sunrise.innerText = d.sunMoon.sunrise;
+  sunset.innerText = d.sunMoon.sunset;
+  moonrise.innerText = d.sunMoon.moonrise;
+  moonset.innerText = d.sunMoon.moonset;
 
-    sunrise.innerText = d.sunMoon?.sunrise || "-";
-    sunset.innerText = d.sunMoon?.sunset || "-";
-    moonrise.innerText = d.sunMoon?.moonrise || "-";
-    moonset.innerText = d.sunMoon?.moonset || "-";
+  festivalList.innerHTML = "<li>कोई विशेष व्रत नहीं</li>";
+});
 
-    festivalList.innerHTML = "";
-    if (!d.vrat_tyohar || d.vrat_tyohar.length === 0) {
-      festivalList.innerHTML = "<li>कोई विशेष व्रत नहीं</li>";
-    } else {
-      d.vrat_tyohar.forEach(v=>{
-        const li=document.createElement("li");
-        li.innerText=v;
-        festivalList.appendChild(li);
-      });
-    }
-
-  } catch (e) {
-    console.warn("Panchang load failed");
-  }
-})();
-</script>
-
-async function ask() {
+/* ASK SECTION */
+async function ask(){
   const q = query.value.trim();
   result.innerHTML = "";
   if(!q) return;
 
-  const types = ["आरती","चालीसा","पूजा विधि","मंत्र","कथा/स्तोत्र"];
+  ["आरती","मंत्र","पूजा विधि","चालीसा","कथा"].forEach(type=>{
+    const btn = document.createElement("button");
+    btn.innerText = type + " पढ़ें";
 
-  for(const t of types) {
-    const b = document.createElement("button");
-    b.innerText = t + " : पूरा पढ़ें";
-    b.onclick = async () => {
-      const res = await fetch(`https://bhakti-panchang-backend.onrender.com/api/ask-bhakti?q=${encodeURIComponent(q)}&type=${encodeURIComponent(t)}`);
-      const data = await res.json();
+    btn.onclick = async ()=>{
+      const r = await fetch(
+        `https://bhakti-panchang-backend.onrender.com/api/ask-bhakti?q=${encodeURIComponent(q)}&type=${encodeURIComponent(type)}`
+      );
+      const d = await r.json();
 
-modalBody.innerHTML = `
-<p>${data.content || "जानकारी उपलब्ध नहीं है।"}</p>
-<p>स्रोत: <a href="${data.source}" target="_blank">${data.source}</a></p>
-`;
-  modal.style.display = "block";
-};
-    result.appendChild(b);
-  }
-}
-if(!data.content){
-  alert("इस विषय की जानकारी अभी उपलब्ध नहीं है");
-  return;
+      modalTitle.innerText = d.title;
+      modalBody.innerHTML = `
+        <p>${d.content}</p>
+        ${d.pdf ? `<p><a href="${d.pdf}" target="_blank">📄 PDF डाउनलोड</a></p>` : ""}
+        <p>स्रोत: <a href="${d.source}" target="_blank">${d.source}</a></p>
+      `;
+      modal.style.display="block";
+    };
+
+    result.appendChild(btn);
+  });
 }
 
-function resetAsk() {
-  query.value = "";
-  result.innerHTML = "";
+function resetAsk(){
+  query.value="";
+  result.innerHTML="";
 }
-function closeModal() { modal.style.display = "none"; }
+
+function closeModal(){
+  modal.style.display="none";
+}
 </script>
 
 /* SHARE */
