@@ -4,21 +4,33 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Aaj Ka Panchang – Bhakti Guide</title>
-
+<meta name="description" content="आज का पंचांग, व्रत-त्योहार, देवी-देवता की पूजा विधि, आरती, चालीसा और स्तोत्र।">
+<meta name="keywords" content="आज का पंचांग, व्रत, पूजा, आरती, चालीसा, भक्ति">
+<meta name="robots" content="index, follow">
 <style>
 body{margin:0;font-family:system-ui;background:#fff8e1;color:#4e342e}
 header{background:linear-gradient(90deg,#ff9800,#ffb300);padding:10px 12px;color:#fff}
 .header-row{display:flex;justify-content:space-between;align-items:center}
-.header-title{font-size:17px;font-weight:600}
+.header-title{font-size:17px;font-weight:600;white-space:nowrap}
+.tagline{font-size:13px;margin-top:4px} 
+.header-actions button{background:#fff;border:none;border-radius:6px;padding:5px 8px;font-size:12px}
 .section{padding:12px}
 .card{background:#fff;border-radius:12px;padding:12px;margin-bottom:12px;box-shadow:0 2px 6px rgba(0,0,0,.1)}
+.panchang p{margin:6px 0;font-size:14px}.ask-row{display:flex;gap:6px}
+.highlight{background:linear-gradient(135deg,#ffe082,#ffcc80);border-left:5px solid #ff6f00}
+.highlight h3{margin:0 0 6px;font-size:15px;color:#b71c1c}
+.highlight ul{margin:0;padding-left:18px}
+.highlight li{font-size:14px}
+.ask-box h3{margin:0 0 8px;font-size:15px}
 .ask-row{display:flex;gap:6px}
 .ask-row input{flex:1;padding:8px}
-.ask-row button{padding:8px}
-.result button{width:100%;margin-top:6px}
-footer{text-align:center;padding:10px;background:#fff3e0;font-size:13px}
-.modal{display:none;position:fixed;inset:0;background:rgba(0,0,0,.6)}
-.modal-content{background:#fff;border-radius:12px;margin:10% auto;padding:15px;width:90%;max-height:75%;overflow:auto}
+.ask-row button{padding:8px 10px} 
+.result button{display:block;width:100%;margin-top:6px}
+.key-pages ul{margin:0;padding-left:18px}
+.key-pages li{margin:4px 0;font-size:14px}
+footer{text-align:center;padding:10px;background:#fff3e0;font-size:13px;color:#4e342e}
+.modal{display:none;position:fixed;inset:0;background:rgba(0,0,0,.6);z-index:1000}
+.modal-content{background:#fff;border-radius:12px;margin:12% auto;padding:15px;width:90%;max-height:70%;overflow-y:auto}
 .close{float:right;font-size:20px;cursor:pointer}
 </style>
 </head>
@@ -28,12 +40,16 @@ footer{text-align:center;padding:10px;background:#fff3e0;font-size:13px}
 <header>
   <div class="header-row">
     <div class="header-title">🕉️ Aaj Ka Panchang – Bhakti Guide</div>
-  </div>
+  <div class="header-actions">
+    <button onclick="sharePage()">Share</button>
+     </div>
+     </div>
+  <div class="tagline">पंचांग • पूजन • त्योहार की जानकारी</div>
 </header>
 
 <div class="section">
 
-<div class="card">
+<div class="card panchang">
   <p>📅 <b id="dateText"></b> | <b id="vaar"></b></p>
   <p>🌅 सूर्योदय: <b id="sunrise"></b> | 🌇 सूर्यास्त: <b id="sunset"></b></p>
   <p>🌙 चंद्रोदय: <b id="moonrise"></b> | 🌑 चंद्रास्त: <b id="moonset"></b></p>
@@ -41,7 +57,10 @@ footer{text-align:center;padding:10px;background:#fff3e0;font-size:13px}
   <p>मास: <b id="maas"></b> | तिथि: <b id="tithi"></b></p>
 </div>
 
-<div class="card">
+<div class="card highlight">
+  <h3>🔔 आज का व्रत / त्योहार</h3>
+    <ul id="festivalList"></ul>
+</div>
   <h3>🙏 पूजा / देवता / त्योहार खोजें</h3>
   <div class="ask-row">
     <input id="query" placeholder="देवता का नाम लिखें (जैसे: शिव)">
@@ -50,10 +69,17 @@ footer{text-align:center;padding:10px;background:#fff3e0;font-size:13px}
   </div>
   <div id="result" class="result"></div>
 </div>
-
+ <!-- PAGES -->
+ <div class="card"> 
+   <h3>🔗 प्रमुख भक्ति पेज</h3>
+   <ul>
+     <li><a href="shiv.html">भगवान शिव</a></li>
+     <li><a href="hanuman.html">हनुमान जी</a></li>
+     <li><a href="diwali.html">दीपावली</a></li>
+     </ul>
 </div>
-
-<footer>© 2025 | भक्ति पंचांग</footer>
+</div>
+<footer> © 2025 | भक्ति पंचांग<br> संकलन: कैलाश गौतम </footer>
 
 <div class="modal" id="modal">
   <div class="modal-content">
@@ -79,44 +105,51 @@ fetch("https://bhakti-panchang-backend.onrender.com/api/panchang")
   shak.innerText=d.shak_samvat;
   maas.innerText=d.masa;
   tithi.innerText=d.paksha_tithi;
+  festivalList.innerHTML = "<li>कोई विशेष व्रत नहीं</li>";
 });
 
 /* ASK */
-async function ask(){
-  const q=query.value.trim();
-  result.innerHTML="";
-  if(!q) return;
+async function ask() {
+  const q = query.value.trim();
+  result.innerHTML = "";
+  if (!q) return;
 
-  ["मंत्र","आरती","पूजा विधि","चालीसा","स्तोत्र"].forEach(type=>{
-    const b=document.createElement("button");
-    b.innerText=type;
-    b.onclick=()=>loadContent(q,type);
-    result.appendChild(b);
+  const types = ["मंत्र","आरती","पूजा विधि","चालीसा","स्तोत्र"];
+
+  types.forEach(type => {
+    const btn = document.createElement("button");
+    btn.innerText = type;
+    btn.onclick = async () => {
+      const res = await fetch(
+        `https://bhakti-panchang-backend.onrender.com/api/ask-bhakti?q=${encodeURIComponent(q)}&type=${encodeURIComponent(type)}`
+      );
+      const data = await res.json();
+
+      if (!data.success) {
+        alert("डेटा उपलब्ध नहीं");
+        return;
+      }
+
+      modalTitle.innerText = data.title;
+      modalBody.innerHTML = `
+<pre style="white-space:pre-wrap;font-family:inherit">${data.content || ""}</pre>
+<hr>
+<b>स्रोत:</b><br>
+${(data.sources || []).map(s => `<a href="${s}" target="_blank">${s}</a>`).join("<br>")}
+`;
+      modal.style.display = "block";
+    };
+    result.appendChild(btn);
   });
-}
-
-async function loadContent(q,type){
-  const res=await fetch(
-    `https://bhakti-panchang-backend.onrender.com/api/ask-bhakti?q=${encodeURIComponent(q)}&type=${encodeURIComponent(type)}`
-  );
-  const d=await res.json();
-  if(!d.success){alert("डेटा नहीं मिला");return;}
-
-  modalTitle.innerText=d.title;
-  modalBody.innerHTML=d.content
-    ? `<pre style="white-space:pre-wrap">${d.content}</pre>`
-    : "";
-
-  modalPDF.innerHTML=d.pdf
-    ? `<a href="${d.pdf}" target="_blank">📄 PDF डाउनलोड करें</a>`
-    : "";
-
-  modal.style.display="block";
 }
 
 function resetAsk(){
   query.value="";
   result.innerHTML="";
+}
+
+function closeModal(){
+  modal.style.display="none";
 }
 </script>
 
