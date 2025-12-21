@@ -126,29 +126,38 @@ fetch("https://bhakti-panchang-backend.onrender.com/api/panchang")
 });
 
 /* ASK SECTION */
-async function ask(){
+async function openSlide(type) {
   const q = query.value.trim();
-  result.innerHTML = "";
-  if(!q) return;
+  if (!q) return;
 
-  ["आरती","मंत्र","पूजा विधि","चालीसा","कथा"].forEach(type=>{
-    const btn = document.createElement("button");
-    btn.innerText = type + " पढ़ें";
+  ["मंत्र","आरती","पूजा विधि","चालीसा","स्तोत्र"].forEach(t=>{
+  const b=document.createElement("button");
+  b.innerText=t;
+  b.onclick=()=>openSlide(t);
+  result.appendChild(b);
+});
 
-    btn.onclick = async ()=>{
-      const r = await fetch(
-        `https://bhakti-panchang-backend.onrender.com/api/ask-bhakti?q=${encodeURIComponent(q)}&type=${encodeURIComponent(type)}`
-      );
-      const d = await r.json();
+   const res = await fetch(
+    `https://bhakti-panchang-backend.onrender.com/api/ask-bhakti?q=${encodeURIComponent(q)}&type=${encodeURIComponent(type)}`
+  );
+  const data = await res.json();
 
-      modalTitle.innerText = d.title;
-      modalBody.innerHTML = `
-        <p>${d.content}</p>
-        ${d.pdf ? `<p><a href="${d.pdf}" target="_blank">📄 PDF डाउनलोड</a></p>` : ""}
-        <p>स्रोत: <a href="${d.source}" target="_blank">${d.source}</a></p>
-      `;
-      modal.style.display="block";
-    };
+  modalTitle.innerText = data.title || type;
+
+  if (data.pdf) {
+    modalBody.innerHTML = `
+      <a href="${data.pdf}" target="_blank">📄 PDF डाउनलोड करें</a>
+      <p>स्रोत: ${data.sources.join(", ")}</p>
+    `;
+  } else {
+    modalBody.innerHTML = `
+      <pre>${data.content}</pre>
+      <p>स्रोत: ${data.sources.join(", ")}</p>
+    `;
+  }
+
+  modal.style.display = "block";
+}
 
     result.appendChild(btn);
   });
