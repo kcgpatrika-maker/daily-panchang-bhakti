@@ -126,39 +126,37 @@ fetch("https://bhakti-panchang-backend.onrender.com/api/panchang")
 });
 
 /* ASK SECTION */
-async function openSlide(type) {
+<script>
+async function ask() {
   const q = query.value.trim();
+  result.innerHTML = "";
   if (!q) return;
 
-  ["मंत्र","आरती","पूजा विधि","चालीसा","स्तोत्र"].forEach(t=>{
-  const b=document.createElement("button");
-  b.innerText=t;
-  b.onclick=()=>openSlide(t);
-  result.appendChild(b);
-});
+  const types = ["मंत्र","आरती","पूजा विधि","चालीसा","स्तोत्र"];
 
-   const res = await fetch(
-    `https://bhakti-panchang-backend.onrender.com/api/ask-bhakti?q=${encodeURIComponent(q)}&type=${encodeURIComponent(type)}`
-  );
-  const data = await res.json();
+  types.forEach(type => {
+    const btn = document.createElement("button");
+    btn.innerText = type;
+    btn.onclick = async () => {
+      const res = await fetch(
+        `https://bhakti-panchang-backend.onrender.com/api/ask-bhakti?q=${encodeURIComponent(q)}&type=${encodeURIComponent(type)}`
+      );
+      const data = await res.json();
 
-  modalTitle.innerText = data.title || type;
+      if (!data.success) {
+        alert("डेटा उपलब्ध नहीं");
+        return;
+      }
 
-  if (data.pdf) {
-    modalBody.innerHTML = `
-      <a href="${data.pdf}" target="_blank">📄 PDF डाउनलोड करें</a>
-      <p>स्रोत: ${data.sources.join(", ")}</p>
-    `;
-  } else {
-    modalBody.innerHTML = `
-      <pre>${data.content}</pre>
-      <p>स्रोत: ${data.sources.join(", ")}</p>
-    `;
-  }
-
-  modal.style.display = "block";
-}
-
+      modalTitle.innerText = data.title;
+      modalBody.innerHTML = `
+        <pre style="white-space:pre-wrap;font-family:inherit">${data.content}</pre>
+        <hr>
+        <b>स्रोत:</b><br>
+        ${(data.sources || []).map(s => `<a href="${s}" target="_blank">${s}</a>`).join("<br>")}
+      `;
+      modal.style.display = "block";
+    };
     result.appendChild(btn);
   });
 }
@@ -166,10 +164,6 @@ async function openSlide(type) {
 function resetAsk(){
   query.value="";
   result.innerHTML="";
-}
-
-function closeModal(){
-  modal.style.display="none";
 }
 </script>
 
