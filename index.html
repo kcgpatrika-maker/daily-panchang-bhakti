@@ -22,7 +22,6 @@ header{background:linear-gradient(90deg,#ff9800,#ffb300);padding:10px 12px;color
 .highlight ul{margin:0;padding-left:18px}
 .highlight li{font-size:14px}
 .ask-box h3{margin:0 0 8px;font-size:15px}
-.ask-row{display:flex;gap:6px}
 .ask-row input{flex:1;padding:8px}
 .ask-row button{padding:8px 10px} 
 .result button{display:block;width:100%;margin-top:6px}
@@ -40,10 +39,10 @@ footer{text-align:center;padding:10px;background:#fff3e0;font-size:13px;color:#4
 <header>
   <div class="header-row">
     <div class="header-title">🕉️ Aaj Ka Panchang – Bhakti Guide</div>
-  <div class="header-actions">
-    <button onclick="sharePage()">Share</button>
-     </div>
-     </div>
+    <div class="header-actions">
+      <button onclick="sharePage()">Share</button>
+    </div>
+  </div>
   <div class="tagline">पंचांग • पूजन • त्योहार की जानकारी</div>
 </header>
 
@@ -59,25 +58,26 @@ footer{text-align:center;padding:10px;background:#fff3e0;font-size:13px;color:#4
 
 <div class="card highlight">
   <h3>🔔 आज का व्रत / त्योहार</h3>
-    <ul id="festivalList"></ul>
+  <ul id="festivalList"></ul>
 </div>
-  <h3>🙏 पूजा / देवता / त्योहार खोजें</h3>
-  <div class="ask-row">
-    <input id="query" placeholder="देवता का नाम लिखें (जैसे: शिव)">
-    <button onclick="ask()">Ask</button>
-    <button onclick="resetAsk()">Reset</button>
-  </div>
-  <div id="result" class="result"></div>
+
+<h3>🙏 पूजा / देवता / त्योहार खोजें</h3>
+<div class="ask-row">
+  <input id="query" placeholder="देवता का नाम लिखें (जैसे: शिव)">
+  <button onclick="ask()">Ask</button>
+  <button onclick="resetAsk()">Reset</button>
 </div>
- <!-- PAGES -->
- <div class="card"> 
-   <h3>🔗 प्रमुख भक्ति पेज</h3>
-   <ul>
-     <li><a href="shiv.html">भगवान शिव</a></li>
-     <li><a href="hanuman.html">हनुमान जी</a></li>
-     <li><a href="diwali.html">दीपावली</a></li>
-     </ul>
+<div id="result" class="result"></div>
+
+<div class="card"> 
+  <h3>🔗 प्रमुख भक्ति पेज</h3>
+  <ul>
+    <li><a href="shiv.html">भगवान शिव</a></li>
+    <li><a href="hanuman.html">हनुमान जी</a></li>
+    <li><a href="diwali.html">दीपावली</a></li>
+  </ul>
 </div>
+
 </div>
 <footer> © 2025 | भक्ति पंचांग<br> संकलन: कैलाश गौतम </footer>
 
@@ -86,29 +86,43 @@ footer{text-align:center;padding:10px;background:#fff3e0;font-size:13px;color:#4
     <span class="close" onclick="modal.style.display='none'">×</span>
     <h3 id="modalTitle"></h3>
     <div id="modalBody"></div>
-    <div id="modalPDF"></div>
+    <div id="modalPDF" style="margin-top:10px"></div>
   </div>
 </div>
 
 <script>
-/* PANCHANG */
+/* ===============================
+        PANCHANG + FESTIVALS
+   =============================== */
 fetch("https://bhakti-panchang-backend.onrender.com/api/panchang")
-.then(r=>r.json())
-.then(d=>{
-  dateText.innerText=d.date;
-  vaar.innerText=d.day;
-  sunrise.innerText=d.sunMoon.sunrise;
-  sunset.innerText=d.sunMoon.sunset;
-  moonrise.innerText=d.sunMoon.moonrise;
-  moonset.innerText=d.sunMoon.moonset;
-  vikram.innerText=d.vikram_samvat;
-  shak.innerText=d.shak_samvat;
-  maas.innerText=d.masa;
-  tithi.innerText=d.paksha_tithi;
-  festivalList.innerHTML = "<li>कोई विशेष व्रत नहीं</li>";
-});
+  .then(r => r.json())
+  .then(d => {
+    dateText.innerText = d.date;
+    vaar.innerText = d.day;
+    sunrise.innerText = d.sunMoon.sunrise;
+    sunset.innerText = d.sunMoon.sunset;
+    moonrise.innerText = d.sunMoon.moonrise;
+    moonset.innerText = d.sunMoon.moonset;
+    vikram.innerText = d.vikram_samvat;
+    shak.innerText = d.shak_samvat;
+    maas.innerText = d.masa;
+    tithi.innerText = d.paksha_tithi;
 
-/* ASK */
+    festivalList.innerHTML = "";
+    d.festivalList.forEach(f => {
+      const li = document.createElement("li");
+      li.innerText = f;
+      festivalList.appendChild(li);
+    });
+  })
+  .catch(err => {
+    console.error("Panchang fetch error:", err);
+    festivalList.innerHTML = "<li>कोई विशेष व्रत नहीं</li>";
+  });
+
+/* ===============================
+          ASK BHAKTI LOGIC
+   =============================== */
 async function ask() {
   const q = query.value.trim();
   result.innerHTML = "";
@@ -119,37 +133,87 @@ async function ask() {
   types.forEach(type => {
     const btn = document.createElement("button");
     btn.innerText = type;
+
     btn.onclick = async () => {
-      const res = await fetch(
-        `https://bhakti-panchang-backend.onrender.com/api/ask-bhakti?q=${encodeURIComponent(q)}&type=${encodeURIComponent(type)}`
-      );
-      const data = await res.json();
+      try {
+        const res = await fetch(
+          `https://bhakti-panchang-backend.onrender.com/api/ask-bhakti?q=${encodeURIComponent(q)}&type=${encodeURIComponent(type)}`
+        );
+        const data = await res.json();
 
-      if (!data.success) {
-        alert("डेटा उपलब्ध नहीं");
-        return;
-      }
+        if (!data.success) {
+          alert("डेटा उपलब्ध नहीं");
+          return;
+        }
 
-      modalTitle.innerText = data.title;
-      modalBody.innerHTML = `
+        modalTitle.innerText = data.title;
+
+        modalBody.innerHTML = `
 <pre style="white-space:pre-wrap;font-family:inherit">${data.content || ""}</pre>
 <hr>
 <b>स्रोत:</b><br>
 ${(data.sources || []).map(s => `<a href="${s}" target="_blank">${s}</a>`).join("<br>")}
 `;
-      modal.style.display = "block";
+
+        modalPDF.innerHTML = "";
+
+        // PDF button
+        if(data.pdf){
+          const pdfBtn = document.createElement("a");
+          pdfBtn.href = data.pdf;
+          pdfBtn.target = "_blank";
+          pdfBtn.innerText = "📄 PDF डाउनलोड करें";
+          pdfBtn.style.display = "inline-block";
+          pdfBtn.style.marginTop = "8px";
+          pdfBtn.style.background = "#ff9800";
+          pdfBtn.style.color = "#fff";
+          pdfBtn.style.padding = "6px 10px";
+          pdfBtn.style.borderRadius = "6px";
+          pdfBtn.style.textDecoration = "none";
+          modalPDF.appendChild(pdfBtn);
+        }
+
+        // Share button
+        const shareBtn = document.createElement("button");
+        shareBtn.innerText = "🔗 Share";
+        shareBtn.style.marginLeft = "10px";
+        shareBtn.onclick = () => {
+          if (navigator.share) {
+            navigator.share({
+              title: data.title,
+              text: "भक्ति सामग्री पढ़ें",
+              url: window.location.href
+            }).catch(console.error);
+          } else {
+            alert("Share supported नहीं। URL copy करें: " + window.location.href);
+          }
+        };
+        modalPDF.appendChild(shareBtn);
+
+        modal.style.display = "block";
+      } catch (e) {
+        console.error("Ask Bhakti fetch error:", e);
+        alert("डेटा लोड नहीं हो सका।");
+      }
     };
+
     result.appendChild(btn);
   });
 }
 
-function resetAsk(){
-  query.value="";
-  result.innerHTML="";
+function resetAsk() {
+  query.value = "";
+  result.innerHTML = "";
 }
 
-function closeModal(){
-  modal.style.display="none";
+function closeModal() {
+  modal.style.display = "none";
+}
+
+window.onclick = function(event) {
+  if (event.target == modal) {
+    modal.style.display = "none";
+  }
 }
 </script>
 
