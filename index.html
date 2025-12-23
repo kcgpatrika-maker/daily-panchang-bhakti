@@ -126,84 +126,85 @@ fetch("https://bhakti-panchang-backend.onrender.com/api/panchang")
 });
 
 /* ===============================
-          ASK BHAKTI LOGIC
+      ASK BHAKTI – ALL IN ONE
    =============================== */
+
 async function ask() {
   const q = query.value.trim();
   result.innerHTML = "";
   if (!q) return;
 
-  const types = ["मंत्र","आरती","पूजा विधि","चालीसा","स्तोत्र"];
+  try {
+    const res = await fetch(
+      `https://bhakti-panchang-backend.onrender.com/api/ask-bhakti-all?q=${encodeURIComponent(q)}`
+    );
+    const data = await res.json();
 
-  types.forEach(type => {
-    const btn = document.createElement("button");
-    btn.innerText = type;
+    if (!data.success) {
+      alert("डेटा उपलब्ध नहीं");
+      return;
+    }
 
-    btn.onclick = async () => {
-      try {
-        const res = await fetch(
-          `https://bhakti-panchang-backend.onrender.com/api/ask-bhakti?q=${encodeURIComponent(q)}&type=${encodeURIComponent(type)}`
-        );
-        const data = await res.json();
+    const sections = [
+      { key: "mantra", label: "🕉️ मंत्र" },
+      { key: "aarti", label: "🪔 आरती" },
+      { key: "puja", label: "🙏 पूजा विधि" },
+      { key: "chalisa", label: "📜 चालीसा" },
+      { key: "stotra", label: "📖 स्तोत्र" }
+    ];
 
-        if (!data.success) {
-          alert("डेटा उपलब्ध नहीं");
-          return;
-        }
+    sections.forEach(sec => {
+      if (!data.data[sec.key]) return;
 
-        modalTitle.innerText = data.title;
+      const btn = document.createElement("button");
+      btn.innerText = sec.label;
 
-        modalBody.innerHTML = `
-<pre style="white-space:pre-wrap;font-family:inherit">${data.content || ""}</pre>
-<hr>
-<b>स्रोत:</b><br>
-${(data.sources || []).map(s => `<a href="${s}" target="_blank">${s}</a>`).join("<br>")}
-`;
+      btn.onclick = () => openAskModal(
+        data.deity,
+        data.data[sec.key]
+      );
 
-        modalPDF.innerHTML = "";
+      result.appendChild(btn);
+    });
 
-        // PDF button
-        if(data.pdf){
-          const pdfBtn = document.createElement("a");
-          pdfBtn.href = data.pdf;
-          pdfBtn.target = "_blank";
-          pdfBtn.innerText = "📄 PDF डाउनलोड करें";
-          pdfBtn.style.display = "inline-block";
-          pdfBtn.style.marginTop = "8px";
-          pdfBtn.style.background = "#ff9800";
-          pdfBtn.style.color = "#fff";
-          pdfBtn.style.padding = "6px 10px";
-          pdfBtn.style.borderRadius = "6px";
-          pdfBtn.style.textDecoration = "none";
-          modalPDF.appendChild(pdfBtn);
-        }
+  } catch (e) {
+    console.error(e);
+    alert("डेटा लोड नहीं हो सका");
+  }
+}
 
-        // Share button
-        const shareBtn = document.createElement("button");
-        shareBtn.innerText = "🔗 Share";
-        shareBtn.style.marginLeft = "10px";
-        shareBtn.onclick = () => {
-          if (navigator.share) {
-            navigator.share({
-              title: data.title,
-              text: "भक्ति सामग्री पढ़ें",
-              url: window.location.href
-            }).catch(console.error);
-          } else {
-            alert("Share supported नहीं। URL copy करें: " + window.location.href);
-          }
-        };
-        modalPDF.appendChild(shareBtn);
+function openAskModal(deity, section) {
+  modalTitle.innerText = section.title || deity;
 
-        modal.style.display = "block";
-      } catch (e) {
-        console.error("Ask Bhakti fetch error:", e);
-        alert("डेटा लोड नहीं हो सका।");
-      }
-    };
+  modalBody.innerHTML = `
+    <pre style="white-space:pre-wrap;font-family:inherit">
+${section.content || ""}
+    </pre>
+    <hr>
+    <b>स्रोत:</b><br>
+    ${(section.sources || [])
+      .map(s => `<a href="${s}" target="_blank">${s}</a>`)
+      .join("<br>")}
+  `;
 
-    result.appendChild(btn);
-  });
+  modalPDF.innerHTML = "";
+
+  if (section.pdf) {
+    const pdfBtn = document.createElement("a");
+    pdfBtn.href = section.pdf;
+    pdfBtn.target = "_blank";
+    pdfBtn.innerText = "📄 PDF डाउनलोड करें";
+    pdfBtn.style.display = "inline-block";
+    pdfBtn.style.marginTop = "8px";
+    pdfBtn.style.background = "#ff9800";
+    pdfBtn.style.color = "#fff";
+    pdfBtn.style.padding = "6px 10px";
+    pdfBtn.style.borderRadius = "6px";
+    pdfBtn.style.textDecoration = "none";
+    modalPDF.appendChild(pdfBtn);
+  }
+
+  modal.style.display = "block";
 }
 
 function resetAsk() {
