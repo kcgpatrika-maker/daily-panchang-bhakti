@@ -54,22 +54,27 @@ footer{text-align:center;padding:10px;background:#fff3e0;font-size:13px;color:#4
   <p>🌙 चंद्रोदय: <b id="moonrise"></b> | 🌑 चंद्रास्त: <b id="moonset"></b></p>
   <p>विक्रम संवत: <b id="vikram"></b> | शक संवत: <b id="shak"></b></p>
   <p>मास: <b id="maas"></b> | तिथि: <b id="tithi"></b></p>
-  <button onclick="openChoghadiya()" 
-style="margin-top:6px;padding:6px 10px;border-radius:8px;border:none;background:#ff9800;color:#fff;font-size:13px">
-  ⏰ चौघड़िया देखें
-</button>
-  <button onclick="callJyotishi()"
-style="margin-top:6px;margin-left:6px;padding:6px 10px;
-border-radius:8px;border:none;background:#4caf50;
-color:#fff;font-size:13px">
-📞 ज्योतिषी से बात करें
-</button>
-  <button onclick="openRashiIshta()" 
-style="margin-top:6px;padding:6px 10px;border-radius:8px;border:none;background:#8e24aa;color:#fff;font-size:13px">
-  🔮 राशि और इष्ट देव
-</button>
-</div>
+  <div style="display:flex; gap:6px; flex-wrap:nowrap; margin-top:6px;">
 
+  <button onclick="openChoghadiya()"
+    style="padding:5px 8px;border-radius:7px;border:none;
+    background:#ff9800;color:#fff;font-size:12px;white-space:nowrap;">
+    ⏰ चौघड़िया
+  </button>
+
+  <button onclick="callJyotishi()"
+    style="padding:5px 8px;border-radius:7px;border:none;
+    background:#4caf50;color:#fff;font-size:12px;white-space:nowrap;">
+    📞 ज्योतिषी
+  </button>
+
+  <button onclick="openRashiIshta()"
+    style="padding:5px 8px;border-radius:7px;border:none;
+    background:#8e24aa;color:#fff;font-size:12px;white-space:nowrap;">
+    🔮 राशि
+  </button>
+
+</div>
 <div class="card highlight">
   <h3>🔔 आज का व्रत / त्योहार</h3>
   <ul id="festivalList"></ul>
