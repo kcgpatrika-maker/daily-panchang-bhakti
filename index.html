@@ -58,6 +58,12 @@ footer{text-align:center;padding:10px;background:#fff3e0;font-size:13px;color:#4
 style="margin-top:6px;padding:6px 10px;border-radius:8px;border:none;background:#ff9800;color:#fff;font-size:13px">
   ⏰ चौघड़िया देखें
 </button>
+  <button onclick="callJyotishi()"
+style="margin-top:6px;margin-left:6px;padding:6px 10px;
+border-radius:8px;border:none;background:#4caf50;
+color:#fff;font-size:13px">
+📞 ज्योतिषी से बात करें
+</button>
 </div>
 
 <div class="card highlight">
@@ -121,6 +127,10 @@ fetch("https://bhakti-panchang-backend.onrender.com/api/panchang")
   maas.innerText = d.masa;
   tithi.innerText = d.paksha_tithi;
 
+  function callJyotishi(){
+  const phone = "919414335462"; // यहाँ भाई का नंबर डालिये (91 सहित)
+  window.location.href = `tel:${phone}`;
+}
   festivalList.innerHTML = d.festivalList
     .map(f => `<li>${f}</li>`)
     .join("");
