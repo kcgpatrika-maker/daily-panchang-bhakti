@@ -130,11 +130,7 @@ fetch("https://bhakti-panchang-backend.onrender.com/api/panchang")
   festivalList.innerHTML = d.festivalList
     .map(f => `<li>${f}</li>`)
     .join("");
-    function callJyotishi(){
-  const phone = "919414335462"; // यहाँ भाई का नंबर डालिये (91 सहित)
-  window.location.href = `tel:${phone}`;
-}
-})
+   })
 .catch(err => {
   console.error("Panchang fetch error:", err);
   festivalList.innerHTML = "<li>कोई विशेष व्रत नहीं</li>";
@@ -286,6 +282,10 @@ function openChoghadiya(){
       (इमेज पर टैप करें, वापस जाने के लिए)
     </p>
   `;
+   function callJyotishi(){
+  const phone = "919414335462"; // यहाँ भाई का नंबर डालिये (91 सहित)
+  window.location.href = `tel:${phone}`;
+}
   modalPDF.innerHTML = "";
   modal.style.display = "block";
 }
