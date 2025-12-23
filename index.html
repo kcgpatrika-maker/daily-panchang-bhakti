@@ -99,26 +99,27 @@ style="margin-top:6px;padding:6px 10px;border-radius:8px;border:none;background:
         PANCHANG + FESTIVALS
    =============================== */
 fetch("https://bhakti-panchang-backend.onrender.com/api/panchang")
-  .then(r => r.json())
-  .then(d => {
-    dateText.innerText = d.date;
-    vaar.innerText = d.day;
-    sunrise.innerText = d.sunMoon.sunrise;
-    sunset.innerText = d.sunMoon.sunset;
-    moonrise.innerText = d.sunMoon.moonrise;
-    moonset.innerText = d.sunMoon.moonset;
-    vikram.innerText = d.vikram_samvat;
-    shak.innerText = d.shak_samvat;
-    maas.innerText = d.masa;
-    tithi.innerText = d.paksha_tithi;
+.then(r => r.json())
+.then(res => {
+  if (!res.success) return;
 
-    festivalList.innerHTML = "";
-    d.festivalList.forEach(f => {
-      const li = document.createElement("li");
-      li.innerText = f;
-      festivalList.appendChild(li);
-    });
-  })
+  const d = res.data;
+
+  dateText.innerText = d.date;
+  vaar.innerText = d.day;
+  sunrise.innerText = d.sunMoon.sunrise;
+  sunset.innerText = d.sunMoon.sunset;
+  moonrise.innerText = d.sunMoon.moonrise;
+  moonset.innerText = d.sunMoon.moonset;
+  vikram.innerText = d.vikram_samvat;
+  shak.innerText = d.shak_samvat;
+  maas.innerText = d.masa;
+  tithi.innerText = d.paksha_tithi;
+
+  festivalList.innerHTML = d.festivalList
+    .map(f => `<li>${f}</li>`)
+    .join("");
+});
   .catch(err => {
     console.error("Panchang fetch error:", err);
     festivalList.innerHTML = "<li>कोई विशेष व्रत नहीं</li>";
