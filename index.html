@@ -235,6 +235,25 @@ function openChoghadiya(){
   modalPDF.innerHTML = "";
   modal.style.display = "block";
 }
+  function sharePage() {
+  const shareData = {
+    title: "Aaj Ka Panchang – Bhakti Guide",
+    text: "आज का पंचांग, व्रत-त्योहार और पूजा सामग्री पढ़ें।",
+    url: window.location.href
+  };
+
+  if (navigator.share) {
+    navigator.share(shareData).catch(err => {
+      console.error("Share failed:", err);
+      alert("शेयरिंग असफल। URL को कॉपी करें: " + window.location.href);
+    });
+  } else {
+    // Fallback: Clipboard copy
+    navigator.clipboard.writeText(window.location.href)
+      .then(() => alert("URL कॉपी हो गया। अब इसे किसी के साथ शेयर करें।"))
+      .catch(() => alert("शेयरिंग समर्थित नहीं। URL कॉपी करें: " + window.location.href));
+  }
+}
 </script>
 
 </body>
