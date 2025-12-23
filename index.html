@@ -282,12 +282,12 @@ function openChoghadiya(){
       (इमेज पर टैप करें, वापस जाने के लिए)
     </p>
   `;
-   function callJyotishi(){
+    modalPDF.innerHTML = "";
+  modal.style.display = "block";
+}
+ function callJyotishi(){
   const phone = "919414335462"; // यहाँ भाई का नंबर डालिये (91 सहित)
   window.location.href = `tel:${phone}`;
-}
-  modalPDF.innerHTML = "";
-  modal.style.display = "block";
 }
   function sharePage() {
   const shareData = {
