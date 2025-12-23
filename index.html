@@ -119,11 +119,11 @@ fetch("https://bhakti-panchang-backend.onrender.com/api/panchang")
   festivalList.innerHTML = d.festivalList
     .map(f => `<li>${f}</li>`)
     .join("");
+})
+.catch(err => {
+  console.error("Panchang fetch error:", err);
+  festivalList.innerHTML = "<li>कोई विशेष व्रत नहीं</li>";
 });
-  .catch(err => {
-    console.error("Panchang fetch error:", err);
-    festivalList.innerHTML = "<li>कोई विशेष व्रत नहीं</li>";
-  });
 
 /* ===============================
           ASK BHAKTI LOGIC
@@ -220,7 +220,8 @@ window.onclick = function(event) {
     modal.style.display = "none";
   }
 }
-  function openChoghadiya(){
+
+function openChoghadiya(){
   modalTitle.innerText = "⏰ आज का चौघड़िया (दिन व रात)";
   modalBody.innerHTML = `
     <img src="choghadiya.png"
