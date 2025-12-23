@@ -64,6 +64,10 @@ border-radius:8px;border:none;background:#4caf50;
 color:#fff;font-size:13px">
 📞 ज्योतिषी से बात करें
 </button>
+  <button onclick="openRashiIshta()" 
+style="margin-top:6px;padding:6px 10px;border-radius:8px;border:none;background:#8e24aa;color:#fff;font-size:13px">
+  🔮 राशि और इष्ट देव
+</button>
 </div>
 
 <div class="card highlight">
@@ -288,6 +292,19 @@ function openChoghadiya(){
  function callJyotishi(){
   const phone = "919414335462"; // यहाँ भाई का नंबर डालिये (91 सहित)
   window.location.href = `tel:${phone}`;
+}
+function openRashiIshta(){
+  modalTitle.innerText = "🔮 राशि अनुसार इष्ट देव";
+  modalBody.innerHTML = `
+    <img src="rashi-ishta-dev.png"
+         style="width:100%;border-radius:10px"
+         onclick="modal.style.display='none'">
+    <p style="font-size:13px;text-align:center;margin-top:6px">
+      (इमेज पर टैप करें, वापस जाने के लिए)
+    </p>
+  `;
+  modalPDF.innerHTML = "";
+  modal.style.display = "block";
 }
   function sharePage() {
   const shareData = {
