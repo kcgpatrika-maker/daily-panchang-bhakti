@@ -54,6 +54,10 @@ footer{text-align:center;padding:10px;background:#fff3e0;font-size:13px;color:#4
   <p>🌙 चंद्रोदय: <b id="moonrise"></b> | 🌑 चंद्रास्त: <b id="moonset"></b></p>
   <p>विक्रम संवत: <b id="vikram"></b> | शक संवत: <b id="shak"></b></p>
   <p>मास: <b id="maas"></b> | तिथि: <b id="tithi"></b></p>
+  <button onclick="openChoghadiya()" 
+style="margin-top:6px;padding:6px 10px;border-radius:8px;border:none;background:#ff9800;color:#fff;font-size:13px">
+  ⏰ चौघड़िया देखें
+</button>
 </div>
 
 <div class="card highlight">
@@ -214,6 +218,19 @@ window.onclick = function(event) {
   if (event.target == modal) {
     modal.style.display = "none";
   }
+}
+  function openChoghadiya(){
+  modalTitle.innerText = "⏰ आज का चौघड़िया (दिन व रात)";
+  modalBody.innerHTML = `
+    <img src="choghadiya.png"
+         style="width:100%;border-radius:10px"
+         onclick="modal.style.display='none'">
+    <p style="font-size:13px;text-align:center;margin-top:6px">
+      (इमेज पर टैप करें, वापस जाने के लिए)
+    </p>
+  `;
+  modalPDF.innerHTML = "";
+  modal.style.display = "block";
 }
 </script>
 
