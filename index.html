@@ -63,7 +63,12 @@ style="margin-top:6px;padding:6px 10px;border-radius:8px;border:none;background:
 <div class="card highlight">
   <h3>🔔 आज का व्रत / त्योहार</h3>
   <ul id="festivalList"></ul>
-</div>
+<button onclick="openVratKathaModal()"
+style="float:right;margin-top:-30px;background:#ff9800;color:#fff;
+border:none;border-radius:6px;padding:4px 8px;font-size:12px">
+🎧 व्रत कथाएँ
+</button>
+  </div>
 
 <h3>🙏 पूजा / देवता / त्योहार खोजें</h3>
 <div class="ask-row">
@@ -124,7 +129,46 @@ fetch("https://bhakti-panchang-backend.onrender.com/api/panchang")
   console.error("Panchang fetch error:", err);
   festivalList.innerHTML = "<li>कोई विशेष व्रत नहीं</li>";
 });
+function openVratKathaModal(){
+  modalTitle.innerText = "🎧 व्रत कथाएँ (ऑडियो)";
 
+  modalBody.innerHTML = `
+<ul style="list-style:none;padding-left:0;font-size:15px">
+  <li>🎧 <a target="_blank"
+    href="https://www.youtube.com/results?search_query=सोमवार+व्रत+कथा+ऑडियो">
+    सोमवार व्रत कथा
+  </a></li><br>
+
+  <li>🎧 <a target="_blank"
+    href="https://www.youtube.com/results?search_query=एकादशी+व्रत+कथा+हिंदी+ऑडियो">
+    एकादशी व्रत कथा
+  </a></li><br>
+
+  <li>🎧 <a target="_blank"
+    href="https://www.youtube.com/results?search_query=सत्यनारायण+व्रत+कथा+ऑडियो">
+    सत्यनारायण व्रत कथा
+  </a></li><br>
+
+  <li>🎧 <a target="_blank"
+    href="https://www.youtube.com/results?search_query=करवा+चौथ+व्रत+कथा+ऑडियो">
+    करवा चौथ व्रत कथा
+  </a></li><br>
+
+  <li>🎧 <a target="_blank"
+    href="https://www.youtube.com/results?search_query=प्रदोष+व्रत+कथा+ऑडियो">
+    प्रदोष व्रत कथा
+  </a></li>
+</ul>
+
+<p style="font-size:13px;color:#555;margin-top:10px">
+🔔 कथा सुनने के लिए YouTube पर उपलब्ध सर्वाधिक प्रचलित ऑडियो खोले जाते हैं।
+</p>
+  `;
+
+  modalPDF.innerHTML = "";
+  modal.style.display = "block";
+}
+  
 /* ===============================
       ASK BHAKTI – ALL IN ONE
    =============================== */
