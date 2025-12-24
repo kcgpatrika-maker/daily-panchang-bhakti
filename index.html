@@ -101,19 +101,19 @@ footer{text-align:center;padding:10px;background:#fff3e0;font-size:13px;color:#4
   <div style="display:flex; gap:8px; flex-wrap:nowrap; margin-top:8px; margin-bottom:10px;">
 
   <button onclick="openChoghadiya()"
-    style="padding:7px 11px;border-radius:8px;border:none;
+    style="padding:7px 10px;border-radius:8px;border:none;
     background:#ff9800;color:#fff;font-size:14px;white-space:nowrap;">
     ⏰ चौघडिया देखें
   </button>
 
   <button onclick="callJyotishi()"
-    style="padding:7px 11px;border-radius:8px;border:none;
+    style="padding:7px 10px;border-radius:8px;border:none;
     background:#4caf50;color:#fff;font-size:14px;white-space:nowrap;">
     📞 ज्योतिषी सम्पर्क
   </button>
 
   <button onclick="openRashiIshta()"
-    style="padding:7px 11px;border-radius:8px;border:none;
+    style="padding:7px 10px;border-radius:8px;border:none;
     background:#8e24aa;color:#fff;font-size:14px;white-space:nowrap;">
     🔮 राशि-इष्टदेव
   </button>
@@ -134,9 +134,9 @@ footer{text-align:center;padding:10px;background:#fff3e0;font-size:13px;color:#4
       ▶️ वीडियो कथा
     </button>
 
-    <button onclick="openAudioKatha()" class="katha-btn audio">
-      🎧 ऑडियो कथा
-    </button>
+   <button onclick="openAudioModal()" class="katha-btn audio">
+🎧 ऑडियो कथा
+</button>
   </div>
 </div>
 
@@ -229,56 +229,13 @@ function playVideo(q){
   );
   closeMainModal();
 }
-
 /* AUDIO */
-const audioMap = {
-  somvar: "https://archive.org/download/somvar_vrat_katha/somvar.mp3",
-  ekadashi: "https://archive.org/download/ekadashi_vrat_katha/ekadashi.mp3",
-  satyanarayan: "https://archive.org/download/satyanarayan_katha/satyanarayan.mp3"
-};
-
-function openAudioKatha(){
-  modalTitle.innerText = "🎧 व्रत कथा (ऑडियो)";
-  modalBody.innerHTML = `
-    <ul>
-      <li>
-        <a href="javascript:void(0)" onclick="playAudio('somvar')">
-          सोमवार व्रत कथा
-        </a>
-      </li>
-      <li>
-        <a href="javascript:void(0)" onclick="playAudio('ekadashi')">
-          एकादशी व्रत कथा
-        </a>
-      </li>
-      <li>
-        <a href="javascript:void(0)" onclick="playAudio('satyanarayan')">
-          सत्यनारायण व्रत कथा
-        </a>
-      </li>
-    </ul>
-  `;
-  modal.style.display = "block";
+function openAudioModal(){
+  document.getElementById("audioModal").style.display = "block";
 }
-/* ===== AUDIO PLAYER FUNCTIONS (REQUIRED) ===== */
 
- function playAudio(key){
-  const audio = document.getElementById("globalAudio");
-  const player = document.getElementById("floatingPlayer");
-
-  if(!audioMap[key]){
-    alert("ऑडियो उपलब्ध नहीं");
-    return;
-  }
-
-  audio.src = audioMap[key];
-  audio.load();
-
-  player.style.display = "block";   // प्ले बॉक्स दिखे
-  modal.style.display = "none";     // modal बंद
-
-  // ⚠️ autoplay की कोशिश नहीं करेंगे
-  // user खुद Play दबाएगा (browser safe)
+function closeAudioModal(){
+  document.getElementById("audioModal").style.display = "none";
 }
 /* ===============================
       ASK BHAKTI
@@ -348,29 +305,48 @@ window.onclick = e=>{
 };
 </script>
 
-<!-- Floating Audio Player -->
-<div id="floatingPlayer" style="
-  display:none;
-  position:fixed;
-  bottom:10px;
-  left:10px;
-  right:10px;
-  background:#fff3e0;
-  border:1px solid #ffb74d;
-  border-radius:10px;
-  padding:6px;
-  z-index:2000;
-  box-shadow:0 2px 6px rgba(0,0,0,.2);
-">
-  <div style="display:flex;align-items:center;gap:6px">
-    <audio id="globalAudio" controls style="flex:1"></audio>
-    <button onclick="closeFloatingAudio()"
-      style="border:none;background:#d84315;color:#fff;
-      border-radius:6px;padding:6px 8px;font-size:12px">
-      ✖
-    </button>
+<!-- Audio Katha Modal -->
+<div id="audioModal" class="modal">
+  <div class="modal-content">
+    <span class="close" onclick="closeAudioModal()">×</span>
+    <h3>🎧 व्रत कथाएँ (ऑडियो)</h3>
+
+    <ul style="padding-left:18px;font-size:14px">
+      <li>
+        <a href="https://archive.org/details/satyanarayan-katha-hindi-audio"
+           target="_blank">
+          📿 सत्यनारायण व्रत कथा
+        </a>
+      </li>
+
+      <li>
+        <a href="https://archive.org/details/ekadashi-vrat-katha-hindi"
+           target="_blank">
+          📿 एकादशी व्रत कथा
+        </a>
+      </li>
+
+      <li>
+        <a href="https://archive.org/details/karva-chauth-katha-hindi-audio"
+           target="_blank">
+          📿 करवा चौथ व्रत कथा
+        </a>
+      </li>
+
+      <li>
+        <a href="https://archive.org/details/mahashivratri-katha-hindi-audio"
+           target="_blank">
+          📿 महाशिवरात्रि कथा
+        </a>
+      </li>
+    </ul>
+
+    <p style="font-size:12px;color:#555;margin-top:8px">
+      👉 कथा पर क्लिक करते ही नया टैब खुलेगा और ऑडियो वहीं चलेगा
+    </p>
   </div>
 </div>
+
 
 </body>
 </html>
