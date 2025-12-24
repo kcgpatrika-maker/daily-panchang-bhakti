@@ -101,19 +101,19 @@ footer{text-align:center;padding:10px;background:#fff3e0;font-size:13px;color:#4
   <div style="display:flex; gap:8px; flex-wrap:nowrap; margin-top:8px; margin-bottom:10px;">
 
   <button onclick="openChoghadiya()"
-    style="padding:7px 12px;border-radius:8px;border:none;
+    style="padding:7px 11px;border-radius:8px;border:none;
     background:#ff9800;color:#fff;font-size:14px;white-space:nowrap;">
     ⏰ चौघडिया देखें
   </button>
 
   <button onclick="callJyotishi()"
-    style="padding:7px 12px;border-radius:8px;border:none;
+    style="padding:7px 11px;border-radius:8px;border:none;
     background:#4caf50;color:#fff;font-size:14px;white-space:nowrap;">
     📞 ज्योतिषी सम्पर्क
   </button>
 
   <button onclick="openRashiIshta()"
-    style="padding:7px 12px;border-radius:8px;border:none;
+    style="padding:7px 11px;border-radius:8px;border:none;
     background:#8e24aa;color:#fff;font-size:14px;white-space:nowrap;">
     🔮 राशि-इष्टदेव
   </button>
@@ -261,18 +261,6 @@ function openAudioKatha(){
   modal.style.display = "block";
 }
 /* ===== AUDIO PLAYER FUNCTIONS (REQUIRED) ===== */
-
-function playAudio(key){
-  const audio = document.getElementById("globalAudio");
-  const player = document.getElementById("floatingPlayer");
-
-  if(!audioMap[key]){
-    alert("ऑडियो उपलब्ध नहीं");
-    return;
-  }
-
-  audio.src = audioMap[key];
-  audio.load();
 
  function playAudio(key){
   const audio = document.getElementById("globalAudio");
