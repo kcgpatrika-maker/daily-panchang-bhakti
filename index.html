@@ -149,38 +149,84 @@ fetch("https://bhakti-panchang-backend.onrender.com/api/panchang")
 });
 
 /* ===============================
-      VRAT KATHA – AUDIO MODAL
+   COMMON MODAL REFERENCES
 =============================== */
+const mainModal = document.getElementById("modal");
+const modalTitle = document.getElementById("modalTitle");
+const modalBody  = document.getElementById("modalBody");
 
-const kathaAudio = {
-  ekadashi: "https://archive.org/download/ekadashi_vrat_katha/ekadashi.mp3",
+/* ===============================
+   VRAT KATHA MENU
+=============================== */
+function toggleKathaMenu(){
+  const m = document.getElementById("kathaMenu");
+  m.style.display = (m.style.display === "block") ? "none" : "block";
+}
+
+/* ===============================
+   VIDEO KATHA
+=============================== */
+function openVideoKatha(){
+  modalTitle.innerText = "▶️ व्रत कथा (वीडियो)";
+  modalBody.innerHTML = `
+    <ul style="font-size:15px">
+      <li><a href="#" onclick="playVideo('सोमवार व्रत कथा')">सोमवार व्रत कथा</a></li>
+      <li><a href="#" onclick="playVideo('एकादशी व्रत कथा')">एकादशी व्रत कथा</a></li>
+      <li><a href="#" onclick="playVideo('सत्यनारायण व्रत कथा')">सत्यनारायण व्रत कथा</a></li>
+    </ul>
+  `;
+  mainModal.style.display = "block";
+}
+
+function playVideo(query){
+  window.open(
+    "https://www.youtube.com/results?search_query=" + encodeURIComponent(query),
+    "_blank"
+  );
+  closeMainModal(); // modal बंद
+}
+
+/* ===============================
+   AUDIO KATHA
+=============================== */
+const audioMap = {
   somvar: "https://archive.org/download/somvar_vrat_katha/somvar.mp3",
-  pradosh: "https://archive.org/download/pradosh_vrat_katha/pradosh.mp3",
+  ekadashi: "https://archive.org/download/ekadashi_vrat_katha/ekadashi.mp3",
   satyanarayan: "https://archive.org/download/satyanarayan_katha/satyanarayan.mp3"
 };
 
-function toggleKathaMenu(){
-  const m = document.getElementById("kathaMenu");
-  m.style.display = m.style.display === "block" ? "none" : "block";
+function openAudioKatha(){
+  modalTitle.innerText = "🎧 व्रत कथा (ऑडियो)";
+  modalBody.innerHTML = `
+    <ul style="font-size:15px">
+      <li><a href="#" onclick="playAudio('somvar')">सोमवार व्रत कथा</a></li>
+      <li><a href="#" onclick="playAudio('ekadashi')">एकादशी व्रत कथा</a></li>
+      <li><a href="#" onclick="playAudio('satyanarayan')">सत्यनारायण कथा</a></li>
+    </ul>
+  `;
+  mainModal.style.display = "block";
 }
 
-function openKathaModal(){
-  document.getElementById("kathaModal").style.display = "block";
-}
-
-function closeKathaModal(){
-  document.getElementById("audioBox").innerHTML = "";
-  document.getElementById("kathaModal").style.display = "none";
-}
-
-function playKatha(type){
-  document.getElementById("audioBox").innerHTML = `
-    <audio controls autoplay style="width:100%;margin-top:10px">
-      <source src="${kathaAudio[type]}" type="audio/mpeg">
-      आपका ब्राउज़र ऑडियो सपोर्ट नहीं करता।
+function playAudio(key){
+  modalBody.innerHTML = `
+    <audio controls autoplay style="width:100%">
+      <source src="${audioMap[key]}" type="audio/mpeg">
     </audio>
   `;
+  setTimeout(closeMainModal, 500); // modal बंद + audio बंद
 }
+
+/* ===============================
+   MODAL CLOSE
+=============================== */
+function closeMainModal(){
+  modalBody.innerHTML = "";
+  mainModal.style.display = "none";
+}
+
+window.onclick = e=>{
+  if(e.target === mainModal) closeMainModal();
+};
 
 /* ===============================
       ASK BHAKTI
