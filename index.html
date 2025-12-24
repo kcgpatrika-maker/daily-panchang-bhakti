@@ -124,12 +124,11 @@ border:none;background:#d84315;color:#fff;font-size:13px">
 <script>
 /* ===============================
         PANCHANG + FESTIVALS
-   =============================== */
+=============================== */
 fetch("https://bhakti-panchang-backend.onrender.com/api/panchang")
 .then(r => r.json())
 .then(res => {
   if (!res.success) return;
-
   const d = res.data;
 
   dateText.innerText = d.date;
@@ -143,224 +142,16 @@ fetch("https://bhakti-panchang-backend.onrender.com/api/panchang")
   maas.innerText = d.masa;
   tithi.innerText = d.paksha_tithi;
 
-  festivalList.innerHTML = d.festivalList
-    .map(f => `<li>${f}</li>`)
-    .join("");
-   })
-.catch(err => {
-  console.error("Panchang fetch error:", err);
+  festivalList.innerHTML = d.festivalList.map(f => `<li>${f}</li>`).join("");
+})
+.catch(() => {
   festivalList.innerHTML = "<li>कोई विशेष व्रत नहीं</li>";
 });
-function openVratKathaModal(){
-  modalTitle.innerText = "🎧 व्रत कथाएँ (ऑडियो)";
 
-  modalBody.innerHTML = `
-<ul style="list-style:none;padding-left:0;font-size:15px">
-  <li>🎧 <a target="_blank"
-    href="https://www.youtube.com/results?search_query=सोमवार+व्रत+कथा+ऑडियो">
-    सोमवार व्रत कथा
-  </a></li><br>
-
-  <li>🎧 <a target="_blank"
-    href="https://www.youtube.com/results?search_query=एकादशी+व्रत+कथा+हिंदी+ऑडियो">
-    एकादशी व्रत कथा
-  </a></li><br>
-
-  <li>🎧 <a target="_blank"
-    href="https://www.youtube.com/results?search_query=सत्यनारायण+व्रत+कथा+ऑडियो">
-    सत्यनारायण व्रत कथा
-  </a></li><br>
-
-  <li>🎧 <a target="_blank"
-    href="https://www.youtube.com/results?search_query=करवा+चौथ+व्रत+कथा+ऑडियो">
-    करवा चौथ व्रत कथा
-  </a></li><br>
-
-  <li>🎧 <a target="_blank"
-    href="https://www.youtube.com/results?search_query=प्रदोष+व्रत+कथा+ऑडियो">
-    प्रदोष व्रत कथा
-  </a></li>
-</ul>
-
-<p style="font-size:13px;color:#555;margin-top:10px">
-🔔 कथा सुनने के लिए YouTube पर उपलब्ध सर्वाधिक प्रचलित ऑडियो खोले जाते हैं।
-</p>
-  `;
-
-  modalPDF.innerHTML = "";
-  modal.style.display = "block";
-}
-  <div class="modal" id="kathaModal">
-  <div class="modal-content">
-    <span class="close" onclick="closeKathaModal()">×</span>
-    <h3>📿 व्रत कथाएँ (ऑडियो)</h3>
-
-    <ul style="padding-left:16px;font-size:14px">
-      <li><a href="#" onclick="playKatha('ekadashi')">एकादशी व्रत कथा</a></li>
-      <li><a href="#" onclick="playKatha('somvar')">सोमवार व्रत कथा</a></li>
-      <li><a href="#" onclick="playKatha('pradosh')">प्रदोष व्रत कथा</a></li>
-      <li><a href="#" onclick="playKatha('satyanarayan')">सत्यनारायण कथा</a></li>
-    </ul>
-
-    <div id="audioBox" style="margin-top:12px"></div>
-  </div>
-</div>
 /* ===============================
-      ASK BHAKTI – ALL IN ONE
-   =============================== */
+      VRAT KATHA – AUDIO MODAL
+=============================== */
 
-async function ask() {
-  const q = query.value.trim();
-  result.innerHTML = "";
-  if (!q) return;
-
-  try {
-    const res = await fetch(
-      `https://bhakti-panchang-backend.onrender.com/api/ask-bhakti-all?q=${encodeURIComponent(q)}`
-    );
-    const data = await res.json();
-
-    if (!data.success) {
-      alert("डेटा उपलब्ध नहीं");
-      return;
-    }
-
-    const sections = [
-      { key: "mantra", label: "🕉️ मंत्र" },
-      { key: "aarti", label: "🪔 आरती" },
-      { key: "puja", label: "🙏 पूजा विधि" },
-      { key: "chalisa", label: "📜 चालीसा" },
-      { key: "stotra", label: "📖 स्तोत्र" }
-    ];
-
-    sections.forEach(sec => {
-      if (!data.data[sec.key]) return;
-
-      const btn = document.createElement("button");
-      btn.innerText = sec.label;
-
-      btn.onclick = () => openAskModal(
-        data.deity,
-        data.data[sec.key]
-      );
-
-      result.appendChild(btn);
-    });
-
-  } catch (e) {
-    console.error(e);
-    alert("डेटा लोड नहीं हो सका");
-  }
-}
-
-function openAskModal(deity, section) {
-  modalTitle.innerText = section.title || deity;
-
-  modalBody.innerHTML = `
-    <pre style="white-space:pre-wrap;font-family:inherit">
-${section.content || ""}
-    </pre>
-    <hr>
-    <b>स्रोत:</b><br>
-    ${(section.sources || [])
-      .map(s => `<a href="${s}" target="_blank">${s}</a>`)
-      .join("<br>")}
-  `;
-
-  modalPDF.innerHTML = "";
-
-  if (section.pdf) {
-    const pdfBtn = document.createElement("a");
-    pdfBtn.href = section.pdf;
-    pdfBtn.target = "_blank";
-    pdfBtn.innerText = "📄 PDF डाउनलोड करें";
-    pdfBtn.style.display = "inline-block";
-    pdfBtn.style.marginTop = "8px";
-    pdfBtn.style.background = "#ff9800";
-    pdfBtn.style.color = "#fff";
-    pdfBtn.style.padding = "6px 10px";
-    pdfBtn.style.borderRadius = "6px";
-    pdfBtn.style.textDecoration = "none";
-    modalPDF.appendChild(pdfBtn);
-  }
-
-  modal.style.display = "block";
-}
-
-function resetAsk() {
-  query.value = "";
-  result.innerHTML = "";
-}
-
-function closeModal() {
-  modal.style.display = "none";
-}
-
-window.onclick = function(event) {
-  if (event.target == modal) {
-    modal.style.display = "none";
-  }
-}
-
-function openChoghadiya(){
-  modalTitle.innerText = "⏰ आज का चौघड़िया (दिन व रात)";
-  modalBody.innerHTML = `
-    <img src="choghadiya.png"
-         style="width:100%;border-radius:10px"
-         onclick="modal.style.display='none'">
-    <p style="font-size:13px;text-align:center;margin-top:6px">
-      (इमेज पर टैप करें, वापस जाने के लिए)
-    </p>
-  `;
-    modalPDF.innerHTML = "";
-  modal.style.display = "block";
-}
- function callJyotishi(){
-  const phone = "919414335462"; // यहाँ भाई का नंबर डालिये (91 सहित)
-  window.location.href = `tel:${phone}`;
-}
-function openRashiIshta(){
-  modalTitle.innerText = "🔮 राशि अनुसार इष्ट देव";
-  modalBody.innerHTML = `
-    <img src="rashi-ishta-dev.png"
-         style="width:100%;border-radius:10px"
-         onclick="modal.style.display='none'">
-    <p style="font-size:13px;text-align:center;margin-top:6px">
-      (इमेज पर टैप करें, वापस जाने के लिए)
-    </p>
-  `;
-  modalPDF.innerHTML = "";
-  modal.style.display = "block";
-}
-  function sharePage() {
-  const shareData = {
-    title: "Aaj Ka Panchang – Bhakti Guide",
-    text: "आज का पंचांग, व्रत-त्योहार और पूजा सामग्री पढ़ें।",
-    url: window.location.href
-  };
-
-  if (navigator.share) {
-    navigator.share(shareData).catch(err => {
-      console.error("Share failed:", err);
-      alert("शेयरिंग असफल। URL को कॉपी करें: " + window.location.href);
-    });
-  } else {
-    // Fallback: Clipboard copy
-    navigator.clipboard.writeText(window.location.href)
-      .then(() => alert("URL कॉपी हो गया। अब इसे किसी के साथ शेयर करें।"))
-      .catch(() => alert("शेयरिंग समर्थित नहीं। URL कॉपी करें: " + window.location.href));
-  }
-}
-  function openVratKathaModal(){
-  document.getElementById("kathaModal").style.display = "block";
-}
-
-function closeKathaModal(){
-  document.getElementById("audioBox").innerHTML = ""; // ऑडियो बंद
-  document.getElementById("kathaModal").style.display = "none";
-}
-
-/* ऑडियो links (free / direct mp3) */
 const kathaAudio = {
   ekadashi: "https://archive.org/download/ekadashi_vrat_katha/ekadashi.mp3",
   somvar: "https://archive.org/download/somvar_vrat_katha/somvar.mp3",
@@ -368,10 +159,22 @@ const kathaAudio = {
   satyanarayan: "https://archive.org/download/satyanarayan_katha/satyanarayan.mp3"
 };
 
-function playKatha(type){
-  const audioBox = document.getElementById("audioBox");
+function toggleKathaMenu(){
+  const m = document.getElementById("kathaMenu");
+  m.style.display = m.style.display === "block" ? "none" : "block";
+}
 
-  audioBox.innerHTML = `
+function openKathaModal(){
+  document.getElementById("kathaModal").style.display = "block";
+}
+
+function closeKathaModal(){
+  document.getElementById("audioBox").innerHTML = "";
+  document.getElementById("kathaModal").style.display = "none";
+}
+
+function playKatha(type){
+  document.getElementById("audioBox").innerHTML = `
     <audio controls autoplay style="width:100%;margin-top:10px">
       <source src="${kathaAudio[type]}" type="audio/mpeg">
       आपका ब्राउज़र ऑडियो सपोर्ट नहीं करता।
@@ -379,14 +182,74 @@ function playKatha(type){
   `;
 }
 
-/* बाहर क्लिक पर modal बंद */
-window.onclick = function(e){
-  const modal = document.getElementById("kathaModal");
-  if(e.target === modal){
-    closeKathaModal();
-  }
+/* ===============================
+      ASK BHAKTI
+=============================== */
+
+async function ask(){
+  const q = query.value.trim();
+  result.innerHTML = "";
+  if (!q) return;
+
+  const res = await fetch(
+    `https://bhakti-panchang-backend.onrender.com/api/ask-bhakti-all?q=${encodeURIComponent(q)}`
+  );
+  const data = await res.json();
+  if (!data.success) return alert("डेटा उपलब्ध नहीं");
+
+  ["mantra","aarti","puja","chalisa","stotra"].forEach(k=>{
+    if(!data.data[k]) return;
+    const b=document.createElement("button");
+    b.innerText = k;
+    b.onclick=()=>openAskModal(data.deity,data.data[k]);
+    result.appendChild(b);
+  });
 }
+
+function openAskModal(deity, section){
+  modalTitle.innerText = deity;
+  modalBody.innerHTML = `<pre>${section.content||""}</pre>`;
+  modal.style.display="block";
+}
+
+function resetAsk(){
+  query.value="";
+  result.innerHTML="";
+}
+
+/* ===============================
+      COMMON MODALS
+=============================== */
+function openChoghadiya(){
+  modalTitle.innerText="⏰ आज का चौघड़िया";
+  modalBody.innerHTML=`<img src="choghadiya.png" style="width:100%">`;
+  modal.style.display="block";
+}
+
+function callJyotishi(){
+  window.location.href="tel:919414335462";
+}
+
+function openRashiIshta(){
+  modalTitle.innerText="🔮 राशि अनुसार इष्ट देव";
+  modalBody.innerHTML=`<img src="rashi-ishta-dev.png" style="width:100%">`;
+  modal.style.display="block";
+}
+
+function sharePage(){
+  navigator.share?.({
+    title:"Aaj Ka Panchang",
+    url:location.href
+  }) || navigator.clipboard.writeText(location.href);
+}
+
+/* Outside click close */
+window.onclick = e=>{
+  if(e.target===document.getElementById("kathaModal")) closeKathaModal();
+  if(e.target===modal) modal.style.display="none";
+};
 </script>
+
 
 </body>
 </html>
