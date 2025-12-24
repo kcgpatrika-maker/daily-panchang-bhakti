@@ -77,20 +77,36 @@ footer{text-align:center;padding:10px;background:#fff3e0;font-size:13px;color:#4
 </div>
   
 <div class="card highlight">
-  <h3>🔔 आज का व्रत / त्योहार</h3>
-  <ul id="festivalList"></ul>
-<button onclick="openVratKathaModal()"
-style="float:right;margin-top:-30px;background:#5e35b1;  /* बैंगनी */
-color:#fff;
-border:none;border-radius:6px;padding:4px 8px;font-size:12px">
-🎧 व्रत कथाएँ
-</button>
-  <button onclick="openVratKathaModal()"
-style="margin-top:6px;padding:6px 12px;border-radius:8px;
-border:none;background:#d84315;color:#fff;font-size:13px">
-🎧 व्रत कथाएँ (ऑडियो)
-</button>
+  <div style="display:flex;justify-content:space-between;align-items:flex-start">
+    <h3 style="margin:0">🔔 आज का व्रत / त्योहार</h3>
+
+    <div style="text-align:right">
+      <button onclick="toggleKathaMenu()"
+        style="padding:5px 10px;border-radius:8px;
+        border:none;background:#6a1b9a;color:#fff;font-size:13px">
+        📿 व्रत कथाएँ
+      </button>
+
+      <div id="kathaMenu" style="display:none;margin-top:6px">
+        <button onclick="openVideoKatha()"
+          style="display:block;width:100%;margin-bottom:4px;
+          padding:5px 8px;border:none;border-radius:6px;
+          background:#c62828;color:#fff;font-size:12px">
+          ▶️ वीडियो कथा
+        </button>
+
+        <button onclick="openAudioKatha()"
+          style="display:block;width:100%;
+          padding:5px 8px;border:none;border-radius:6px;
+          background:#bf360c;color:#fff;font-size:12px">
+          🎧 ऑडियो कथा
+        </button>
+      </div>
+    </div>
   </div>
+
+  <ul id="festivalList" style="margin-top:8px"></ul>
+</div>
 
 <h3>🙏 पूजा / देवता / त्योहार खोजें</h3>
 <div class="ask-row">
@@ -151,21 +167,17 @@ fetch("https://bhakti-panchang-backend.onrender.com/api/panchang")
 /* ===============================
    COMMON MODAL REFERENCES
 =============================== */
-const mainModal = document.getElementById("modal");
+const modal = document.getElementById("modal");
 const modalTitle = document.getElementById("modalTitle");
-const modalBody  = document.getElementById("modalBody");
+const modalBody = document.getElementById("modalBody");
 
-/* ===============================
-   VRAT KATHA MENU
-=============================== */
+/* MENU */
 function toggleKathaMenu(){
   const m = document.getElementById("kathaMenu");
-  m.style.display = (m.style.display === "block") ? "none" : "block";
+  m.style.display = m.style.display === "block" ? "none" : "block";
 }
 
-/* ===============================
-   VIDEO KATHA
-=============================== */
+/* VIDEO */
 function openVideoKatha(){
   modalTitle.innerText = "▶️ व्रत कथा (वीडियो)";
   modalBody.innerHTML = `
@@ -175,20 +187,18 @@ function openVideoKatha(){
       <li><a href="#" onclick="playVideo('सत्यनारायण व्रत कथा')">सत्यनारायण व्रत कथा</a></li>
     </ul>
   `;
-  mainModal.style.display = "block";
+  modal.style.display = "block";
 }
 
-function playVideo(query){
+function playVideo(q){
   window.open(
-    "https://www.youtube.com/results?search_query=" + encodeURIComponent(query),
+    "https://www.youtube.com/results?search_query=" + encodeURIComponent(q),
     "_blank"
   );
-  closeMainModal(); // modal बंद
+  closeModal();
 }
 
-/* ===============================
-   AUDIO KATHA
-=============================== */
+/* AUDIO */
 const audioMap = {
   somvar: "https://archive.org/download/somvar_vrat_katha/somvar.mp3",
   ekadashi: "https://archive.org/download/ekadashi_vrat_katha/ekadashi.mp3",
@@ -204,7 +214,7 @@ function openAudioKatha(){
       <li><a href="#" onclick="playAudio('satyanarayan')">सत्यनारायण कथा</a></li>
     </ul>
   `;
-  mainModal.style.display = "block";
+  modal.style.display = "block";
 }
 
 function playAudio(key){
@@ -213,19 +223,16 @@ function playAudio(key){
       <source src="${audioMap[key]}" type="audio/mpeg">
     </audio>
   `;
-  setTimeout(closeMainModal, 500); // modal बंद + audio बंद
+  setTimeout(closeModal, 600);
 }
 
-/* ===============================
-   MODAL CLOSE
-=============================== */
-function closeMainModal(){
+function closeModal(){
   modalBody.innerHTML = "";
-  mainModal.style.display = "none";
+  modal.style.display = "none";
 }
 
 window.onclick = e=>{
-  if(e.target === mainModal) closeMainModal();
+  if(e.target === modal) closeModal();
 };
 
 /* ===============================
