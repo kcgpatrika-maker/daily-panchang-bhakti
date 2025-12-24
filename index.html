@@ -242,17 +242,17 @@ function openAudioKatha(){
   modalBody.innerHTML = `
     <ul>
       <li>
-        <a href="#" onclick="playAudio('somvar')">
+        <a href="javascript:void(0)" onclick="playAudio('somvar')">
           सोमवार व्रत कथा
         </a>
       </li>
       <li>
-        <a href="#" onclick="playAudio('ekadashi')">
+        <a href="javascript:void(0)" onclick="playAudio('ekadashi')">
           एकादशी व्रत कथा
         </a>
       </li>
       <li>
-        <a href="#" onclick="playAudio('satyanarayan')">
+        <a href="javascript:void(0)" onclick="playAudio('satyanarayan')">
           सत्यनारायण व्रत कथा
         </a>
       </li>
@@ -260,7 +260,35 @@ function openAudioKatha(){
   `;
   modal.style.display = "block";
 }
+/* ===== AUDIO PLAYER FUNCTIONS (REQUIRED) ===== */
 
+function playAudio(key){
+  const audio = document.getElementById("globalAudio");
+  const player = document.getElementById("floatingPlayer");
+
+  if(!audioMap[key]){
+    alert("ऑडियो उपलब्ध नहीं");
+    return;
+  }
+
+  audio.src = audioMap[key];
+  audio.load();
+
+  audio.play().then(()=>{
+    player.style.display = "block";
+    modal.style.display = "none"; // modal बंद
+  }).catch(err=>{
+    alert("ऑडियो चलाने की अनुमति नहीं मिली");
+    console.error(err);
+  });
+}
+
+function closeFloatingAudio(){
+  const audio = document.getElementById("globalAudio");
+  audio.pause();
+  audio.currentTime = 0;
+  document.getElementById("floatingPlayer").style.display = "none";
+}
 /* ===============================
       ASK BHAKTI
 =============================== */
