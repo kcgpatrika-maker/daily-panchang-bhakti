@@ -237,29 +237,29 @@ const audioMap = {
   satyanarayan: "https://archive.org/download/satyanarayan_katha/satyanarayan.mp3"
 };
 
-function playAudio(key){
-  const player = document.getElementById("floatingPlayer");
-  const audio  = document.getElementById("globalAudio");
-
-  audio.src = audioMap[key];
-  audio.load();
-  audio.play();   // ✅ user click → autoplay allowed
-
-  player.style.display = "block";
-
-  closeMainModal(); // modal तुरंत बंद
+function openAudioKatha(){
+  modalTitle.innerText = "🎧 व्रत कथा (ऑडियो)";
+  modalBody.innerHTML = `
+    <ul>
+      <li>
+        <a href="#" onclick="playAudio('somvar')">
+          सोमवार व्रत कथा
+        </a>
+      </li>
+      <li>
+        <a href="#" onclick="playAudio('ekadashi')">
+          एकादशी व्रत कथा
+        </a>
+      </li>
+      <li>
+        <a href="#" onclick="playAudio('satyanarayan')">
+          सत्यनारायण व्रत कथा
+        </a>
+      </li>
+    </ul>
+  `;
+  modal.style.display = "block";
 }
-
-function closeFloatingAudio(){
-  const audio = document.getElementById("globalAudio");
-  audio.pause();
-  audio.currentTime = 0;
-  document.getElementById("floatingPlayer").style.display = "none";
-}
-
-window.onclick = e=>{
-  if(e.target === modal) closeModal();
-};
 
 /* ===============================
       ASK BHAKTI
