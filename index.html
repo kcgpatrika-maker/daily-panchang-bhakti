@@ -85,6 +85,11 @@ color:#fff;
 border:none;border-radius:6px;padding:4px 8px;font-size:12px">
 🎧 व्रत कथाएँ
 </button>
+  <button onclick="openVratKathaModal()"
+style="margin-top:6px;padding:6px 12px;border-radius:8px;
+border:none;background:#d84315;color:#fff;font-size:13px">
+🎧 व्रत कथाएँ (ऑडियो)
+</button>
   </div>
 
 <h3>🙏 पूजा / देवता / त्योहार खोजें</h3>
@@ -185,7 +190,21 @@ function openVratKathaModal(){
   modalPDF.innerHTML = "";
   modal.style.display = "block";
 }
-  
+  <div class="modal" id="kathaModal">
+  <div class="modal-content">
+    <span class="close" onclick="closeKathaModal()">×</span>
+    <h3>📿 व्रत कथाएँ (ऑडियो)</h3>
+
+    <ul style="padding-left:16px;font-size:14px">
+      <li><a href="#" onclick="playKatha('ekadashi')">एकादशी व्रत कथा</a></li>
+      <li><a href="#" onclick="playKatha('somvar')">सोमवार व्रत कथा</a></li>
+      <li><a href="#" onclick="playKatha('pradosh')">प्रदोष व्रत कथा</a></li>
+      <li><a href="#" onclick="playKatha('satyanarayan')">सत्यनारायण कथा</a></li>
+    </ul>
+
+    <div id="audioBox" style="margin-top:12px"></div>
+  </div>
+</div>
 /* ===============================
       ASK BHAKTI – ALL IN ONE
    =============================== */
@@ -330,6 +349,41 @@ function openRashiIshta(){
     navigator.clipboard.writeText(window.location.href)
       .then(() => alert("URL कॉपी हो गया। अब इसे किसी के साथ शेयर करें।"))
       .catch(() => alert("शेयरिंग समर्थित नहीं। URL कॉपी करें: " + window.location.href));
+  }
+}
+  function openVratKathaModal(){
+  document.getElementById("kathaModal").style.display = "block";
+}
+
+function closeKathaModal(){
+  document.getElementById("audioBox").innerHTML = ""; // ऑडियो बंद
+  document.getElementById("kathaModal").style.display = "none";
+}
+
+/* ऑडियो links (free / direct mp3) */
+const kathaAudio = {
+  ekadashi: "https://archive.org/download/ekadashi_vrat_katha/ekadashi.mp3",
+  somvar: "https://archive.org/download/somvar_vrat_katha/somvar.mp3",
+  pradosh: "https://archive.org/download/pradosh_vrat_katha/pradosh.mp3",
+  satyanarayan: "https://archive.org/download/satyanarayan_katha/satyanarayan.mp3"
+};
+
+function playKatha(type){
+  const audioBox = document.getElementById("audioBox");
+
+  audioBox.innerHTML = `
+    <audio controls autoplay style="width:100%;margin-top:10px">
+      <source src="${kathaAudio[type]}" type="audio/mpeg">
+      आपका ब्राउज़र ऑडियो सपोर्ट नहीं करता।
+    </audio>
+  `;
+}
+
+/* बाहर क्लिक पर modal बंद */
+window.onclick = function(e){
+  const modal = document.getElementById("kathaModal");
+  if(e.target === modal){
+    closeKathaModal();
   }
 }
 </script>
