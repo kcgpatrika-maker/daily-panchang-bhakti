@@ -237,28 +237,24 @@ const audioMap = {
   satyanarayan: "https://archive.org/download/satyanarayan_katha/satyanarayan.mp3"
 };
 
-function openAudioKatha(){
-  modalTitle.innerText = "🎧 व्रत कथा (ऑडियो)";
-  modalBody.innerHTML = `
-    <button onclick="playAudio('somvar')">सोमवार व्रत कथा</button><br>
-    <button onclick="playAudio('ekadashi')">एकादशी व्रत कथा</button><br>
-    <button onclick="playAudio('satyanarayan')">सत्यनारायण कथा</button>
-  `;
-  modal.style.display="block";
-}
-
 function playAudio(key){
-  modalBody.innerHTML = `
-    <p style="font-size:13px;color:#444">🔊 ऑडियो लोड हो रहा है…</p>
-    <audio id="audioPlayer" controls autoplay style="width:100%">
-      <source src="${audioMap[key]}" type="audio/mpeg">
-    </audio>
-  `;
+  const player = document.getElementById("floatingPlayer");
+  const audio  = document.getElementById("globalAudio");
+
+  audio.src = audioMap[key];
+  audio.load();
+  audio.play();   // ✅ user click → autoplay allowed
+
+  player.style.display = "block";
+
+  closeMainModal(); // modal तुरंत बंद
 }
 
-function closeMainModal(){
-  modalBody.innerHTML="";   // audio destroy → stop
-  modal.style.display="none";
+function closeFloatingAudio(){
+  const audio = document.getElementById("globalAudio");
+  audio.pause();
+  audio.currentTime = 0;
+  document.getElementById("floatingPlayer").style.display = "none";
 }
 
 window.onclick = e=>{
@@ -333,6 +329,29 @@ window.onclick = e=>{
 };
 </script>
 
+<!-- Floating Audio Player -->
+<div id="floatingPlayer" style="
+  display:none;
+  position:fixed;
+  bottom:10px;
+  left:10px;
+  right:10px;
+  background:#fff3e0;
+  border:1px solid #ffb74d;
+  border-radius:10px;
+  padding:6px;
+  z-index:2000;
+  box-shadow:0 2px 6px rgba(0,0,0,.2);
+">
+  <div style="display:flex;align-items:center;gap:6px">
+    <audio id="globalAudio" controls style="flex:1"></audio>
+    <button onclick="closeFloatingAudio()"
+      style="border:none;background:#d84315;color:#fff;
+      border-radius:6px;padding:6px 8px;font-size:12px">
+      ✖
+    </button>
+  </div>
+</div>
 
 </body>
 </html>
