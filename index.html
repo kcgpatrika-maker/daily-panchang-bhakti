@@ -274,20 +274,23 @@ function playAudio(key){
   audio.src = audioMap[key];
   audio.load();
 
-  audio.play().then(()=>{
-    player.style.display = "block";
-    modal.style.display = "none"; // modal बंद
-  }).catch(err=>{
-    alert("ऑडियो चलाने की अनुमति नहीं मिली");
-    console.error(err);
-  });
-}
-
-function closeFloatingAudio(){
+ function playAudio(key){
   const audio = document.getElementById("globalAudio");
-  audio.pause();
-  audio.currentTime = 0;
-  document.getElementById("floatingPlayer").style.display = "none";
+  const player = document.getElementById("floatingPlayer");
+
+  if(!audioMap[key]){
+    alert("ऑडियो उपलब्ध नहीं");
+    return;
+  }
+
+  audio.src = audioMap[key];
+  audio.load();
+
+  player.style.display = "block";   // प्ले बॉक्स दिखे
+  modal.style.display = "none";     // modal बंद
+
+  // ⚠️ autoplay की कोशिश नहीं करेंगे
+  // user खुद Play दबाएगा (browser safe)
 }
 /* ===============================
       ASK BHAKTI
