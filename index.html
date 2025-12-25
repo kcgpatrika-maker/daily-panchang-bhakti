@@ -101,19 +101,19 @@ footer{text-align:center;padding:10px;background:#fff3e0;font-size:13px;color:#4
   <div style="display:flex; gap:8px; flex-wrap:nowrap; margin-top:8px; margin-bottom:10px;">
 
   <button onclick="openChoghadiya()"
-    style="padding:7px 11px;border-radius:7px;border:none;
+    style="padding:6px 11px;border-radius:8px;border:none;
     background:#ff9800;color:#fff;font-size:14px;white-space:nowrap;">
     ⏰ चौघडिया देखें
   </button>
 
   <button onclick="callJyotishi()"
-    style="padding:7px 11px;border-radius:7px;border:none;
+    style="padding:6px 11px;border-radius:8px;border:none;
     background:#4caf50;color:#fff;font-size:14px;white-space:nowrap;">
     📞 ज्योतिषी सम्पर्क
   </button>
 
   <button onclick="openRashiIshta()"
-    style="padding:7px 11px;border-radius:7px;border:none;
+    style="padding:6px 11px;border-radius:8px;border:none;
     background:#8e24aa;color:#fff;font-size:14px;white-space:nowrap;">
     🔮 राशि-इष्टदेव
   </button>
@@ -276,36 +276,74 @@ function openAudioYT(query){
 /* ===============================
       ASK BHAKTI
 =============================== */
-async function ask(){
+async function ask() {
   const q = query.value.trim();
   result.innerHTML = "";
+
   if (!q) return;
 
-  const res = await fetch(
-    `https://bhakti-panchang-backend.onrender.com/api/ask-bhakti-all?q=${encodeURIComponent(q)}`
-  );
-  const data = await res.json();
-  if (!data.success) return alert("डेटा उपलब्ध नहीं");
+  try {
+    const res = await fetch(
+      `https://bhakti-panchang-backend.onrender.com/api/ask-bhakti-all?q=${encodeURIComponent(q)}`
+    );
+    const data = await res.json();
 
-  ["mantra","aarti","puja","chalisa","stotra"].forEach(k=>{
-    if(!data.data[k]) return;
-    const b=document.createElement("button");
-    b.innerText = k;
-    b.onclick=()=>openAskModal(data.deity,data.data[k]);
-    result.appendChild(b);
-  });
+    if (!data.success) {
+      result.innerHTML = `<p>डेटा उपलब्ध नहीं</p>`;
+      return;
+    }
+
+    const sections = ["mantra", "aarti", "puja", "chalisa", "stotra"];
+    sections.forEach((k) => {
+      if (!data.data[k]) return;
+
+      const b = document.createElement("button");
+      // Slide name with emoji + Hindi
+      let emoji = "";
+      if (k === "mantra") emoji = "🔹 मंत्र";
+      else if (k === "aarti") emoji = "🎵 आरती";
+      else if (k === "puja") emoji = "🙏 पूजा विधि";
+      else if (k === "chalisa") emoji = "📜 चालीसा";
+      else if (k === "stotra") emoji = "🕉️ स्तोत्र";
+
+      b.innerText = emoji;
+      b.onclick = () => openAskModal(q, k, data.data[k]);
+      result.appendChild(b);
+    });
+  } catch (err) {
+    console.error(err);
+    result.innerHTML = `<p>कृपया बाद में पुनः प्रयास करें</p>`;
+  }
 }
 
-function openAskModal(deity, section){
-  modalTitle.innerText = deity;
-  modalBody.innerHTML = `<pre>${section.content||""}</pre>`;
-  modal.style.display="block";
+// Open modal for slide
+function openAskModal(deity, type, section) {
+  modalTitle.innerText = `${deity} - ${type}`;
+  let content = "";
+
+  // If section is array (like mantra) join multiple entries
+  if (Array.isArray(section)) {
+    content = section.map((s, i) => `${i + 1}. ${s}`).join("\n\n");
+  } else if (typeof section === "string") {
+    content = section;
+  } else if (section.content) {
+    content = section.content;
+  }
+
+  modalBody.innerHTML = `<pre>${content}</pre>`;
+  modal.style.display = "block";
 }
 
-function resetAsk(){
-  query.value="";
-  result.innerHTML="";
+// Reset button
+function resetAsk() {
+  query.value = "";
+  result.innerHTML = "";
 }
+
+// Close modal on click outside or X button (if present)
+modal.addEventListener("click", (e) => {
+  if (e.target.id === "modal") modal.style.display = "none";
+});
 
 /* ===============================
       COMMON MODALS
