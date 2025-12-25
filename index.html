@@ -101,19 +101,19 @@ footer{text-align:center;padding:10px;background:#fff3e0;font-size:13px;color:#4
   <div style="display:flex; gap:8px; flex-wrap:nowrap; margin-top:8px; margin-bottom:10px;">
 
   <button onclick="openChoghadiya()"
-    style="padding:7px 10px;border-radius:8px;border:none;
+    style="padding:7px 11px;border-radius:7px;border:none;
     background:#ff9800;color:#fff;font-size:14px;white-space:nowrap;">
     ⏰ चौघडिया देखें
   </button>
 
   <button onclick="callJyotishi()"
-    style="padding:7px 10px;border-radius:8px;border:none;
+    style="padding:7px 11px;border-radius:7px;border:none;
     background:#4caf50;color:#fff;font-size:14px;white-space:nowrap;">
     📞 ज्योतिषी सम्पर्क
   </button>
 
   <button onclick="openRashiIshta()"
-    style="padding:7px 10px;border-radius:8px;border:none;
+    style="padding:7px 11px;border-radius:7px;border:none;
     background:#8e24aa;color:#fff;font-size:14px;white-space:nowrap;">
     🔮 राशि-इष्टदेव
   </button>
@@ -238,36 +238,37 @@ function openAudioModal(){
   modalBody.innerHTML = `
     <ul>
       <li>
-        <a href="#" onclick="openAudioSearch('सत्यनारायण व्रत कथा ऑडियो')">
+        <a href="#" onclick="openAudioYT('सत्यनारायण व्रत कथा ऑडियो हिंदी')">
           📿 सत्यनारायण व्रत कथा
         </a>
       </li>
       <li>
-        <a href="#" onclick="openAudioSearch('एकादशी व्रत कथा हिंदी ऑडियो')">
+        <a href="#" onclick="openAudioYT('एकादशी व्रत कथा ऑडियो हिंदी')">
           📿 एकादशी व्रत कथा
         </a>
       </li>
       <li>
-        <a href="#" onclick="openAudioSearch('करवा चौथ व्रत कथा हिंदी ऑडियो')">
+        <a href="#" onclick="openAudioYT('करवा चौथ व्रत कथा ऑडियो हिंदी')">
           📿 करवा चौथ व्रत कथा
         </a>
       </li>
       <li>
-        <a href="#" onclick="openAudioSearch('महाशिवरात्रि व्रत कथा हिंदी ऑडियो')">
+        <a href="#" onclick="openAudioYT('महाशिवरात्रि व्रत कथा ऑडियो हिंदी')">
           📿 महाशिवरात्रि कथा
         </a>
       </li>
     </ul>
     <p style="font-size:12px;color:#555;margin-top:8px">
-      👉 कथा चुनते ही नया टैब खुलेगा और ऑडियो वहीं चलेगा
+      👉 कथा चुनते ही ऑडियो-केंद्रित YouTube रिजल्ट खुलेंगे
     </p>
   `;
   modal.style.display = "block";
 }
 
-function openAudioSearch(query){
+function openAudioYT(query){
   window.open(
-    "https://archive.org/search?query=" + encodeURIComponent(query),
+    "https://www.youtube.com/results?search_query=" +
+    encodeURIComponent(query),
     "_blank"
   );
   modal.style.display = "none";
