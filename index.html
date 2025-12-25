@@ -98,22 +98,22 @@ footer{text-align:center;padding:10px;background:#fff3e0;font-size:13px;color:#4
   <p>🌙 चंद्रोदय: <b id="moonrise"></b> | 🌑 चंद्रास्त: <b id="moonset"></b></p>
   <p>विक्रम संवत: <b id="vikram"></b> | शक संवत: <b id="shak"></b></p>
   <p>मास: <b id="maas"></b> | तिथि: <b id="tithi"></b></p>
-  <div style="display:flex; gap:8px; flex-wrap:nowrap; margin-top:8px; margin-bottom:10px;">
+  <div style="display:flex; gap:6px; flex-wrap:nowrap; margin-top:8px; margin-bottom:10px;">
 
   <button onclick="openChoghadiya()"
-    style="padding:5px 10px;border-radius:8px;border:none;
+    style="padding:6px 10px;border-radius:8px;border:none;
     background:#ff9800;color:#fff;font-size:14px;white-space:nowrap;">
     ⏰ चौघडिया देखें
   </button>
 
   <button onclick="callJyotishi()"
-    style="padding:5px 10px;border-radius:8px;border:none;
+    style="padding:6px 10px;border-radius:8px;border:none;
     background:#4caf50;color:#fff;font-size:14px;white-space:nowrap;">
     📞 ज्योतिषी सम्पर्क
   </button>
 
   <button onclick="openRashiIshta()"
-    style="padding:5px 10px;border-radius:8px;border:none;
+    style="padding:6px 10px;border-radius:8px;border:none;
     background:#8e24aa;color:#fff;font-size:14px;white-space:nowrap;">
     🔮 इष्टदेव जानें
   </button>
@@ -280,8 +280,8 @@ function openAudioYT(query){
 const query = document.getElementById("query");
 const result = document.getElementById("result");
 const modal = document.getElementById("modal");
-const modalTitle = document.getElementById("modal-title");
-const modalBody = document.getElementById("modal-body");
+const modalTitle = document.getElementById("modalTitle");
+const modalBody = document.getElementById("modalBody");
 
 const BACKEND =
   "https://bhakti-panchang-backend.onrender.com";
