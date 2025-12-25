@@ -229,18 +229,52 @@ function playVideo(q){
   );
   closeMainModal();
 }
-/* AUDIO */
+/* ===============================
+   AUDIO KATHA (STABLE METHOD)
+=============================== */
+
 function openAudioModal(){
-  document.getElementById("audioModal").style.display = "block";
+  modalTitle.innerText = "🎧 व्रत कथा (ऑडियो)";
+  modalBody.innerHTML = `
+    <ul>
+      <li>
+        <a href="#" onclick="openAudioSearch('सत्यनारायण व्रत कथा ऑडियो')">
+          📿 सत्यनारायण व्रत कथा
+        </a>
+      </li>
+      <li>
+        <a href="#" onclick="openAudioSearch('एकादशी व्रत कथा हिंदी ऑडियो')">
+          📿 एकादशी व्रत कथा
+        </a>
+      </li>
+      <li>
+        <a href="#" onclick="openAudioSearch('करवा चौथ व्रत कथा हिंदी ऑडियो')">
+          📿 करवा चौथ व्रत कथा
+        </a>
+      </li>
+      <li>
+        <a href="#" onclick="openAudioSearch('महाशिवरात्रि व्रत कथा हिंदी ऑडियो')">
+          📿 महाशिवरात्रि कथा
+        </a>
+      </li>
+    </ul>
+    <p style="font-size:12px;color:#555;margin-top:8px">
+      👉 कथा चुनते ही नया टैब खुलेगा और ऑडियो वहीं चलेगा
+    </p>
+  `;
+  modal.style.display = "block";
 }
 
-function closeAudioModal(){
-  document.getElementById("audioModal").style.display = "none";
+function openAudioSearch(query){
+  window.open(
+    "https://archive.org/search?query=" + encodeURIComponent(query),
+    "_blank"
+  );
+  modal.style.display = "none";
 }
 /* ===============================
       ASK BHAKTI
 =============================== */
-
 async function ask(){
   const q = query.value.trim();
   result.innerHTML = "";
