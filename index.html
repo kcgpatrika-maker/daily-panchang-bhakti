@@ -101,21 +101,21 @@ footer{text-align:center;padding:10px;background:#fff3e0;font-size:13px;color:#4
   <div style="display:flex; gap:8px; flex-wrap:nowrap; margin-top:8px; margin-bottom:10px;">
 
   <button onclick="openChoghadiya()"
-    style="padding:6px 10px;border-radius:8px;border:none;
+    style="padding:5px 10px;border-radius:8px;border:none;
     background:#ff9800;color:#fff;font-size:14px;white-space:nowrap;">
     ⏰ चौघडिया देखें
   </button>
 
   <button onclick="callJyotishi()"
-    style="padding:6px 10px;border-radius:8px;border:none;
+    style="padding:5px 10px;border-radius:8px;border:none;
     background:#4caf50;color:#fff;font-size:14px;white-space:nowrap;">
     📞 ज्योतिषी सम्पर्क
   </button>
 
   <button onclick="openRashiIshta()"
-    style="padding:6px 10px;border-radius:8px;border:none;
+    style="padding:5px 10px;border-radius:8px;border:none;
     background:#8e24aa;color:#fff;font-size:14px;white-space:nowrap;">
-    🔮 राशि-इष्टदेव
+    🔮 इष्टदेव जानें
   </button>
 
 </div>
@@ -283,7 +283,10 @@ const modal = document.getElementById("modal");
 const modalTitle = document.getElementById("modal-title");
 const modalBody = document.getElementById("modal-body");
 
-// Ask button click
+const BACKEND =
+  "https://bhakti-panchang-backend.onrender.com";
+
+// Ask button
 async function ask() {
   const q = query.value.trim();
   result.innerHTML = "";
@@ -292,65 +295,67 @@ async function ask() {
 
   try {
     const res = await fetch(
-      `https://bhakti-panchang-backend.onrender.com/api/ask-bhakti-all?q=${encodeURIComponent(q)}`
+      `${BACKEND}/api/ask-bhakti-all?q=${encodeURIComponent(q)}`
     );
     const data = await res.json();
 
     if (!data.success) {
-      result.innerHTML = `<p>डेटा उपलब्ध नहीं</p>`;
+      result.innerHTML = `<p>❌ डेटा उपलब्ध नहीं</p>`;
       return;
     }
 
-    const sections = ["mantra", "aarti", "puja", "chalisa", "stotra"];
-    sections.forEach((k) => {
-      if (!data.data[k]) return;
+    // Only those which backend really sends
+    const sections = [
+      { key: "mantra", label: "🔹 मंत्र" },
+      { key: "aarti", label: "🎵 आरती" }
+    ];
 
-      const b = document.createElement("button");
-      // Slide name with emoji + Hindi
-      let emoji = "";
-      if (k === "mantra") emoji = "🔹 मंत्र";
-      else if (k === "aarti") emoji = "🎵 आरती";
-      else if (k === "puja") emoji = "🙏 पूजा विधि";
-      else if (k === "chalisa") emoji = "📜 चालीसा";
-      else if (k === "stotra") emoji = "🕉️ स्तोत्र";
+    sections.forEach(({ key, label }) => {
+      if (!data.data[key]) return;
 
-      b.innerText = emoji;
-      b.onclick = () => openAskModal(q, k, data.data[k]);
-      result.appendChild(b);
+      const btn = document.createElement("button");
+      btn.innerText = label;
+      btn.onclick = () =>
+        openAskModal(q, label, data.data[key]);
+
+      result.appendChild(btn);
     });
+
   } catch (err) {
     console.error(err);
-    result.innerHTML = `<p>कृपया बाद में पुनः प्रयास करें</p>`;
+    result.innerHTML = `<p>⚠️ सर्वर से कनेक्शन नहीं हो पाया</p>`;
   }
 }
 
-// Open modal for slide
-function openAskModal(deity, type, section) {
-  modalTitle.innerText = `${deity} - ${type}`;
+// Open modal
+function openAskModal(deity, title, section) {
+  modalTitle.innerText = `${deity} ${title}`;
+
   let content = "";
 
-  // If section is array (like mantra) join multiple entries
   if (Array.isArray(section)) {
-    content = section.map((s, i) => `${i + 1}. ${s}`).join("\n\n");
-  } else if (typeof section === "string") {
+    content = section
+      .map((s, i) => `${i + 1}. ${s}`)
+      .join("\n\n");
+  } else {
     content = section;
-  } else if (section.content) {
-    content = section.content;
   }
 
   modalBody.innerHTML = `<pre>${content}</pre>`;
   modal.style.display = "block";
 }
 
-// Reset button
+// Reset
 function resetAsk() {
   query.value = "";
   result.innerHTML = "";
 }
 
-// Close modal on click outside or X button (if present)
+// Close modal
 modal.addEventListener("click", (e) => {
-  if (e.target.id === "modal") modal.style.display = "none";
+  if (e.target.id === "modal") {
+    modal.style.display = "none";
+  }
 });
 
 /* ===============================
