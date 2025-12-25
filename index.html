@@ -274,8 +274,16 @@ function openAudioYT(query){
   modal.style.display = "none";
 }
 /* ===============================
-      ASK BHAKTI
+      ASK BHAKTI - FRONTEND
 =============================== */
+
+const query = document.getElementById("query");
+const result = document.getElementById("result");
+const modal = document.getElementById("modal");
+const modalTitle = document.getElementById("modal-title");
+const modalBody = document.getElementById("modal-body");
+
+// Ask button click
 async function ask() {
   const q = query.value.trim();
   result.innerHTML = "";
