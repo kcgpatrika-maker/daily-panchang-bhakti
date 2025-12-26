@@ -316,14 +316,14 @@ function openAudioYT(query){
   modal.style.display = "none";
 }
 /* ===============================
-   ASK BHAKTI – STEP B (FINAL)
+   ASK BHAKTI – STEP B (FINAL FIXED)
 =============================== */
 
 const query = document.getElementById("query");
 const result = document.getElementById("result");
 const aiButtons = document.querySelectorAll(".ai-btn");
 
-let bhaktiData = null; // देवता का पूरा डेटा यहीं रहेगा
+let bhaktiData = null;
 
 // Ask button
 async function ask() {
@@ -350,16 +350,14 @@ async function ask() {
 
     bhaktiData = data.data;
 
-    // 🔹 ग्रे बटन → ग्रीन
+    // 🔹 ग्रे बटन → ग्रीन (उसी जगह)
     aiButtons.forEach(btn => {
       btn.classList.add("active");
       btn.disabled = false;
     });
 
-    result.innerHTML = `<h3>🙏 ${data.deity}</h3>
-      <p style="font-size:12px;color:#555">
-      ऊपर दिए गए विकल्पों में से चुनें
-      </p>`;
+    // कंटेंट तब तक खाली रहे
+    result.innerHTML = "";
 
   } catch (e) {
     console.error(e);
@@ -367,14 +365,14 @@ async function ask() {
   }
 }
 
-// AI buttons click
+// AI button click
 function showSection(type) {
   if (!bhaktiData || !bhaktiData[type]) {
     result.innerHTML = "<p>यह जानकारी उपलब्ध नहीं</p>";
     return;
   }
 
-  let titleMap = {
+  const titleMap = {
     mantra: "🔹 मंत्र",
     aarti: "🎵 आरती",
     puja: "🙏 पूजा विधि",
@@ -382,15 +380,20 @@ function showSection(type) {
     stotra: "🕉️ स्तोत्र"
   };
 
-  let html = `<h4>${titleMap[type]}</h4>`;
+  let html = `
+    <h3>🙏 ${query.value.trim()}</h3>
+    <p style="font-size:12px;color:#555">
+      ऊपर दिए गए विकल्पों में से चुनें
+    </p>
+    <h4>${titleMap[type]}</h4>
+  `;
 
   if (Array.isArray(bhaktiData[type])) {
     bhaktiData[type].forEach((t, i) => {
       html += `<p>${i + 1}. ${t}</p>`;
     });
   } else {
-    html += `<pre style="white-space:pre-wrap;font-family:inherit;">
-${bhaktiData[type]}</pre>`;
+    html += `<pre style="white-space:pre-wrap;font-family:inherit;">${bhaktiData[type]}</pre>`;
   }
 
   result.innerHTML = html;
