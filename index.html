@@ -319,20 +319,26 @@ function openAudioYT(query){
       ASK BHAKTI - AI STYLE
 =============================== */
 
+/* ===============================
+   ASK BHAKTI – STEP-B (AI UX)
+=============================== */
+
 const query = document.getElementById("query");
 const result = document.getElementById("result");
 
-// Ask button
+let currentData = null;
+
+/* Ask Button */
 async function ask() {
   const q = query.value.trim();
   result.innerHTML = "";
 
   if (!q) {
-    result.innerHTML = "<p>कृपया प्रश्न लिखें</p>";
+    result.innerHTML = "<p>कृपया देवता का नाम लिखें</p>";
     return;
   }
 
-  result.innerHTML = "<p>⏳ उत्तर तैयार हो रहा है...</p>";
+  result.innerHTML = "<p>⏳ जानकारी तैयार हो रही है...</p>";
 
   try {
     const res = await fetch(
@@ -345,59 +351,68 @@ async function ask() {
       return;
     }
 
-    let html = `<h3>🙏 ${data.deity}</h3>`;
+    currentData = data.data;
 
-    /* मंत्र */
-    if (Array.isArray(data.data.mantra)) {
-      html += "<h4>🔹 मंत्र</h4>";
-      data.data.mantra.forEach((m, i) => {
-        html += `<p>${i + 1}. ${m}</p>`;
-      });
-    }
+    /* AI-Style Buttons */
+    result.innerHTML = `
+      <div class="ai-options">
+        <button class="ai-btn active" onclick="showSection('mantra')">🔹 मंत्र</button>
+        <button class="ai-btn active" onclick="showSection('aarti')">🎵 आरती</button>
+        <button class="ai-btn active" onclick="showSection('puja')">🙏 पूजा विधि</button>
+        <button class="ai-btn active" onclick="showSection('chalisa')">📜 चालीसा</button>
+        <button class="ai-btn active" onclick="showSection('stotra')">🕉️ स्तोत्र</button>
+      </div>
 
-    /* आरती (पूरी) */
-    if (data.data.aarti) {
-      html += "<h4>🎵 आरती</h4>";
-      html += `<pre style="white-space:pre-wrap;font-family:inherit;">${data.data.aarti}</pre>`;
-    }
+      <div id="aiContent" style="margin-top:10px;"></div>
+    `;
 
-    /* पूजा विधि */
-    if (data.data.puja) {
-      html += "<h4>🙏 पूजा विधि</h4>";
-      html += `<pre style="white-space:pre-wrap;font-family:inherit;">${data.data.puja}</pre>`;
-    }
-
-    /* चालीसा */
-    if (data.data.chalisa) {
-      html += "<h4>📜 चालीसा</h4>";
-      html += `<pre style="white-space:pre-wrap;font-family:inherit;">${data.data.chalisa}</pre>`;
-    }
-
-    /* स्तोत्र */
-    if (data.data.stotra) {
-      html += "<h4>🕉️ स्तोत्र</h4>";
-      html += `<pre style="white-space:pre-wrap;font-family:inherit;">${data.data.stotra}</pre>`;
-    }
-
-    result.innerHTML = html;
   } catch (e) {
     console.error(e);
     result.innerHTML = "<p>सर्वर से उत्तर नहीं मिला</p>";
   }
 }
 
-// Reset
+/* Show Selected Section */
+function showSection(type) {
+  const box = document.getElementById("aiContent");
+  box.innerHTML = "";
+
+  if (!currentData || !currentData[type]) {
+    box.innerHTML = "<p>यह जानकारी उपलब्ध नहीं है</p>";
+    return;
+  }
+
+  let html = `<h4 style="margin-bottom:6px">${getTitle(type)}</h4>`;
+
+  if (Array.isArray(currentData[type])) {
+    currentData[type].forEach((t, i) => {
+      html += `<p>${i + 1}. ${t}</p>`;
+    });
+  } else {
+    html += `<pre style="white-space:pre-wrap;font-family:inherit;">
+${currentData[type]}
+</pre>`;
+  }
+
+  box.innerHTML = html;
+}
+
+/* Helpers */
+function getTitle(type) {
+  if (type === "mantra") return "🔹 मंत्र";
+  if (type === "aarti") return "🎵 आरती";
+  if (type === "puja") return "🙏 पूजा विधि";
+  if (type === "chalisa") return "📜 चालीसा";
+  if (type === "stotra") return "🕉️ स्तोत्र";
+  return "";
+}
+
+/* Reset */
 function resetAsk() {
   query.value = "";
   result.innerHTML = "";
+  currentData = null;
 }
-
-// Close modal
-modal.addEventListener("click", (e) => {
-  if (e.target.id === "modal") {
-    modal.style.display = "none";
-  }
-});
 
 /* ===============================
       COMMON MODALS
