@@ -75,6 +75,31 @@ footer{text-align:center;padding:10px;background:#fff3e0;font-size:13px;color:#4
 .katha-btn.audio{
   background:#2e7d32;
 }
+.ai-options{
+  display:flex;
+  gap:6px;
+  margin-top:8px;
+  flex-wrap:nowrap;
+}
+
+.ai-btn{
+  flex:1;
+  padding:6px 4px;
+  font-size:12px;
+  border-radius:8px;
+  border:1px solid #ccc;
+  background:#f2f2f2;
+  color:#777;
+  cursor:not-allowed;
+}
+
+/* future use – when active */
+.ai-btn.active{
+  background:#2e7d32;
+  color:#fff;
+  border:none;
+  cursor:pointer;
+}
 </style>
 </head>
 
@@ -157,7 +182,14 @@ footer{text-align:center;padding:10px;background:#fff3e0;font-size:13px;color:#4
   <button onclick="resetAsk()">Reset</button>
 </div>
 <div id="result" class="result"></div>
-
+<!-- AI Bhakti Options -->
+<div class="ai-options">
+  <button class="ai-btn" disabled>🔹 मंत्र</button>
+  <button class="ai-btn" disabled>🎵 आरती</button>
+  <button class="ai-btn" disabled>🙏 पूजा</button>
+  <button class="ai-btn" disabled>📜 चालीसा</button>
+  <button class="ai-btn" disabled>🕉️ स्तोत्र</button>
+</div>
 <div class="card"> 
   <h3>🔗 प्रमुख भक्ति पेज</h3>
   <ul>
