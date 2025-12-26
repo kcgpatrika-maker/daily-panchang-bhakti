@@ -352,7 +352,21 @@ function openAudioYT(query){
 /* ===============================
    ASK BHAKTI – STEP B (FINAL CLEAN)
 =============================== */
+const deityAliasMap = {
+  shiv: "शिव",
+  shiva: "शिव",
+  mahadev: "शिव",
+  bholenath: "शिव",
+  shankar: "शिव",
 
+  hanuman: "हनुमान",
+  bajrangbali: "हनुमान",
+  maruti: "हनुमान",
+
+  ram: "राम",
+  rama: "राम",
+  shriram: "राम",
+};
 const result = document.getElementById("result");
 const aiInfo = document.getElementById("aiInfo");
 const aiTitle = document.getElementById("aiTitle");
@@ -362,7 +376,8 @@ let bhaktiData = null;
 
 // Ask
 async function ask() {
-  const q = query.value.trim().toLowerCase();
+  let q = query.value.trim().toLowerCase();
+q = deityAliasMap[q] || q;
   result.innerHTML = "";
   aiInfo.style.display = "none";
 
@@ -400,6 +415,16 @@ async function ask() {
     });
 
     aiTitle.innerText = `🙏 ${query.value.trim()}`;
+aiInfo.style.display = "block";
+
+// Auto open first available section
+const priorityOrder = ["mantra", "aarti", "puja", "chalisa", "stotra"];
+for (let type of priorityOrder) {
+  if (bhaktiData[type]) {
+    showSection(type);
+    break;
+  }
+}
 
   } catch (e) {
     result.innerHTML = "<p>सर्वर से उत्तर नहीं मिला</p>";
@@ -407,7 +432,6 @@ async function ask() {
 }
 
 // Show section
-result.scrollIntoView({ behavior: "smooth" });
   function showSection(type) {
   if (!bhaktiData || !bhaktiData[type]) return;
 
@@ -423,6 +447,7 @@ result.scrollIntoView({ behavior: "smooth" });
   }
 
   result.innerHTML = html;
+    result.scrollIntoView({ behavior: "smooth" });
 }
 
 // Reset
