@@ -79,21 +79,32 @@ footer{text-align:center;padding:10px;background:#fff3e0;font-size:13px;color:#4
   display:flex;
   gap:6px;
   margin-top:8px;
-  flex-wrap:nowrap;
 }
 
 .ai-btn{
   flex:1;
-  padding:6px 4px;
-  font-size:12px;
-  border-radius:8px;
   border:1px solid #ccc;
+  border-radius:10px;
   background:#f2f2f2;
   color:#777;
+  padding:6px 4px;
+  font-size:12px;
+  text-align:center;
   cursor:not-allowed;
 }
 
-/* future use – when active */
+.ai-btn .emoji{
+  display:block;
+  font-size:18px;
+  line-height:1.2;
+}
+
+.ai-btn .text{
+  display:block;
+  font-size:11px;
+  margin-top:2px;
+}
+
 .ai-btn.active{
   background:#2e7d32;
   color:#fff;
@@ -165,45 +176,54 @@ footer{text-align:center;padding:10px;background:#fff3e0;font-size:13px;color:#4
   </div>
 </div>
 
-<h3 style="
-  margin-top:10px;
-  font-size:17px;
-  color:#4a148c;
-">
+<h3 style="margin-top:10px;font-size:17px;color:#4a148c;">
 🤖 AI से जानें भक्ति का भंडार
 </h3>
 
 <p style="font-size:13px;color:#555;margin-bottom:6px">
 देवता का नाम लिखें और मंत्र, आरती, पूजा विधि आदि पाएं
 </p>
+
 <div class="ask-row">
-  <input id="query" placeholder="देवता का नाम लिखें (जैसे: शिव)">
+  <input id="query" placeholder="देवता का नाम लिखें (जैसे: शिव / Shiv)">
   <button onclick="ask()">Ask</button>
   <button onclick="resetAsk()">Reset</button>
 </div>
-<div id="result" class="result"></div>
-<!-- AI Bhakti Options -->
+
+<!-- AI OPTIONS (FIXED PLACE) -->
 <div class="ai-options">
-  <button class="ai-btn" data-type="mantra" onclick="showSection('mantra')" disabled>
-    🔹 मंत्र
+  <button class="ai-btn" onclick="showSection('mantra')">
+    <span class="emoji">🔹</span>
+    <span class="text">मंत्र</span>
   </button>
-
-  <button class="ai-btn" data-type="aarti" onclick="showSection('aarti')" disabled>
-    🎵 आरती
+  <button class="ai-btn" onclick="showSection('aarti')">
+    <span class="emoji">🎵</span>
+    <span class="text">आरती</span>
   </button>
-
-  <button class="ai-btn" data-type="puja" onclick="showSection('puja')" disabled>
-    🙏 पूजा विधि
+  <button class="ai-btn" onclick="showSection('puja')">
+    <span class="emoji">🙏</span>
+    <span class="text">पूजा विधि</span>
   </button>
-
-  <button class="ai-btn" data-type="chalisa" onclick="showSection('chalisa')" disabled>
-    📜 चालीसा
+  <button class="ai-btn" onclick="showSection('chalisa')">
+    <span class="emoji">📜</span>
+    <span class="text">चालीसा</span>
   </button>
-
-  <button class="ai-btn" data-type="stotra" onclick="showSection('stotra')" disabled>
-    🕉️ स्तोत्र
+  <button class="ai-btn" onclick="showSection('stotra')">
+    <span class="emoji">🕉️</span>
+    <span class="text">स्तोत्र</span>
   </button>
 </div>
+
+<!-- INFO LINE -->
+<div id="aiInfo" style="display:none;margin-top:8px;">
+  <h3 id="aiTitle" style="margin:4px 0"></h3>
+  <p style="font-size:12px;color:#555">
+    ऊपर दिए गए विकल्पों में से चुनें
+  </p>
+</div>
+
+<!-- CONTENT AREA -->
+<div id="result" class="result"></div>
 <div class="card"> 
   <h3>🔗 प्रमुख भक्ति पेज</h3>
   <ul>
@@ -333,36 +353,23 @@ function openAudioYT(query){
    ASK BHAKTI – STEP B (FINAL CLEAN)
 =============================== */
 
-const query = document.getElementById("query");
 const result = document.getElementById("result");
+const aiInfo = document.getElementById("aiInfo");
+const aiTitle = document.getElementById("aiTitle");
 const aiButtons = document.querySelectorAll(".ai-btn");
 
 let bhaktiData = null;
 
-/* 🔹 INITIAL STATE – page load */
-aiButtons.forEach(btn => {
-  btn.classList.remove("active");
-  btn.disabled = true;
-});
-
-/* Ask button */
+// Ask
 async function ask() {
-  const q = query.value.trim();
+  const q = query.value.trim().toLowerCase();
   result.innerHTML = "";
-  bhaktiData = null;
-
-  // reset buttons first
-  aiButtons.forEach(btn => {
-    btn.classList.remove("active");
-    btn.disabled = true;
-  });
+  aiInfo.style.display = "none";
 
   if (!q) {
     result.innerHTML = "<p>कृपया देवता का नाम लिखें</p>";
     return;
   }
-
-  result.innerHTML = "<p>⏳ जानकारी लोड हो रही है...</p>";
 
   try {
     const res = await fetch(
@@ -376,52 +383,53 @@ async function ask() {
     }
 
     bhaktiData = data.data;
-    result.innerHTML = "";
 
-    // 🔹 सिर्फ जिनका डेटा है वही बटन ग्रीन
+    // Reset buttons
     aiButtons.forEach(btn => {
-      const type = btn.dataset.type;
+      btn.classList.remove("active");
+      btn.disabled = true;
+    });
+
+    // Activate only available sections
+    aiButtons.forEach(btn => {
+      const type = btn.getAttribute("onclick").match(/'(.*?)'/)[1];
       if (bhaktiData[type]) {
         btn.classList.add("active");
         btn.disabled = false;
       }
     });
 
+    aiTitle.innerText = `🙏 ${query.value.trim()}`;
+
   } catch (e) {
-    console.error(e);
     result.innerHTML = "<p>सर्वर से उत्तर नहीं मिला</p>";
   }
 }
 
-/* Section button click */
-function showSection(type) {
+// Show section
+result.scrollIntoView({ behavior: "smooth" });
+  function showSection(type) {
   if (!bhaktiData || !bhaktiData[type]) return;
 
-  const titleMap = {
-    mantra: "🔹 मंत्र",
-    aarti: "🎵 आरती",
-    puja: "🙏 पूजा विधि",
-    chalisa: "📜 चालीसा",
-    stotra: "🕉️ स्तोत्र"
-  };
+  let html = "";
+  const data = bhaktiData[type];
 
-  let html = `<h4>${titleMap[type]}</h4>`;
-
-  if (Array.isArray(bhaktiData[type])) {
-    bhaktiData[type].forEach((t, i) => {
+  if (Array.isArray(data)) {
+    data.forEach((t, i) => {
       html += `<p>${i + 1}. ${t}</p>`;
     });
   } else {
-    html += `<pre style="white-space:pre-wrap;font-family:inherit;">${bhaktiData[type]}</pre>`;
+    html = `<pre style="white-space:pre-wrap;font-family:inherit;">${data}</pre>`;
   }
 
   result.innerHTML = html;
 }
 
-/* Reset */
+// Reset
 function resetAsk() {
   query.value = "";
   result.innerHTML = "";
+  aiInfo.style.display = "none";
   bhaktiData = null;
 
   aiButtons.forEach(btn => {
