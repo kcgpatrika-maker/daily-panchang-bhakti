@@ -183,13 +183,27 @@ footer{text-align:center;padding:10px;background:#fff3e0;font-size:13px;color:#4
 </div>
 <div id="result" class="result"></div>
 <!-- AI Bhakti Options -->
- <div class="ai-options">
-        <button class="ai-btn active" onclick="showSection('mantra')">🔹 मंत्र</button>
-        <button class="ai-btn active" onclick="showSection('aarti')">🎵 आरती</button>
-        <button class="ai-btn active" onclick="showSection('puja')">🙏 पूजा विधि</button>
-        <button class="ai-btn active" onclick="showSection('chalisa')">📜 चालीसा</button>
-        <button class="ai-btn active" onclick="showSection('stotra')">🕉️ स्तोत्र</button>
-      </div>
+<div class="ai-options">
+  <button class="ai-btn" data-type="mantra" onclick="showSection('mantra')" disabled>
+    🔹 मंत्र
+  </button>
+
+  <button class="ai-btn" data-type="aarti" onclick="showSection('aarti')" disabled>
+    🎵 आरती
+  </button>
+
+  <button class="ai-btn" data-type="puja" onclick="showSection('puja')" disabled>
+    🙏 पूजा विधि
+  </button>
+
+  <button class="ai-btn" data-type="chalisa" onclick="showSection('chalisa')" disabled>
+    📜 चालीसा
+  </button>
+
+  <button class="ai-btn" data-type="stotra" onclick="showSection('stotra')" disabled>
+    🕉️ स्तोत्र
+  </button>
+</div>
 <div class="card"> 
   <h3>🔗 प्रमुख भक्ति पेज</h3>
   <ul>
@@ -316,7 +330,7 @@ function openAudioYT(query){
   modal.style.display = "none";
 }
 /* ===============================
-   ASK BHAKTI – STEP B (FINAL FIXED)
+   ASK BHAKTI – STEP B (FINAL CLEAN)
 =============================== */
 
 const query = document.getElementById("query");
@@ -325,10 +339,23 @@ const aiButtons = document.querySelectorAll(".ai-btn");
 
 let bhaktiData = null;
 
-// Ask button
+/* 🔹 INITIAL STATE – page load */
+aiButtons.forEach(btn => {
+  btn.classList.remove("active");
+  btn.disabled = true;
+});
+
+/* Ask button */
 async function ask() {
   const q = query.value.trim();
   result.innerHTML = "";
+  bhaktiData = null;
+
+  // reset buttons first
+  aiButtons.forEach(btn => {
+    btn.classList.remove("active");
+    btn.disabled = true;
+  });
 
   if (!q) {
     result.innerHTML = "<p>कृपया देवता का नाम लिखें</p>";
@@ -349,15 +376,16 @@ async function ask() {
     }
 
     bhaktiData = data.data;
-
-    // 🔹 ग्रे बटन → ग्रीन (उसी जगह)
-    aiButtons.forEach(btn => {
-      btn.classList.add("active");
-      btn.disabled = false;
-    });
-
-    // कंटेंट तब तक खाली रहे
     result.innerHTML = "";
+
+    // 🔹 सिर्फ जिनका डेटा है वही बटन ग्रीन
+    aiButtons.forEach(btn => {
+      const type = btn.dataset.type;
+      if (bhaktiData[type]) {
+        btn.classList.add("active");
+        btn.disabled = false;
+      }
+    });
 
   } catch (e) {
     console.error(e);
@@ -365,12 +393,9 @@ async function ask() {
   }
 }
 
-// AI button click
+/* Section button click */
 function showSection(type) {
-  if (!bhaktiData || !bhaktiData[type]) {
-    result.innerHTML = "<p>यह जानकारी उपलब्ध नहीं</p>";
-    return;
-  }
+  if (!bhaktiData || !bhaktiData[type]) return;
 
   const titleMap = {
     mantra: "🔹 मंत्र",
@@ -380,13 +405,7 @@ function showSection(type) {
     stotra: "🕉️ स्तोत्र"
   };
 
-  let html = `
-    <h3>🙏 ${query.value.trim()}</h3>
-    <p style="font-size:12px;color:#555">
-      ऊपर दिए गए विकल्पों में से चुनें
-    </p>
-    <h4>${titleMap[type]}</h4>
-  `;
+  let html = `<h4>${titleMap[type]}</h4>`;
 
   if (Array.isArray(bhaktiData[type])) {
     bhaktiData[type].forEach((t, i) => {
@@ -399,7 +418,7 @@ function showSection(type) {
   result.innerHTML = html;
 }
 
-// Reset
+/* Reset */
 function resetAsk() {
   query.value = "";
   result.innerHTML = "";
