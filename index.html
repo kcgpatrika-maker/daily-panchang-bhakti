@@ -417,15 +417,6 @@ q = deityAliasMap[q] || q;
     aiTitle.innerText = `🙏 ${query.value.trim()}`;
 aiInfo.style.display = "block";
 
-// Auto open first available section
-const priorityOrder = ["mantra", "aarti", "puja", "chalisa", "stotra"];
-for (let type of priorityOrder) {
-  if (bhaktiData[type]) {
-    showSection(type);
-    break;
-  }
-}
-
   } catch (e) {
     result.innerHTML = "<p>सर्वर से उत्तर नहीं मिला</p>";
   }
