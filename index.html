@@ -350,8 +350,10 @@ function openAudioYT(query){
   modal.style.display = "none";
 }
 /* ===============================
-   ASK BHAKTI – STEP B (FINAL CLEAN)
+   ASK BHAKTI – STEP B (FINAL STABLE)
 =============================== */
+
+// English → Hindi alias
 const deityAliasMap = {
   shiv: "शिव",
   shiva: "शिव",
@@ -365,8 +367,10 @@ const deityAliasMap = {
 
   ram: "राम",
   rama: "राम",
-  shriram: "राम",
+  shriram: "राम"
 };
+
+const query = document.getElementById("query");
 const result = document.getElementById("result");
 const aiInfo = document.getElementById("aiInfo");
 const aiTitle = document.getElementById("aiTitle");
@@ -374,17 +378,25 @@ const aiButtons = document.querySelectorAll(".ai-btn");
 
 let bhaktiData = null;
 
-// Ask
+/* ========= ASK ========= */
 async function ask() {
   let q = query.value.trim().toLowerCase();
-q = deityAliasMap[q] || q;
+  q = deityAliasMap[q] || q;
+
   result.innerHTML = "";
   aiInfo.style.display = "none";
+  bhaktiData = null;
 
   if (!q) {
     result.innerHTML = "<p>कृपया देवता का नाम लिखें</p>";
     return;
   }
+
+  // 🔴 पहले सभी बटन disable + inactive
+  aiButtons.forEach(btn => {
+    btn.disabled = true;
+    btn.classList.remove("active");
+  });
 
   try {
     const res = await fetch(
@@ -399,32 +411,34 @@ q = deityAliasMap[q] || q;
 
     bhaktiData = data.data;
 
-    // Reset buttons
-    aiButtons.forEach(btn => {
-      btn.classList.remove("active");
-      btn.disabled = true;
-    });
-
-    // Activate only available sections
+    // 🟢 सिर्फ जिनका data है वही बटन enable
     aiButtons.forEach(btn => {
       const type = btn.getAttribute("onclick").match(/'(.*?)'/)[1];
       if (bhaktiData[type]) {
-        btn.classList.add("active");
         btn.disabled = false;
+        btn.classList.add("active"); // ग्रीन
       }
     });
 
+    // ℹ️ सिर्फ info दिखे — कोई कंटेंट नहीं
     aiTitle.innerText = `🙏 ${query.value.trim()}`;
-aiInfo.style.display = "block";
+    aiInfo.style.display = "block";
 
   } catch (e) {
     result.innerHTML = "<p>सर्वर से उत्तर नहीं मिला</p>";
   }
 }
 
-// Show section
-  function showSection(type) {
+/* ========= SHOW SECTION ========= */
+function showSection(type) {
   if (!bhaktiData || !bhaktiData[type]) return;
+
+  // 🔁 active state switch
+  aiButtons.forEach(btn => btn.classList.remove("active"));
+  const activeBtn = document.querySelector(
+    `.ai-btn[onclick*="${type}"]`
+  );
+  if (activeBtn) activeBtn.classList.add("active");
 
   let html = "";
   const data = bhaktiData[type];
@@ -438,10 +452,10 @@ aiInfo.style.display = "block";
   }
 
   result.innerHTML = html;
-    result.scrollIntoView({ behavior: "smooth" });
+  result.scrollIntoView({ behavior: "smooth" });
 }
 
-// Reset
+/* ========= RESET ========= */
 function resetAsk() {
   query.value = "";
   result.innerHTML = "";
@@ -449,8 +463,8 @@ function resetAsk() {
   bhaktiData = null;
 
   aiButtons.forEach(btn => {
-    btn.classList.remove("active");
     btn.disabled = true;
+    btn.classList.remove("active");
   });
 }
 
