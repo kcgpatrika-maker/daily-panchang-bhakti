@@ -266,30 +266,12 @@ fetch("https://bhakti-panchang-backend.onrender.com/api/panchang")
   maas.innerText = d.masa;
   tithi.innerText = d.paksha_tithi;
 
-  let html = "";
+  festivalList.innerHTML = d.festivalList.map(f => `<li>${f}</li>`).join("");
+})
+.catch(() => {
+  festivalList.innerHTML = "<li>कोई विशेष व्रत नहीं</li>";
+});
 
-// व्रत
-if (d.vratList && d.vratList.length > 0) {
-  html += `<li><b>🔸 व्रत</b></li>`;
-  d.vratList.forEach(v => {
-    html += `<li>• ${v}</li>`;
-  });
-}
-
-// त्योहार / दिवस
-if (d.festivalList && d.festivalList.length > 0) {
-  html += `<li style="margin-top:6px"><b>🔸 त्योहार / दिवस</b></li>`;
-  d.festivalList.forEach(f => {
-    html += `<li>• ${f}</li>`;
-  });
-}
-
-// कुछ भी नहीं
-if (html === "") {
-  html = `<li>आज कोई विशेष व्रत या त्योहार नहीं</li>`;
-}
-
-festivalList.innerHTML = html;
 /* ===============================
    COMMON MODAL REFERENCES
 =============================== */
