@@ -399,10 +399,8 @@ async function ask() {
   });
 
   try {
-    const res = await fetch(
-      `https://bhakti-panchang-backend.onrender.com/api/ask-bhakti-all?q=${encodeURIComponent(q)}`
-    );
-    const data = await res.json();
+const res = await fetch(`https://bhakti-panchang-backend.onrender.com/api/ask-bhakti-all?q=${encodeURIComponent(q)}`);
+const data = await res.json();
 
     if (!data.success) {
       result.innerHTML = "<p>डेटा उपलब्ध नहीं</p>";
@@ -443,16 +441,14 @@ function showSection(type) {
   let html = "";
   const data = bhaktiData[type];
 
-  if (Array.isArray(data)) {
-    data.forEach((t, i) => {
-      html += `<p>${i + 1}. ${t}</p>`;
-    });
-  } else {
-    html = `<pre style="white-space:pre-wrap;font-family:inherit;">${data}</pre>`;
-  }
+  if (Array.isArray(data)) { data.forEach((t,i) => { html += `<p>${i+1}. ${t}</p>`; }); }
+else if (typeof data === 'object' && data.pdf) {
+html = `<p>${data.text || ''}</p><p><a href='${data.pdf}' target='_blank'>📄 PDF डाउनलोड करें</a></p>`;
+} else { html = `<pre style='white-space:pre-wrap;font-family:inherit;'>${data}</pre>`; }
 
-  result.innerHTML = html;
-  result.scrollIntoView({ behavior: "smooth" });
+
+result.innerHTML = html;
+result.scrollIntoView({behavior:'smooth'});
 }
 
 /* ========= RESET ========= */
