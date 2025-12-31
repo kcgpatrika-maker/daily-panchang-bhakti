@@ -418,7 +418,6 @@ async function ask() {
     return;
   }
 
-  // 🔴 पहले सभी बटन disable + inactive
   aiButtons.forEach(btn => {
     btn.disabled = true;
     btn.classList.remove("active");
@@ -426,32 +425,33 @@ async function ask() {
 
   try {
     const res = await fetch(
-      `https://bhakti-panchang-backend.onrender.com/api/ask-bhakti-all?q=${encodeURIComponent(q)}`
+      `https://bhakti-panchang-backend.onrender.com/api/ask-bhakti/${encodeURIComponent(q)}`
     );
-    const data = await res.json();
 
-    if (!data.success) {
+    if (!res.ok) throw new Error("Not found");
+
+    const json = await res.json();
+
+    if (!json.success) {
       result.innerHTML = "<p>डेटा उपलब्ध नहीं</p>";
       return;
     }
 
-    bhaktiData = data.data;
+    bhaktiData = json.data;
 
-    // 🟢 सिर्फ जिनका data है वही बटन enable
     aiButtons.forEach(btn => {
       const type = btn.getAttribute("onclick").match(/'(.*?)'/)[1];
       if (bhaktiData[type]) {
         btn.disabled = false;
-        btn.classList.add("active"); // ग्रीन
+        btn.classList.add("active");
       }
     });
 
-    // ℹ️ सिर्फ info दिखे — कोई कंटेंट नहीं
-    aiTitle.innerText = `🙏 ${query.value.trim()}`;
+    aiTitle.innerText = `🙏 ${bhaktiData.name}`;
     aiInfo.style.display = "block";
 
   } catch (e) {
-    result.innerHTML = "<p>सर्वर से उत्तर नहीं मिला</p>";
+    result.innerHTML = "<p>❌ सर्वर से उत्तर नहीं मिला</p>";
   }
 }
 
