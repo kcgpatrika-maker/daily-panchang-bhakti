@@ -266,33 +266,7 @@ fetch("https://bhakti-panchang-backend.onrender.com/api/panchang")
   maas.innerText = d.masa;
   tithi.innerText = d.paksha_tithi;
 
-  let html = "";
-
-/* =====================
-   🪔 व्रत
-===================== */
-if (Array.isArray(d.vratList) && d.vratList.length > 0) {
-  html += `<li><b>🪔 आज का व्रत:</b></li>`;
-  d.vratList.forEach(v => {
-    html += `<li>• ${v}</li>`;
-  });
-} else {
-  html += `<li><b>🪔 आज का व्रत:</b> कोई विशेष व्रत नहीं</li>`;
-}
-
-/* =====================
-   🎉 दिवस / त्योहार
-===================== */
-if (Array.isArray(d.diwasList) && d.diwasList.length > 0) {
-  html += `<li style="margin-top:6px"><b>🎉 आज का दिवस:</b></li>`;
-  d.diwasList.forEach(dv => {
-    html += `<li>• ${dv}</li>`;
-  });
-} else {
-  html += `<li style="margin-top:6px"><b>🎉 आज का दिवस:</b> कोई विशेष दिवस नहीं</li>`;
-}
-
-festivalList.innerHTML = html;
+  festivalList.innerHTML = d.festivalList.map(f => `<li>${f}</li>`).join("");
 })
 .catch(() => {
   festivalList.innerHTML = "<li>कोई विशेष व्रत नहीं</li>";
@@ -418,6 +392,7 @@ async function ask() {
     return;
   }
 
+  // 🔴 पहले सभी बटन disable + inactive
   aiButtons.forEach(btn => {
     btn.disabled = true;
     btn.classList.remove("active");
@@ -425,33 +400,32 @@ async function ask() {
 
   try {
     const res = await fetch(
-      `https://bhakti-panchang-backend.onrender.com/api/ask-bhakti/${encodeURIComponent(q)}`
+      `https://bhakti-panchang-backend.onrender.com/api/ask-bhakti-all?q=${encodeURIComponent(q)}`
     );
+    const data = await res.json();
 
-    if (!res.ok) throw new Error("Not found");
-
-    const json = await res.json();
-
-    if (!json.success) {
+    if (!data.success) {
       result.innerHTML = "<p>डेटा उपलब्ध नहीं</p>";
       return;
     }
 
-    bhaktiData = json.data;
+    bhaktiData = data.data;
 
+    // 🟢 सिर्फ जिनका data है वही बटन enable
     aiButtons.forEach(btn => {
       const type = btn.getAttribute("onclick").match(/'(.*?)'/)[1];
       if (bhaktiData[type]) {
         btn.disabled = false;
-        btn.classList.add("active");
+        btn.classList.add("active"); // ग्रीन
       }
     });
 
-    aiTitle.innerText = `🙏 ${bhaktiData.name}`;
+    // ℹ️ सिर्फ info दिखे — कोई कंटेंट नहीं
+    aiTitle.innerText = `🙏 ${query.value.trim()}`;
     aiInfo.style.display = "block";
 
   } catch (e) {
-    result.innerHTML = "<p>❌ सर्वर से उत्तर नहीं मिला</p>";
+    result.innerHTML = "<p>सर्वर से उत्तर नहीं मिला</p>";
   }
 }
 
