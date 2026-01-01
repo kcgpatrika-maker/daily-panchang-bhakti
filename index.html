@@ -175,9 +175,11 @@ footer{text-align:center;padding:10px;background:#fff3e0;font-size:13px;color:#4
 
   <div class="panchang-right">
     <button class="religious-btn" onclick="openReligiousMessage()">
-      🕉️
+      ⭕️
     </button>
-    <div class="btn-label">धार्मिक संदेश</div>
+    <div class="btn-label">
+  आज का<br>धार्मिक संदेश
+</div>
   </div>
 </div>
   <div style="display:flex; gap:5px; flex-wrap:nowrap; margin-top:8px; margin-bottom:10px;">
@@ -606,20 +608,44 @@ const dharmikSandeshMap = {
 };
 
 function openReligiousMessage(){
-  const msg = "🕉️ आज का धार्मिक संदेश\n\nधर्म का मूल उद्देश्य मन की शुद्धि और कर्म की पवित्रता है।\n\n— भक्ति पंचांग";
 
-  modalTitle.innerText = "🕉️ आज का धार्मिक संदेश";
+  const message =
+`🛎️ आज का धार्मिक संदेश
+
+धर्म का मूल उद्देश्य मन की शुद्धि और कर्म की पवित्रता है।
+
+— भक्ति पंचांग`;
+
+  modalTitle.innerText = "🛎️ आज का धार्मिक संदेश";
+
   modalBody.innerHTML = `
-    <p>धर्म का मूल उद्देश्य मन की शुद्धि और कर्म की पवित्रता है।</p>
+    <p style="font-size:15px;line-height:1.6">
+      <b>आज का धार्मिक संदेश</b><br><br>
+      धर्म का मूल उद्देश्य मन की शुद्धि और कर्म की पवित्रता है।
+    </p>
 
-    <button style="margin-top:10px;padding:6px 10px"
-      onclick="navigator.share
-        ? navigator.share({ text: msg })
-        : navigator.clipboard.writeText(msg)">
-      📤 शेयर करें
+    <button style="
+      margin-top:12px;
+      padding:8px 12px;
+      background:#25D366;
+      color:#fff;
+      border:none;
+      border-radius:8px;
+      font-size:14px;
+    " onclick="shareReligiousMessage()">
+      📤 WhatsApp पर शेयर करें
     </button>
   `;
-  modal.style.display="block";
+
+  window._religiousMessage = message;
+  modal.style.display = "block";
+}
+
+function shareReligiousMessage(){
+  const text = encodeURIComponent(window._religiousMessage);
+
+  const waUrl = "https://wa.me/?text=" + text;
+  window.open(waUrl, "_blank");
 }
 
 </script>
