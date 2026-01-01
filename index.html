@@ -111,28 +111,41 @@ footer{text-align:center;padding:10px;background:#fff3e0;font-size:13px;color:#4
   border:none;
   cursor:pointer;
 }
-  .panchang-row{
+  .panchang-wrap{
   display:flex;
   justify-content:space-between;
   align-items:center;
-  gap:8px;
 }
 
-.panchang-row p{
-  margin:0;
+.panchang-left p{
+  margin:6px 0;
   font-size:14px;
 }
 
+.panchang-right{
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  min-width:70px;
+}
+
 .religious-btn{
-  width:42px;
-  height:42px;
+  width:46px;
+  height:46px;
   border-radius:50%;
   border:none;
-  background:linear-gradient(135deg,#ff7043,#ff9800);
-  color:#fff;
-  font-size:20px;
+  background:#ff9800;
+  font-size:22px;
+  line-height:46px;
   cursor:pointer;
-  flex-shrink:0;
+}
+
+.btn-label{
+  font-size:11px;
+  margin-top:4px;
+  color:#4e342e;
+  text-align:center;
 }
 </style>
 </head>
@@ -151,19 +164,21 @@ footer{text-align:center;padding:10px;background:#fff3e0;font-size:13px;color:#4
 
 <div class="section">
 
-<div class="card panchang">
-  <p>📅 <b id="dateText"></b> | <b id="vaar"></b></p>
-  <p>🌅 सूर्योदय: <b id="sunrise"></b> | 🌇 सूर्यास्त: <b id="sunset"></b></p>
-  <p>🌙 चंद्रोदय: <b id="moonrise"></b> | 🌑 चंद्रास्त: <b id="moonset"></b></p>
-  <p>विक्रम संवत: <b id="vikram"></b> | शक संवत: <b id="shak"></b></p>
-  <div class="panchang-row">
-  <p>मास: <b id="maas"></b> | तिथि: <b id="tithi"></b></p>
+<div class="panchang-wrap">
+  <div class="panchang-left">
+    <p>📅 <b id="dateText"></b> | <b id="vaar"></b></p>
+    <p>🌅 सूर्योदय: <b id="sunrise"></b> | 🌇 सूर्यास्त: <b id="sunset"></b></p>
+    <p>🌙 चंद्रोदय: <b id="moonrise"></b> | 🌑 चंद्रास्त: <b id="moonset"></b></p>
+    <p>विक्रम संवत: <b id="vikram"></b> | शक संवत: <b id="shak"></b></p>
+    <p>मास: <b id="maas"></b> | तिथि: <b id="tithi"></b></p>
+  </div>
 
-  <button class="religious-btn"
-          onclick="openReligiousMessage()"
-          title="आज का धार्मिक संदेश">
-    📿
-  </button>
+  <div class="panchang-right">
+    <button class="religious-btn" onclick="openReligiousMessage()">
+      🕉️
+    </button>
+    <div class="btn-label">धार्मिक संदेश</div>
+  </div>
 </div>
   <div style="display:flex; gap:5px; flex-wrap:nowrap; margin-top:8px; margin-bottom:10px;">
 
@@ -590,47 +605,21 @@ const dharmikSandeshMap = {
   }
 };
 
-function openDharmikSandesh() {
-  const day = document.getElementById("vaar").innerText.trim();
-  const msg = dharmikSandeshMap[day] || {
-    source: "सनातन विचार",
-    text: "आज का दिन शुभ कर्म और सकारात्मक सोच के लिए उत्तम है।"
-  };
-
-  document.getElementById("sandeshSource").innerText = msg.source;
-  document.getElementById("sandeshBody").innerText = msg.text;
-
-  document.getElementById("sandeshModal").style.display = "block";
-}
-
-function closeSandesh(){
-  document.getElementById("sandeshModal").style.display = "none";
-}
-
-function shareSandesh(){
-  const text =
-    "📿 आज का धार्मिक संदेश\n\n" +
-    document.getElementById("sandeshBody").innerText +
-    "\n\n— स्रोत: " +
-    document.getElementById("sandeshSource").innerText;
-
-  const url =
-    "https://wa.me/?text=" + encodeURIComponent(text);
-
-  window.open(url, "_blank");
-}
 function openReligiousMessage(){
+  const msg = "🕉️ आज का धार्मिक संदेश\n\nधर्म का मूल उद्देश्य मन की शुद्धि और कर्म की पवित्रता है।\n\n— भक्ति पंचांग";
+
   modalTitle.innerText = "🕉️ आज का धार्मिक संदेश";
   modalBody.innerHTML = `
-    <p>
-      धर्म का मूल उद्देश्य मन की शुद्धि और
-      कर्म की पवित्रता है।
-    </p>
-    <p style="font-size:12px;color:#555">
-      स्रोत: सार्वजनिक धर्मग्रंथ
-    </p>
+    <p>धर्म का मूल उद्देश्य मन की शुद्धि और कर्म की पवित्रता है।</p>
+
+    <button style="margin-top:10px;padding:6px 10px"
+      onclick="navigator.share
+        ? navigator.share({ text: msg })
+        : navigator.clipboard.writeText(msg)">
+      📤 शेयर करें
+    </button>
   `;
-  modal.style.display = "block";
+  modal.style.display="block";
 }
 
 </script>
