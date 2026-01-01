@@ -111,6 +111,29 @@ footer{text-align:center;padding:10px;background:#fff3e0;font-size:13px;color:#4
   border:none;
   cursor:pointer;
 }
+  .panchang-row{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:8px;
+}
+
+.panchang-row p{
+  margin:0;
+  font-size:14px;
+}
+
+.religious-btn{
+  width:42px;
+  height:42px;
+  border-radius:50%;
+  border:none;
+  background:linear-gradient(135deg,#ff7043,#ff9800);
+  color:#fff;
+  font-size:20px;
+  cursor:pointer;
+  flex-shrink:0;
+}
 </style>
 </head>
 
@@ -133,23 +156,13 @@ footer{text-align:center;padding:10px;background:#fff3e0;font-size:13px;color:#4
   <p>🌅 सूर्योदय: <b id="sunrise"></b> | 🌇 सूर्यास्त: <b id="sunset"></b></p>
   <p>🌙 चंद्रोदय: <b id="moonrise"></b> | 🌑 चंद्रास्त: <b id="moonset"></b></p>
   <p>विक्रम संवत: <b id="vikram"></b> | शक संवत: <b id="shak"></b></p>
+  <div class="panchang-row">
   <p>मास: <b id="maas"></b> | तिथि: <b id="tithi"></b></p>
-  <!-- 🔔 Aaj Ka Dharmik Sandesh Button -->
-<div style="text-align:center;margin:10px 0;">
-  <button onclick="openDharmikSandesh()"
-    style="
-      width:90px;
-      height:90px;
-      border-radius:50%;
-      border:none;
-      background:linear-gradient(135deg,#ff7043,#ff9800);
-      color:#fff;
-      font-size:13px;
-      font-weight:600;
-      box-shadow:0 4px 10px rgba(0,0,0,.25);
-      cursor:pointer;
-    ">
-    🔔<br>आज का<br>संदेश
+
+  <button class="religious-btn"
+          onclick="openReligiousMessage()"
+          title="आज का धार्मिक संदेश">
+    📿
   </button>
 </div>
   <div style="display:flex; gap:5px; flex-wrap:nowrap; margin-top:8px; margin-bottom:10px;">
@@ -291,6 +304,7 @@ footer{text-align:center;padding:10px;background:#fff3e0;font-size:13px;color:#4
     </button>
   </div>
 </div> 
+  
 <script>
 /* ===============================
         PANCHANG + FESTIVALS
@@ -604,6 +618,19 @@ function shareSandesh(){
     "https://wa.me/?text=" + encodeURIComponent(text);
 
   window.open(url, "_blank");
+}
+function openReligiousMessage(){
+  modalTitle.innerText = "🕉️ आज का धार्मिक संदेश";
+  modalBody.innerHTML = `
+    <p>
+      धर्म का मूल उद्देश्य मन की शुद्धि और
+      कर्म की पवित्रता है।
+    </p>
+    <p style="font-size:12px;color:#555">
+      स्रोत: सार्वजनिक धर्मग्रंथ
+    </p>
+  `;
+  modal.style.display = "block";
 }
 
 </script>
