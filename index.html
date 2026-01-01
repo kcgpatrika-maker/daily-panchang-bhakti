@@ -518,10 +518,20 @@ function showSection(type) {
   let html = "";
   const data = bhaktiData[type];
 
-  if (Array.isArray(data)) { data.forEach((t,i) => { html += `<p>${i+1}. ${t}</p>`; }); }
-else if (typeof data === 'object' && data.pdf) {
-html = `<p>${data.text || ''}</p><p><a href='${data.pdf}' target='_blank'>📄 PDF डाउनलोड करें</a></p>`;
-} else { html = `<pre style='white-space:pre-wrap;font-family:inherit;'>${data}</pre>`; }
+if (Array.isArray(data)) {
+  data.forEach((item, i) => {
+    html += `
+      <p><b>${item.title}</b></p>
+      <p>📌 स्रोत: ${item.source}</p>
+      <p>
+        <a href="${item.pdf}" target="_blank">
+          📄 PDF खोलें
+        </a>
+      </p>
+      <hr>
+    `;
+  });
+}
 
 
 result.innerHTML = html;
