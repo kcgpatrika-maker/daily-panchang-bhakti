@@ -111,15 +111,23 @@ footer{text-align:center;padding:10px;background:#fff3e0;font-size:13px;color:#4
   border:none;
   cursor:pointer;
 }
-  .panchang-wrap{
+ .panchang-wrap{
   display:flex;
   justify-content:space-between;
   align-items:center;
+  gap:12px;
 }
 
-.panchang-left p{
-  margin:6px 0;
+.panchang-left{
+  flex:1;
   font-size:14px;
+  line-height:1.6;
+}
+
+.panchang-source{
+  font-size:11px;
+  color:#666;
+  margin-top:4px;
 }
 
 .panchang-right{
@@ -127,25 +135,35 @@ footer{text-align:center;padding:10px;background:#fff3e0;font-size:13px;color:#4
   flex-direction:column;
   align-items:center;
   justify-content:center;
-  min-width:70px;
+  min-width:80px;
 }
 
 .religious-btn{
-  width:46px;
-  height:46px;
+  width:52px;
+  height:52px;
   border-radius:50%;
   border:none;
   background:#ff9800;
+  color:#fff;
   font-size:22px;
-  line-height:46px;
   cursor:pointer;
 }
 
 .btn-label{
-  font-size:14px;
-  margin-top:4px;
-  color:#4e342e;
+  margin-top:6px;
+  font-size:15px;
+  font-weight:600;
   text-align:center;
+}
+
+/* ===== MOBILE ===== */
+@media (max-width:600px){
+  .panchang-left{
+    font-size:13px;
+  }
+  .btn-label{
+    font-size:16px;
+  }
 }
 </style>
 </head>
@@ -167,13 +185,14 @@ footer{text-align:center;padding:10px;background:#fff3e0;font-size:13px;color:#4
 <div class="panchang-wrap">
   <div class="panchang-left">
     <p>📅 <b id="dateText"></b> | <b id="vaar"></b></p>
+    vaar.innerText = new Date().toLocaleDateString("hi-IN", { weekday: "long" });
     <p>🌅 सूर्योदय: <b id="sunrise"></b> | 🌇 सूर्यास्त: <b id="sunset"></b></p>
     <p>🌙 चंद्रोदय: <b id="moonrise"></b> | 🌑 चंद्रास्त: <b id="moonset"></b></p>
     <p>विक्रम संवत: <b id="vikram"></b> | शक संवत: <b id="shak"></b></p>
     <p>मास: <b id="maas"></b> | तिथि: <b id="tithi"></b></p>
-  </div>
-<div style="font-size:12px;color:#555;margin-top:4px" id="panchangSource">
+    <div style="font-size:12px;color:#555;margin-top:4px" id="panchangSource">
   📌 स्रोत: —
+  </div>
 </div>
   <div class="panchang-right">
     <button class="religious-btn" onclick="openReligiousMessage()">
@@ -346,8 +365,8 @@ async function loadPanchang() {
     moonset.innerText = data.moonset ?? "—";
 
     // Vikram & Shak Samvat
-    vikram.innerText = data.vikram_samvat ?? "—";
-    shak.innerText = data.shak_samvat ?? "—";
+   vikram.innerText = data.vikramSamvat ?? "—";
+shak.innerText = data.shakSamvat ?? "—";
 
     // Masa, Tithi, Paksha
     maas.innerText = data.masa ?? "—";
