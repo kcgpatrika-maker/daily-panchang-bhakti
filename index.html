@@ -172,7 +172,9 @@ footer{text-align:center;padding:10px;background:#fff3e0;font-size:13px;color:#4
     <p>विक्रम संवत: <b id="vikram"></b> | शक संवत: <b id="shak"></b></p>
     <p>मास: <b id="maas"></b> | तिथि: <b id="tithi"></b></p>
   </div>
-
+<div style="font-size:12px;color:#555;margin-top:4px" id="panchangSource">
+  📌 स्रोत: —
+</div>
   <div class="panchang-right">
     <button class="religious-btn" onclick="openReligiousMessage()">
       ⭕️
@@ -324,30 +326,54 @@ footer{text-align:center;padding:10px;background:#fff3e0;font-size:13px;color:#4
   
 <script>
 /* ===============================
-        PANCHANG + FESTIVALS
+        PANCHANG FETCH + RENDER
 =============================== */
-fetch("https://bhakti-panchang-backend.onrender.com/api/panchang")
-.then(r => r.json())
-.then(res => {
-  if (!res.success) return;
-  const d = res.data;
 
-  dateText.innerText = d.date;
-  vaar.innerText = d.day;
-  sunrise.innerText = d.sunMoon.sunrise;
-  sunset.innerText = d.sunMoon.sunset;
-  moonrise.innerText = d.sunMoon.moonrise;
-  moonset.innerText = d.sunMoon.moonset;
-  vikram.innerText = d.vikram_samvat;
-  shak.innerText = d.shak_samvat;
-  maas.innerText = d.masa;
-  tithi.innerText = d.paksha_tithi;
+async function loadPanchang() {
+  try {
+    const res = await fetch("https://bhakti-panchang-backend.onrender.com/api/panchang");
+    const data = await res.json();
 
-  festivalList.innerHTML = d.festivalList.map(f => `<li>${f}</li>`).join("");
-})
-.catch(() => {
-  festivalList.innerHTML = "<li>कोई विशेष व्रत नहीं</li>";
-});
+    // Date & Day
+    dateText.innerText = data.date;
+
+    // Sunrise / Sunset
+    sunrise.innerText = data.sunrise ?? "—";
+    sunset.innerText = data.sunset ?? "—";
+
+    // Moonrise / Moonset
+    moonrise.innerText = data.moonrise ?? "—";
+    moonset.innerText = data.moonset ?? "—";
+
+    // Vikram & Shak Samvat
+    vikram.innerText = data.vikram_samvat ?? "—";
+    shak.innerText = data.shak_samvat ?? "—";
+
+    // Masa, Tithi, Paksha
+    maas.innerText = data.masa ?? "—";
+    tithi.innerText = data.tithi ?? "—";
+
+    // Festivals / Vrat
+    if (Array.isArray(data.festivalList) && data.festivalList.length > 0) {
+      festivalList.innerHTML = data.festivalList.map(f => `<li>${f}</li>`).join("");
+    } else {
+      festivalList.innerHTML = "<li>कोई विशेष व्रत नहीं</li>";
+    }
+
+    // Source (footer / info)
+    const panchangSource = document.getElementById("panchangSource");
+    if(panchangSource){
+      panchangSource.innerText = `📌 स्रोत: ${data.source ?? "—"}`;
+    }
+
+  } catch (err) {
+    console.error("Frontend Panchang load error:", err);
+    festivalList.innerHTML = "<li>पंचांग लोड नहीं हो सका</li>";
+  }
+}
+
+// Page load पर Panchang लोड करें
+loadPanchang();
 
 /* ===============================
    COMMON MODAL REFERENCES
