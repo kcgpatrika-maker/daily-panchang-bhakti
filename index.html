@@ -365,8 +365,9 @@ async function loadPanchang() {
     moonset.innerText = data.moonset ?? "—";
 
     // Vikram & Shak Samvat
-   vikram.innerText = data.vikramSamvat ?? "—";
-shak.innerText = data.shakSamvat ?? "—";
+    vikram.innerText = data.vikram_samvat ?? "—";
+    shak.innerText   = data.shak_samvat ?? "—";
+
 
     // Masa, Tithi, Paksha
     maas.innerText = data.masa ?? "—";
