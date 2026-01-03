@@ -188,7 +188,7 @@ footer{text-align:center;padding:10px;background:#fff3e0;font-size:13px;color:#4
     <p>🌅 सूर्योदय: <b id="sunrise"></b> | 🌇 सूर्यास्त: <b id="sunset"></b></p>
     <p>🌙 चंद्रोदय: <b id="moonrise"></b> | 🌑 चंद्रास्त: <b id="moonset"></b></p>
     <p>विक्रम संवत: <b id="vikram"></b> | शक संवत: <b id="shak"></b></p>
-    <p>मास: <b id="maas"></b> | तिथि: <b id="tithi"></b></p>
+    <p>मास: <b id="maas"></b> | पक्ष: <b id="paksha"></b> | तिथि: <b id="tithi"></b></p>
     <div style="font-size:12px;color:#555;margin-top:4px" id="panchangSource">
   📌 स्रोत: —
   </div>
@@ -370,6 +370,7 @@ shak.innerText = data.shakSamvat ?? "—";
 
     // Masa, Tithi, Paksha
     maas.innerText = data.masa ?? "—";
+    paksha.innerText = data.paksha ?? "—";
     tithi.innerText = data.tithi ?? "—";
 
     // Festivals / Vrat
