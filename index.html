@@ -346,15 +346,14 @@ footer{text-align:center;padding:10px;background:#fff3e0;font-size:13px;color:#4
 /* ===============================
         PANCHANG FETCH + RENDER
 =============================== */
-
 async function loadPanchang() {
   try {
     const res = await fetch("https://bhakti-panchang-backend.onrender.com/api/panchang");
     const data = await res.json();
 
     // Date & Day
-    dateText.innerText = data.date;
-    vaar.innerText = new Date().toLocaleDateString("hi-IN", { weekday: "long" });
+    dateText.innerText = data.date ?? "—";
+    vaar.innerText = data.day ?? "—";
 
     // Sunrise / Sunset
     sunrise.innerText = data.sunrise ?? "—";
@@ -365,12 +364,11 @@ async function loadPanchang() {
     moonset.innerText = data.moonset ?? "—";
 
     // Vikram & Shak Samvat
-    vikram.innerText = data.vikram_samvat ?? "—";
-    shak.innerText   = data.shak_samvat ?? "—";
-
+    vikram.innerText = data.vikramSamvat ?? "—";
+    shak.innerText   = data.shakaSamvat ?? "—";
 
     // Masa, Tithi, Paksha
-    maas.innerText = data.masa ?? "—";
+    maas.innerText = data.month ?? "—";
     paksha.innerText = data.paksha ?? "—";
     tithi.innerText = data.tithi ?? "—";
 
@@ -384,7 +382,7 @@ async function loadPanchang() {
     // Source (footer / info)
     const panchangSource = document.getElementById("panchangSource");
     if(panchangSource){
-      panchangSource.innerText = `📌 स्रोत: ${data.source ?? "—"}`;
+      panchangSource.innerText = `📌 स्रोत: ${data.source ?? "Bhakti Panchang API"}`;
     }
 
   } catch (err) {
