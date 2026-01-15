@@ -372,7 +372,7 @@ async function loadPanchang() {
     paksha.innerText = data.paksha ?? "—";
     tithi.innerText = data.tithi ?? "—";
 
-    // Festivals / Vrat
+    // Festivals / Vrat (optional future use)
     if (Array.isArray(data.festivalList) && data.festivalList.length > 0) {
       festivalList.innerHTML = data.festivalList.map(f => `<li>${f}</li>`).join("");
     } else {
