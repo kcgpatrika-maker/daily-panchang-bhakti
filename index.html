@@ -667,44 +667,42 @@ const dharmikSandeshMap = {
 
 function openReligiousMessage(){
 
-  const message =
-`🛎️ आज का धार्मिक संदेश
+  // जब API से data आ जाए
+fetch("/api/panchang")
+  .then(res => res.json())
+  .then(data => {
+    const message = `🛎️ आज का धार्मिक संदेश\n\n${data.dharmikMessage}\n\n— भक्ति पंचांग`;
 
-धर्म का मूल उद्देश्य मन की शुद्धि और कर्म की पवित्रता है।
+    modalTitle.innerText = "🛎️ आज का धार्मिक संदेश";
 
-— भक्ति पंचांग`;
+    modalBody.innerHTML = `
+      <p style="font-size:17px;line-height:1.7">
+        ${data.dharmikMessage}
+      </p>
 
-  modalTitle.innerText = "🛎️ आज का धार्मिक संदेश";
+      <p style="font-size:13px;color:#777;margin-top:10px">
+        — भक्ति पंचांग
+      </p>
 
-  modalBody.innerHTML = `
-  <p style="font-size:17px;line-height:1.7">
-  धर्म का मूल उद्देश्य मन की शुद्धि और कर्म की पवित्रता है।
-</p>
+      <button style="
+        margin-top:12px;
+        padding:8px 12px;
+        background:#25D366;
+        color:#fff;
+        border:none;
+        border-radius:8px;
+        font-size:14px;
+      " onclick="shareReligiousMessage()">
+        📤 WhatsApp पर शेयर करें
+      </button>
+    `;
 
-<p style="font-size:13px;color:#777;margin-top:10px">
-  — भक्ति पंचांग
-</p>
-
-    <button style="
-      margin-top:12px;
-      padding:8px 12px;
-      background:#25D366;
-      color:#fff;
-      border:none;
-      border-radius:8px;
-      font-size:14px;
-    " onclick="shareReligiousMessage()">
-      📤 WhatsApp पर शेयर करें
-    </button>
-  `;
-
-  window._religiousMessage = message;
-  modal.style.display = "block";
-}
+    window._religiousMessage = message;
+    modal.style.display = "block";
+  });
 
 function shareReligiousMessage(){
   const text = encodeURIComponent(window._religiousMessage);
-
   const waUrl = "https://wa.me/?text=" + text;
   window.open(waUrl, "_blank");
 }
