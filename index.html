@@ -377,6 +377,9 @@ async function loadPanchang() {
       festivalList.innerHTML = data.festivalList.map(f => `<li>${f}</li>`).join("");
     } else {
       festivalList.innerHTML = "<li>कोई विशेष व्रत नहीं</li>";
+      // Religious message modal content
+document.getElementById("sandeshBody").innerText = data.dharmicMessage ?? "";
+document.getElementById("sandeshSource").innerText = data.dharmicSource ?? "भक्ति पंचांग";
     }
 
     // Source (footer / info)
