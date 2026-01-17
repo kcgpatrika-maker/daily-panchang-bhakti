@@ -699,47 +699,42 @@ function renderSandesh({ text, source }) {
   window._religiousMessage = `🛎️ आज का धार्मिक संदेश\n\n${text}\n\n— ${source || "भक्ति पंचांग"}`;
 }
 
-// ✅ Main: open religious message (with robust logging + fallback)
 window.openReligiousMessage = async function () {
-  const API = "https://bhakti-panchang-backend.onrender.com/api/panchang"; // पूरा URL
-
   try {
-    console.log("[Sandesh] Fetching:", API);
-    const res = await fetch(API, { method: "GET" });
-
-    // Network/CORS/Status checks
-    if (!res.ok) {
-      console.error("[Sandesh] HTTP error:", res.status, res.statusText);
-      const fb = getFallbackSandesh();
-      renderSandesh({ text: fb.text, source: fb.source });
-      alert("धार्मिक संदेश लोड नहीं हो सका (HTTP " + res.status + ")");
-      return;
-    }
-
+    const res = await fetch("https://bhakti-panchang-backend.onrender.com/api/panchang");
     const data = await res.json();
-    console.log("[Sandesh] JSON:", data);
 
-    // Validate payload
-    const text = data?.dharmikMessage;
-    const source = data?.dharmikSource || "भक्ति पंचांग";
+    let rawText = data?.dharmikMessage || "संदेश उपलब्ध नहीं";
+    let source = data?.dharmikSource || "भक्ति पंचांग";
 
-    if (!text || typeof text !== "string") {
-      console.warn("[Sandesh] Missing dharmikMessage, using fallback");
-      const fb = getFallbackSandesh();
-      renderSandesh({ text: fb.text, source: fb.source });
-      return;
-    }
+    // 🧹 Remove unwanted weekday/tithi words
+    const removeWords = [
+      "सोमवार","मंगलवार","बुधवार","गुरुवार","शुक्रवार","शनिवार","रविवार",
+      "प्रतिपदा","द्वितीया","तृतीया","चतुर्थी","पंचमी","षष्ठी","सप्तमी","अष्टमी",
+      "नवमी","दशमी","एकादशी","द्वादशी","त्रयोदशी","चतुर्दशी","पूर्णिमा","अमावस्या"
+    ];
+    removeWords.forEach(w => {
+      rawText = rawText.replace(new RegExp(w,"g"),"");
+    });
 
-    // Optional: split by "—" to show clean lines (if combined like 'चतुर्दशी — शनिवार ...')
-    const parts = text.split("—").map(s => s.trim()).filter(Boolean);
-    const cleanText = parts.length > 1 ? parts.join(" — ") : text;
+    // Split by dash or full stop into sentences
+    const parts = rawText.split(/—|\./).map(s => s.trim()).filter(Boolean);
 
-    renderSandesh({ text: cleanText, source });
+    // Build HTML with each sentence in its own <p>
+    const formatted = parts.map(p => `<p style="font-size:17px;line-height:1.7">${p}</p>`).join("");
+
+    // Render into modal
+    document.getElementById("sandeshBody").innerHTML = formatted;
+    document.getElementById("sandeshSource").innerText = source;
+
+    // WhatsApp share text (joined sentences)
+    const cleanText = parts.join(" | ");
+    window._religiousMessage = `🛎️ आज का धार्मिक संदेश\n\n${cleanText}\n\n— ${source}`;
+
+    document.getElementById("sandeshModal").style.display = "block";
   } catch (err) {
-    console.error("[Sandesh] Fetch failed:", err);
-    const fb = getFallbackSandesh();
-    renderSandesh({ text: fb.text, source: fb.source });
-    alert("धार्मिक संदेश लोड नहीं हो सका (Network/CORS)");
+    console.error("Sandesh load error:", err);
+    alert("धार्मिक संदेश लोड नहीं हो सका");
   }
 };
 
