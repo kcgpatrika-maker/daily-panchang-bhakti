@@ -665,33 +665,43 @@ const dharmikSandeshMap = {
   }
 };
 
-function openReligiousMessage(){
+// ✅ Global functions (onclick से कॉल होंगे)
+window.openReligiousMessage = function(){
   fetch("/api/panchang")
     .then(res => res.json())
     .then(data => {
       const message = `🛎️ आज का धार्मिक संदेश\n\n${data.dharmikMessage}\n\n— भक्ति पंचांग`;
 
       // Sandesh Modal में content भरें
-      document.getElementById("sandeshBody").innerText = data.dharmikMessage ?? "";
-      document.getElementById("sandeshSource").innerText = data.dharmikSource ?? "भक्ति पंचांग";
+      const bodyEl = document.getElementById("sandeshBody");
+      const sourceEl = document.getElementById("sandeshSource");
+      const modalEl = document.getElementById("sandeshModal");
+
+      if (bodyEl) bodyEl.innerText = data.dharmikMessage ?? "";
+      if (sourceEl) sourceEl.innerText = data.dharmikSource ?? "भक्ति पंचांग";
 
       // WhatsApp share के लिए global message
       window._religiousMessage = message;
 
       // Sandesh Modal दिखाएँ
-      document.getElementById("sandeshModal").style.display = "block";
+      if (modalEl) modalEl.style.display = "block";
+    })
+    .catch(err => {
+      console.error("Sandesh load error:", err);
+      alert("धार्मिक संदेश लोड नहीं हो सका");
     });
-}
+};
 
-function shareSandesh(){
-  const text = encodeURIComponent(window._religiousMessage);
+window.shareSandesh = function(){
+  const text = encodeURIComponent(window._religiousMessage || "आज का धार्मिक संदेश");
   const waUrl = "https://wa.me/?text=" + text;
   window.open(waUrl, "_blank");
-}
+};
 
-function closeSandesh(){
-  document.getElementById("sandeshModal").style.display = "none";
-}
+window.closeSandesh = function(){
+  const modalEl = document.getElementById("sandeshModal");
+  if (modalEl) modalEl.style.display = "none";
+};
 
 </script>
 
