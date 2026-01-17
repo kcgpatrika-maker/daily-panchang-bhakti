@@ -666,45 +666,31 @@ const dharmikSandeshMap = {
 };
 
 function openReligiousMessage(){
+  fetch("/api/panchang")
+    .then(res => res.json())
+    .then(data => {
+      const message = `🛎️ आज का धार्मिक संदेश\n\n${data.dharmikMessage}\n\n— भक्ति पंचांग`;
 
-  // जब API से data आ जाए
-fetch("/api/panchang")
-  .then(res => res.json())
-  .then(data => {
-    const message = `🛎️ आज का धार्मिक संदेश\n\n${data.dharmikMessage}\n\n— भक्ति पंचांग`;
+      // Sandesh Modal में content भरें
+      document.getElementById("sandeshBody").innerText = data.dharmikMessage ?? "";
+      document.getElementById("sandeshSource").innerText = data.dharmikSource ?? "भक्ति पंचांग";
 
-    modalTitle.innerText = "🛎️ आज का धार्मिक संदेश";
+      // WhatsApp share के लिए global message
+      window._religiousMessage = message;
 
-    modalBody.innerHTML = `
-      <p style="font-size:17px;line-height:1.7">
-        ${data.dharmikMessage}
-      </p>
+      // Sandesh Modal दिखाएँ
+      document.getElementById("sandeshModal").style.display = "block";
+    });
+}
 
-      <p style="font-size:13px;color:#777;margin-top:10px">
-        — भक्ति पंचांग
-      </p>
-
-      <button style="
-        margin-top:12px;
-        padding:8px 12px;
-        background:#25D366;
-        color:#fff;
-        border:none;
-        border-radius:8px;
-        font-size:14px;
-      " onclick="shareReligiousMessage()">
-        📤 WhatsApp पर शेयर करें
-      </button>
-    `;
-
-    window._religiousMessage = message;
-    modal.style.display = "block";
-  });
-
-function shareReligiousMessage(){
+function shareSandesh(){
   const text = encodeURIComponent(window._religiousMessage);
   const waUrl = "https://wa.me/?text=" + text;
   window.open(waUrl, "_blank");
+}
+
+function closeSandesh(){
+  document.getElementById("sandeshModal").style.display = "none";
 }
 
 </script>
