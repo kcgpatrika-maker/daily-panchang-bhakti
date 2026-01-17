@@ -665,33 +665,95 @@ const dharmikSandeshMap = {
   }
 };
 
-// ✅ Global functions (onclick से कॉल होंगे)
-window.openReligiousMessage = function(){
-  fetch("https://bhakti-panchang-backend.onrender.com/api/panchang") // पूरा URL
-    .then(res => res.json())
-    .then(data => {
-      const message = `🛎️ आज का धार्मिक संदेश\n\n${data.dharmikMessage}\n\n— ${data.dharmikSource ?? "भक्ति पंचांग"}`;
+// ✅ Helper: fallback from map (day-based)
+function getFallbackSandesh() {
+  try {
+    const dayEl = document.getElementById("vaar");
+    const day = (dayEl?.innerText || "").trim();
+    const map = {
+      "सोमवार": { source: "शिव पुराण", text: "सोमवार को मन, वचन और कर्म की शुद्धता से किया गया शिव स्मरण जीवन के कष्ट दूर करता है।" },
+      "मंगलवार": { source: "हनुमान चालीसा", text: "मंगलवार को साहस और सेवा भाव के साथ किया गया हनुमान स्मरण भय और बाधा दूर करता है।" },
+      "बुधवार": { source: "भागवत गीता", text: "बुधवार ज्ञान और विवेक का दिन है — सोच-समझकर लिया गया निर्णय सफलता देता है।" },
+      "गुरुवार": { source: "विष्णु पुराण", text: "गुरुवार को गुरु और विष्णु का स्मरण जीवन में स्थिरता और शुभ फल देता है।" },
+      "शुक्रवार": { source: "श्रीसूक्त", text: "शुक्रवार को माता लक्ष्मी का स्मरण करने से सौभाग्य और शांति बढ़ती है।" },
+      "शनिवार": { source: "शनि स्तोत्र", text: "शनिवार संयम और सेवा का दिन है — धैर्य से किया कर्म शनि कृपा दिलाता है।" },
+      "रविवार": { source: "सूर्य उपासना", text: "रविवार आत्मबल और स्वास्थ्य का दिन है — सूर्य को अर्घ्य देना तेज बढ़ाता है।" }
+    };
+    return map[day] || { source: "भक्ति पंचांग", text: "आज का धार्मिक संदेश उपलब्ध नहीं—भक्ति भाव बनाए रखें।" };
+  } catch {
+    return { source: "भक्ति पंचांग", text: "आज का धार्मिक संदेश उपलब्ध नहीं—भक्ति भाव बनाए रखें।" };
+  }
+}
 
-      document.getElementById("sandeshBody").innerText = data.dharmikMessage ?? "संदेश उपलब्ध नहीं";
-      document.getElementById("sandeshSource").innerText = data.dharmikSource ?? "भक्ति पंचांग";
+// ✅ Utility: render into sandesh modal
+function renderSandesh({ text, source }) {
+  const bodyEl = document.getElementById("sandeshBody");
+  const sourceEl = document.getElementById("sandeshSource");
+  const modalEl = document.getElementById("sandeshModal");
 
-      window._religiousMessage = message;
-      document.getElementById("sandeshModal").style.display = "block";
-    })
-    .catch(err => {
-      console.error("Sandesh load error:", err);
-      alert("धार्मिक संदेश लोड नहीं हो सका (API से डेटा नहीं मिला)");
-    });
+  if (bodyEl) bodyEl.innerText = text || "संदेश उपलब्ध नहीं";
+  if (sourceEl) sourceEl.innerText = source || "भक्ति पंचांग";
+  if (modalEl) modalEl.style.display = "block";
+
+  // share के लिए global
+  window._religiousMessage = `🛎️ आज का धार्मिक संदेश\n\n${text}\n\n— ${source || "भक्ति पंचांग"}`;
+}
+
+// ✅ Main: open religious message (with robust logging + fallback)
+window.openReligiousMessage = async function () {
+  const API = "https://bhakti-panchang-backend.onrender.com/api/panchang"; // पूरा URL
+
+  try {
+    console.log("[Sandesh] Fetching:", API);
+    const res = await fetch(API, { method: "GET" });
+
+    // Network/CORS/Status checks
+    if (!res.ok) {
+      console.error("[Sandesh] HTTP error:", res.status, res.statusText);
+      const fb = getFallbackSandesh();
+      renderSandesh({ text: fb.text, source: fb.source });
+      alert("धार्मिक संदेश लोड नहीं हो सका (HTTP " + res.status + ")");
+      return;
+    }
+
+    const data = await res.json();
+    console.log("[Sandesh] JSON:", data);
+
+    // Validate payload
+    const text = data?.dharmikMessage;
+    const source = data?.dharmikSource || "भक्ति पंचांग";
+
+    if (!text || typeof text !== "string") {
+      console.warn("[Sandesh] Missing dharmikMessage, using fallback");
+      const fb = getFallbackSandesh();
+      renderSandesh({ text: fb.text, source: fb.source });
+      return;
+    }
+
+    // Optional: split by "—" to show clean lines (if combined like 'चतुर्दशी — शनिवार ...')
+    const parts = text.split("—").map(s => s.trim()).filter(Boolean);
+    const cleanText = parts.length > 1 ? parts.join(" — ") : text;
+
+    renderSandesh({ text: cleanText, source });
+  } catch (err) {
+    console.error("[Sandesh] Fetch failed:", err);
+    const fb = getFallbackSandesh();
+    renderSandesh({ text: fb.text, source: fb.source });
+    alert("धार्मिक संदेश लोड नहीं हो सका (Network/CORS)");
+  }
 };
 
-window.shareSandesh = function(){
+// ✅ Share (global)
+window.shareSandesh = function () {
   const text = encodeURIComponent(window._religiousMessage || "आज का धार्मिक संदेश");
   const waUrl = "https://wa.me/?text=" + text;
   window.open(waUrl, "_blank");
 };
 
-window.closeSandesh = function(){
-  document.getElementById("sandeshModal").style.display = "none";
+// ✅ Close (global)
+window.closeSandesh = function () {
+  const modalEl = document.getElementById("sandeshModal");
+  if (modalEl) modalEl.style.display = "none";
 };
 
 </script>
