@@ -475,7 +475,7 @@ function openAudioYT(query){
   modal.style.display = "none";
 }
 /* ===============================
-   ASK BHAKTI – STEP B (FINAL STABLE)
+   ASK BHAKTI – STEP B (FINAL STABLE, FIXED)
 =============================== */
 
 // English → Hindi alias
@@ -524,20 +524,24 @@ async function ask() {
   });
 
   try {
-const res = await fetch(`https://bhakti-panchang-backend.onrender.com/api/ask-bhakti-all?q=${encodeURIComponent(q)}`);
-const data = await res.json();
+    const res = await fetch("https://bhakti-panchang-backend.onrender.com/api/ask-bhakti", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ deity: q })
+    });
+    const data = await res.json();
 
-    if (!data.success) {
+    if (!data || !data.content) {
       result.innerHTML = "<p>डेटा उपलब्ध नहीं</p>";
       return;
     }
 
-    bhaktiData = data.data;
+    bhaktiData = data.content;
 
-    // 🟢 सिर्फ जिनका data है वही बटन enable
+    // 🟢 जिनका data है वही बटन enable
     aiButtons.forEach(btn => {
       const type = btn.getAttribute("onclick").match(/'(.*?)'/)[1];
-      if (bhaktiData[type]) {
+      if (bhaktiData[type] && bhaktiData[type].length) {
         btn.disabled = false;
         btn.classList.add("active"); // ग्रीन
       }
@@ -548,6 +552,7 @@ const data = await res.json();
     aiInfo.style.display = "block";
 
   } catch (e) {
+    console.error(e);
     result.innerHTML = "<p>सर्वर से उत्तर नहीं मिला</p>";
   }
 }
@@ -558,32 +563,33 @@ function showSection(type) {
 
   // 🔁 active state switch
   aiButtons.forEach(btn => btn.classList.remove("active"));
-  const activeBtn = document.querySelector(
-    `.ai-btn[onclick*="${type}"]`
-  );
+  const activeBtn = document.querySelector(`.ai-btn[onclick*="${type}"]`);
   if (activeBtn) activeBtn.classList.add("active");
 
   let html = "";
   const data = bhaktiData[type];
 
-if (Array.isArray(data)) {
-  data.forEach((item, i) => {
-    html += `
-      <p><b>${item.title}</b></p>
-      <p>📌 स्रोत: ${item.source}</p>
-      <p>
-        <a href="${item.pdf}" target="_blank">
-          📄 PDF खोलें
-        </a>
-      </p>
-      <hr>
-    `;
-  });
-}
+  if (Array.isArray(data)) {
+    data.forEach((item, i) => {
+      // mantra case: item is just a string
+      if (typeof item === "string") {
+        html += `<p>🕉️ ${item}</p><hr>`;
+      } else {
+        // generic object case (aarti, stotra etc.)
+        html += `
+          <p><b>${item.title || ""}</b></p>
+          ${item.source ? `<p>📌 स्रोत: ${item.source}</p>` : ""}
+          ${item.pdf ? `<p><a href="${item.pdf}" target="_blank">📄 PDF खोलें</a></p>` : ""}
+          <hr>
+        `;
+      }
+    });
+  } else if (typeof data === "string") {
+    html = `<p>${data}</p>`;
+  }
 
-
-result.innerHTML = html;
-result.scrollIntoView({behavior:'smooth'});
+  result.innerHTML = html;
+  result.scrollIntoView({ behavior: "smooth" });
 }
 
 /* ========= RESET ========= */
