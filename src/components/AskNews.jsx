@@ -1,107 +1,58 @@
 import { useState } from "react";
+import axios from "axios";
 
 export default function AskNews() {
-  const [query, setQuery] = useState("");
-  const [result, setResult] = useState(null);
-  const [loading, setLoading] = useState(false);
+  const [deity, setDeity] = useState("");
+  const [available, setAvailable] = useState({});
+  const [content, setContent] = useState({});
+  
+  const handleDeityChange = async (e) => {
+    const name = e.target.value;
+    setDeity(name);
 
-  const BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
-
-  const askBhakti = async () => {
-    if (!query.trim()) return;
-
-    setLoading(true);
-    setResult(null);
+    if (!name) {
+      setAvailable({});
+      setContent({});
+      return;
+    }
 
     try {
-      const res = await fetch(
-        `${BACKEND_URL}/api/ask-bhakti-all?q=${encodeURIComponent(query)}`
-      );
-      const data = await res.json();
-      setResult(data.success ? data : null);
-    } catch (e) {
-      console.error(e);
-      setResult(null);
+      const res = await axios.get(`/api/ask-bhakti?deity=${encodeURIComponent(name)}`);
+      setAvailable(res.data.available || {});
+      setContent(res.data.content || {});
+    } catch (err) {
+      setAvailable({});
+      setContent({});
     }
-
-    setLoading(false);
-  };
-
-  const renderText = (value) => {
-    if (!value) return <p>डेटा उपलब्ध नहीं</p>;
-
-    if (Array.isArray(value)) {
-      return (
-        <ul>
-          {value.map((item, i) => (
-            <li key={i}>{item}</li>
-          ))}
-        </ul>
-      );
-    }
-
-    if (typeof value === "string") {
-      return value.split("\n").map((line, i) => (
-        <p key={i}>{line}</p>
-      ));
-    }
-
-    return <p>{String(value)}</p>;
   };
 
   return (
-    <div className="ask-news-container">
-      <h2>🙏 Ask Bhakti</h2>
-
+    <div className="ask-bhakti">
       <input
         type="text"
-        placeholder="देवी / देवता का नाम लिखें..."
-        value={query}
-        onChange={(e) => setQuery(e.target.value)}
+        placeholder="देवता का नाम डालें"
+        value={deity}
+        onChange={handleDeityChange}
+        className="border p-2 rounded w-full mb-2"
       />
 
-      <button onClick={askBhakti} disabled={loading}>
-        {loading ? "लोड हो रहा है..." : "पूछें"}
+      <button
+        className={`p-2 rounded mr-2 ${available.mantra ? "bg-green-500 text-white" : "bg-gray-300"}`}
+      >
+        मंत्र
       </button>
+      <button className="p-2 rounded mr-2 bg-gray-300">आरती</button>
+      <button className="p-2 rounded mr-2 bg-gray-300">पूजा विधि</button>
+      <button className="p-2 rounded mr-2 bg-gray-300">स्तोत्र</button>
+      <button className="p-2 rounded mr-2 bg-gray-300">चालीसा</button>
 
-      {result && (
-        <div className="ask-result">
-
-          <h3>{result.deity}</h3>
-
-          {/* मंत्र */}
-          {result.data.mantra && (
-            <section>
-              <h4>🕉️ मंत्र</h4>
-              {renderText(result.data.mantra)}
-            </section>
-          )}
-
-          {/* आरती */}
-          {result.data.aarti && (
-            <section>
-              <h4>🪔 आरती</h4>
-              {renderText(result.data.aarti)}
-            </section>
-          )}
-
-          {/* पूजा विधि */}
-          {result.data.puja_vidhi && (
-            <section>
-              <h4>🪷 पूजा विधि</h4>
-              {renderText(result.data.puja_vidhi)}
-            </section>
-          )}
-
-          {/* चालीसा / स्तोत्र */}
-          {result.data.chalisa_or_stotra && (
-            <section>
-              <h4>📜 चालीसा / स्तोत्र</h4>
-              {renderText(result.data.chalisa_or_stotra)}
-            </section>
-          )}
-
-        </div>
+      {/* मंत्र दिखाएँ */}
+      {available.mantra && content.mantra?.length > 0 && (
+        <ul className="mt-4 list-disc ml-6">
+          {content.mantra.map((m, i) => (
+            <li key={i}>{m}</li>
+          ))}
+        </ul>
       )}
     </div>
   );
