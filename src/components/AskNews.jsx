@@ -19,7 +19,11 @@ export default function AskNews() {
 
     setLoading(true);
     try {
-      const res = await axios.get(`http://localhost:3000/api/ask-bhakti?deity=${encodeURIComponent(name)}`);
+      const res = await axios.get(
+        `http://localhost:3000/api/ask-bhakti?deity=${encodeURIComponent(
+          name
+        )}`
+      );
       setAvailable(res.data.available || {});
       setContent(res.data.content?.mantra || []);
     } catch (err) {
@@ -33,6 +37,7 @@ export default function AskNews() {
 
   return (
     <div className="ask-bhakti p-4">
+      {/* Devta input */}
       <input
         type="text"
         placeholder="देवता का नाम डालें"
@@ -41,8 +46,11 @@ export default function AskNews() {
         className="border p-2 rounded w-full mb-2"
       />
 
+      {/* Buttons */}
       <button
-        className={`p-2 rounded mr-2 ${available.mantra ? "bg-green-500 text-white" : "bg-gray-300"}`}
+        className={`p-2 rounded mr-2 ${
+          available && available.mantra ? "bg-green-500 text-white" : "bg-gray-300"
+        }`}
       >
         मंत्र
       </button>
@@ -51,9 +59,11 @@ export default function AskNews() {
       <button className="p-2 rounded mr-2 bg-gray-300">स्तोत्र</button>
       <button className="p-2 rounded mr-2 bg-gray-300">चालीसा</button>
 
+      {/* Loading / Error */}
       {loading && <p className="mt-2">Loading…</p>}
       {error && <p className="mt-2 text-red-500">{error}</p>}
 
+      {/* मंत्र display */}
       {available.mantra && content.length > 0 && (
         <ul className="mt-4 list-disc ml-6">
           {content.map((m, i) => (
