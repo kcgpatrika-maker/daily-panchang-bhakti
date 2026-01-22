@@ -570,20 +570,27 @@ function showSection(type) {
   const data = bhaktiData[type];
 
   if (Array.isArray(data)) {
-    data.forEach((item, i) => {
-      // mantra case: item is just a string
-      if (typeof item === "string") {
-        html += `<p>🕉️ ${item}</p><hr>`;
-      } else {
-        // generic object case (aarti, stotra etc.)
-        html += `
-          <p><b>${item.title || ""}</b></p>
-          ${item.source ? `<p>📌 स्रोत: ${item.source}</p>` : ""}
-          ${item.pdf ? `<p><a href="${item.pdf}" target="_blank">📄 PDF खोलें</a></p>` : ""}
-          <hr>
-        `;
+  data.forEach((item, i) => {
+    if (typeof item === "string") {
+      html += `<p>🕉️ ${item}</p><hr>`;
+    } else {
+      // aarti object case
+      html += `<p><b>${item.title || ""}</b></p>`;
+      if (Array.isArray(item.aarti)) {
+        item.aarti.forEach(line => {
+          html += `<p>${line}</p>`;
+        });
       }
-    });
+      if (item.source) {
+        html += `<p>📌 स्रोत: ${item.source}</p>`;
+      }
+      if (item.pdf) {
+        html += `<p><a href="${item.pdf}" target="_blank">📄 PDF खोलें</a></p>`;
+      }
+      html += `<hr>`;
+    }
+  });
+}
   } else if (typeof data === "string") {
     html = `<p>${data}</p>`;
   }
