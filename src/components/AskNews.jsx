@@ -101,8 +101,22 @@ export default function AskNews() {
 
       {/* Content display */}
       {activeButton && result && (
-        <div className="mt-4">
-          {activeButton === "aarti" && Array.isArray(result.content?.aarti) ? (
-            result.content.aarti.map((item, idx) => (
-              <div key={idx} className="mb-4">
-                {
+  <div className="mt-4">
+    {activeButton === "aarti" ? (
+      Array.isArray(result.content?.aarti) ? (
+        result.content.aarti.map((item, idx) => (
+          <div key={idx} className="mb-4">
+            {item.title && <h3 className="font-semibold">{item.title}</h3>}
+            {Array.isArray(item.aarti) &&
+              item.aarti.map((line, i) => <p key={i}>{line}</p>)}
+          </div>
+        ))
+      ) : (
+        <p>आरती उपलब्ध नहीं है</p>
+      )
+    ) : (
+      renderText(result.content?.[activeButton])
+    )}
+  </div>
+)}
+
