@@ -9,6 +9,8 @@
     .section { margin: 16px 0; }
     .hidden { display: none; }
     h2 { margin: 8px 0; }
+    h3 { margin: 8px 0; }
+    h4 { margin: 6px 0; }
     p { margin: 4px 0; }
   </style>
 </head>
@@ -37,6 +39,9 @@
   </div>
 
 <script>
+/* ---------------------------------------------
+   Config
+--------------------------------------------- */
 const DEVTA_LIST = [
   { key: "hanuman", label: "हनुमान जी" },
   { key: "shiv", label: "शिव जी" },
@@ -45,8 +50,12 @@ const DEVTA_LIST = [
   { key: "ganesh", label: "गणेश जी" }
 ];
 
-const backend = ""; // same domain, या backend URL डालें
+// same origin के लिए खाली रखें; अलग backend हो तो origin डालें
+const backend = ""; 
 
+/* ---------------------------------------------
+   Helpers
+--------------------------------------------- */
 function hide(el) { el.classList.add("hidden"); }
 function show(el) { el.classList.remove("hidden"); }
 
@@ -67,9 +76,11 @@ async function fetchData(devta) {
   hide(document.getElementById("content"));
 
   try {
+    // सही API: query parameter
     const res = await fetch(`${backend}/api/ask-bhakti?deity=${encodeURIComponent(devta)}`);
     const json = await res.json();
 
+    // बैकएंड सीधे { deity, available, content } देता है
     if (!json || !json.content) throw new Error("Data not found");
 
     renderContent(json);
@@ -81,45 +92,103 @@ async function fetchData(devta) {
   }
 }
 
+/* ---------------------------------------------
+   Render
+--------------------------------------------- */
 function renderContent(d) {
   document.getElementById("name").textContent = d.deity || "";
 
-  fillSection("mantra", "मंत्र", d.content.mantra);
+  fillSimpleSection("mantra", "मंत्र", d.content.mantra);
   fillAartiSection("aarti", "आरती", d.content.aarti);
-  fillSection("pujaVidhi", "पूजा विधि", d.content.poojaVidhi ? [d.content.poojaVidhi] : []);
-  fillSection("chalisa", "चालीसा", d.content.chalisa ? [d.content.chalisa] : []);
-  fillSection("stotra", "स्तोत्र", d.content.stotra);
+  fillSimpleSection("pujaVidhi", "पूजा विधि", normalizeToLines(d.content.poojaVidhi));
+  fillSimpleSection("chalisa", "चालीसा", normalizeToLines(d.content.chalisa));
+  fillSimpleSection("stotra", "स्तोत्र", d.content.stotra);
 
   show(document.getElementById("content"));
 }
 
-function fillSection(id, title, arr) {
+/* ---------------------------------------------
+   Normalizers
+--------------------------------------------- */
+// किसी भी value को lines array में बदलें (string/array/empty)
+function normalizeToLines(value) {
+  if (!value) return [];
+  if (Array.isArray(value)) {
+    return value
+      .map(v => (typeof v === "string" ? v.trim() : ""))
+      .filter(v => v.length > 0);
+  }
+  if (typeof value === "string") {
+    return value
+      .split("\n")
+      .map(v => v.trim())
+      .filter(v => v.length > 0);
+  }
+  return [];
+}
+
+// आरती items को एकसमान बनाएं: [{ title, aarti:[lines] }]
+function normalizeAartiItems(arr) {
+  if (!Array.isArray(arr)) return [];
+  return arr.map(item => {
+    // item object हो सकता है या string/array—सबको normalize करें
+    if (typeof item === "string") {
+      // सिर्फ़ title मिला—lines नहीं; title दिखाएँ, lines खाली
+      return { title: item.trim(), aarti: [] };
+    }
+    if (Array.isArray(item)) {
+      // सीधे lines मिलीं—title नहीं
+      return { title: "", aarti: normalizeToLines(item) };
+    }
+    // object case
+    const title = typeof item?.title === "string" ? item.title.trim() : "";
+    const lines = normalizeToLines(item?.aarti);
+    return { title, aarti: lines };
+  });
+}
+
+/* ---------------------------------------------
+   Sections
+--------------------------------------------- */
+// साधारण सेक्शन: lines array
+function fillSimpleSection(id, title, arr) {
   const sec = document.getElementById(id);
   sec.innerHTML = "";
-  if (!arr || !arr.length) return;
+  const lines = normalizeToLines(arr);
+  if (!lines.length) return;
 
-  sec.innerHTML = `<h3>${title}</h3>`;
-  arr.forEach(line => {
+  const h3 = document.createElement("h3");
+  h3.textContent = title;
+  sec.appendChild(h3);
+
+  lines.forEach(line => {
     const p = document.createElement("p");
     p.textContent = line;
     sec.appendChild(p);
   });
 }
 
-// खास आरती के लिए: objects array [{title, aarti:[...]}]
+// आरती सेक्शन: objects array [{title, aarti:[...]}]
 function fillAartiSection(id, title, arr) {
   const sec = document.getElementById(id);
   sec.innerHTML = "";
-  if (!arr || !arr.length) return;
 
-  sec.innerHTML = `<h3>${title}</h3>`;
-  arr.forEach(item => {
+  const items = normalizeAartiItems(arr);
+  if (!items.length) return;
+
+  const h3 = document.createElement("h3");
+  h3.textContent = title;
+  sec.appendChild(h3);
+
+  items.forEach(item => {
+    // Title (अगर है)
     if (item.title) {
-      const h = document.createElement("h4");
-      h.textContent = item.title;
-      sec.appendChild(h);
+      const h4 = document.createElement("h4");
+      h4.textContent = item.title;
+      sec.appendChild(h4);
     }
-    if (Array.isArray(item.aarti)) {
+    // Lines (अगर हैं)
+    if (Array.isArray(item.aarti) && item.aarti.length) {
       item.aarti.forEach(line => {
         const p = document.createElement("p");
         p.textContent = line;
@@ -129,6 +198,9 @@ function fillAartiSection(id, title, arr) {
   });
 }
 
+/* ---------------------------------------------
+   Boot
+--------------------------------------------- */
 initButtons();
 </script>
 
