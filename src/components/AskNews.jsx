@@ -100,10 +100,28 @@ export default function AskNews() {
 
       {/* Content display */}
       {activeButton && result && (
-        <div className="mt-4">
-          {renderText(result.content?.[activeButton])}
+  <div className="mt-4">
+    {/* 🕉️ मंत्र */}
+    {activeButton === "mantra" && renderText(result.content.mantra)}
+
+    {/* 🪔 आरती (SPECIAL HANDLING) */}
+    {activeButton === "aarti" &&
+      Array.isArray(result.content.aarti) &&
+      result.content.aarti.map((item, idx) => (
+        <div key={idx} className="mb-4">
+          <h3 className="font-bold mb-2">{item.title}</h3>
+          {Array.isArray(item.aarti) &&
+            item.aarti.map((line, i) => (
+              <p key={i}>{line}</p>
+            ))}
         </div>
-      )}
+      ))}
+
+    {/* बाकी सब */}
+    {["poojaVidhi", "chalisa", "stotra"].includes(activeButton) &&
+      renderText(result.content?.[activeButton])}
+  </div>
+)}
     </div>
   );
 }
