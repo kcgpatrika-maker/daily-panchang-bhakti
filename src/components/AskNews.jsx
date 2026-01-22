@@ -4,38 +4,38 @@ export default function AskNews() {
   const [deity, setDeity] = useState("");
   const [result, setResult] = useState(null);
   const [loading, setLoading] = useState(false);
+  const [activeButton, setActiveButton] = useState("");
 
   const BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
 
-  // Track which button is active (clicked)
-  const [activeButton, setActiveButton] = useState("");
-
   const askBhakti = async () => {
-    if (!deity.trim()) return;
-
+    const q = deity.trim();
+    if (!q) return;
     setLoading(true);
     setResult(null);
     setActiveButton("");
-
     try {
-      const res = await fetch(
-        `${BACKEND_URL}/api/ask-bhakti?deity=${encodeURIComponent(deity)}`
-      );
+      const res = await fetch(`${BACKEND_URL}/api/ask-bhakti?deity=${encodeURIComponent(q)}`);
       const data = await res.json();
       setResult(data);
     } catch (e) {
       console.error(e);
       setResult(null);
     }
-
     setLoading(false);
   };
 
-  const isAvailable = (type) => result?.available?.[type] === true;
+  const resetAll = () => {
+    setDeity("");
+    setResult(null);
+    setActiveButton("");
+  };
+
+  const isAvailable = (type) => Boolean(result?.available?.[type]);
 
   const renderText = (value) => {
     if (!value) return null;
-    if (Array.isArray(value)) return <ul>{value.map((v, i) => <li key={i}>{v}</li>)}</ul>;
+    if (Array.isArray(value)) return value.map((v, i) => <p key={i}>{v}</p>);
     if (typeof value === "string") return value.split("\n").map((v, i) => <p key={i}>{v}</p>);
     return <p>{String(value)}</p>;
   };
@@ -46,53 +46,54 @@ export default function AskNews() {
 
       <input
         type="text"
-        placeholder="देवी / देवता का नाम लिखें..."
+        placeholder="देवी / देवता / त्योहार का नाम लिखें..."
         value={deity}
         onChange={(e) => setDeity(e.target.value)}
         className="border p-2 rounded w-full mb-2"
       />
 
-      <button
-        onClick={askBhakti}
-        disabled={loading}
-        className="p-2 rounded bg-blue-500 text-white mb-2"
-      >
-        {loading ? "लोड हो रहा है..." : "पूछें"}
-      </button>
+      <div className="flex space-x-2 mb-2">
+        <button
+          onClick={askBhakti}
+          disabled={loading}
+          className="p-2 rounded bg-blue-500 text-white"
+        >
+          {loading ? "लोड हो रहा है..." : "पूछें"}
+        </button>
+        <button onClick={resetAll} className="p-2 rounded bg-gray-200">
+          रीसेट
+        </button>
+      </div>
 
       {/* Buttons */}
       <div className="flex space-x-2 mb-4">
         <button
           className={`p-2 rounded ${isAvailable("mantra") ? "bg-green-500 text-white" : "bg-gray-300"}`}
-          onClick={() => setActiveButton("mantra")}
+          onClick={() => isAvailable("mantra") && setActiveButton("mantra")}
         >
           🕉️ मंत्र
         </button>
-
         <button
           className={`p-2 rounded ${isAvailable("aarti") ? "bg-green-500 text-white" : "bg-gray-300"}`}
-          onClick={() => setActiveButton("aarti")}
+          onClick={() => isAvailable("aarti") && setActiveButton("aarti")}
         >
           🪔 आरती
         </button>
-
         <button
           className={`p-2 rounded ${isAvailable("poojaVidhi") ? "bg-green-500 text-white" : "bg-gray-300"}`}
-          onClick={() => setActiveButton("poojaVidhi")}
+          onClick={() => isAvailable("poojaVidhi") && setActiveButton("poojaVidhi")}
         >
           🪷 पूजा विधि
         </button>
-
         <button
           className={`p-2 rounded ${isAvailable("stotra") ? "bg-green-500 text-white" : "bg-gray-300"}`}
-          onClick={() => setActiveButton("stotra")}
+          onClick={() => isAvailable("stotra") && setActiveButton("stotra")}
         >
           📜 स्तोत्र
         </button>
-
         <button
           className={`p-2 rounded ${isAvailable("chalisa") ? "bg-green-500 text-white" : "bg-gray-300"}`}
-          onClick={() => setActiveButton("chalisa")}
+          onClick={() => isAvailable("chalisa") && setActiveButton("chalisa")}
         >
           📜 चालीसा
         </button>
@@ -101,18 +102,7 @@ export default function AskNews() {
       {/* Content display */}
       {activeButton && result && (
         <div className="mt-4">
-          {activeButton === "aarti" && Array.isArray(result.content.aarti)
-            ? result.content.aarti.map((item, idx) => (
-                <div key={idx} className="mb-4">
-                  <h3 className="font-semibold">{item.title}</h3>
-                  {Array.isArray(item.aarti)
-                    ? item.aarti.map((line, i) => <p key={i}>{line}</p>)
-                    : <p>{item.aarti}</p>}
-                </div>
-              ))
-            : renderText(result.content?.[activeButton])}
-        </div>
-      )}
-    </div>
-  );
-}
+          {activeButton === "aarti" && Array.isArray(result.content?.aarti) ? (
+            result.content.aarti.map((item, idx) => (
+              <div key={idx} className="mb-4">
+                {
