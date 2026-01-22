@@ -98,30 +98,53 @@ export default function AskNews() {
         </button>
       </div>
 
-      {/* Content display */}
+            {/* Content display */}
       {activeButton && result && (
-  <div className="mt-4">
-    {/* 🕉️ मंत्र */}
-    {activeButton === "mantra" && renderText(result.content.mantra)}
+        <div className="mt-4">
 
-    {/* 🪔 आरती (SPECIAL HANDLING) */}
-    {activeButton === "aarti" &&
-      Array.isArray(result.content.aarti) &&
-      result.content.aarti.map((item, idx) => (
-        <div key={idx} className="mb-4">
-          <h3 className="font-bold mb-2">{item.title}</h3>
-          {Array.isArray(item.aarti) &&
-            item.aarti.map((line, i) => (
+          {/* मंत्र */}
+          {activeButton === "mantra" &&
+            Array.isArray(result.content?.mantra) &&
+            result.content.mantra.map((line, i) => (
               <p key={i}>{line}</p>
             ))}
-        </div>
-      ))}
 
-    {/* बाकी सब */}
-    {["poojaVidhi", "chalisa", "stotra"].includes(activeButton) &&
-      renderText(result.content?.[activeButton])}
-  </div>
-)}
-    </div>
-  );
-}
+          {/* आरती – FINAL */}
+          {activeButton === "aarti" &&
+            Array.isArray(result.content?.aarti) &&
+            result.content.aarti.map((item, idx) => (
+              <div key={idx} className="mb-6">
+                <h3 className="font-bold mb-2">{item.title}</h3>
+
+                {Array.isArray(item.aarti) &&
+                  item.aarti.map((line, i) => (
+                    <p key={i}>{line}</p>
+                  ))}
+              </div>
+            ))}
+
+          {/* पूजा विधि */}
+          {activeButton === "poojaVidhi" &&
+            typeof result.content?.poojaVidhi === "string" &&
+            result.content.poojaVidhi
+              .split("\n")
+              .filter(Boolean)
+              .map((line, i) => <p key={i}>{line}</p>)}
+
+          {/* स्तोत्र */}
+          {activeButton === "stotra" &&
+            Array.isArray(result.content?.stotra) &&
+            result.content.stotra.map((line, i) => (
+              <p key={i}>{line}</p>
+            ))}
+
+          {/* चालीसा */}
+          {activeButton === "chalisa" &&
+            typeof result.content?.chalisa === "string" &&
+            result.content.chalisa
+              .split("\n")
+              .filter(Boolean)
+              .map((line, i) => <p key={i}>{line}</p>)}
+
+        </div>
+      )}
