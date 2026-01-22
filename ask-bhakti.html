@@ -45,7 +45,7 @@ const DEVTA_LIST = [
   { key: "ganesh", label: "गणेश जी" }
 ];
 
-const backend = ""; // leave empty for same domain, or add backend URL if different
+const backend = ""; // same domain, या backend URL डालें
 
 function hide(el) { el.classList.add("hidden"); }
 function show(el) { el.classList.remove("hidden"); }
@@ -67,11 +67,12 @@ async function fetchData(devta) {
   hide(document.getElementById("content"));
 
   try {
-    const res = await fetch(`${backend}/api/ask-bhakti/${devta}`);
+    const res = await fetch(`${backend}/api/ask-bhakti?deity=${encodeURIComponent(devta)}`);
     const json = await res.json();
-    if (!json.success) throw new Error("Data not found");
 
-    renderContent(json.data);
+    if (!json || !json.content) throw new Error("Data not found");
+
+    renderContent(json);
   } catch (e) {
     document.getElementById("error").textContent = "जानकारी लोड नहीं हो पाई";
     show(document.getElementById("error"));
@@ -81,13 +82,13 @@ async function fetchData(devta) {
 }
 
 function renderContent(d) {
-  document.getElementById("name").textContent = d.name || "";
+  document.getElementById("name").textContent = d.deity || "";
 
-  fillSection("mantra", "मंत्र", d.mantra);
-  fillSection("aarti", "आरती", d.aarti);
-  fillSection("pujaVidhi", "पूजा विधि", d.pujaVidhi);
-  fillSection("chalisa", "चालीसा", d.chalisa);
-  fillSection("stotra", "स्तोत्र", d.stotra);
+  fillSection("mantra", "मंत्र", d.content.mantra);
+  fillAartiSection("aarti", "आरती", d.content.aarti);
+  fillSection("pujaVidhi", "पूजा विधि", d.content.poojaVidhi ? [d.content.poojaVidhi] : []);
+  fillSection("chalisa", "चालीसा", d.content.chalisa ? [d.content.chalisa] : []);
+  fillSection("stotra", "स्तोत्र", d.content.stotra);
 
   show(document.getElementById("content"));
 }
@@ -102,6 +103,29 @@ function fillSection(id, title, arr) {
     const p = document.createElement("p");
     p.textContent = line;
     sec.appendChild(p);
+  });
+}
+
+// खास आरती के लिए: objects array [{title, aarti:[...]}]
+function fillAartiSection(id, title, arr) {
+  const sec = document.getElementById(id);
+  sec.innerHTML = "";
+  if (!arr || !arr.length) return;
+
+  sec.innerHTML = `<h3>${title}</h3>`;
+  arr.forEach(item => {
+    if (item.title) {
+      const h = document.createElement("h4");
+      h.textContent = item.title;
+      sec.appendChild(h);
+    }
+    if (Array.isArray(item.aarti)) {
+      item.aarti.forEach(line => {
+        const p = document.createElement("p");
+        p.textContent = line;
+        sec.appendChild(p);
+      });
+    }
   });
 }
 
