@@ -475,7 +475,7 @@ function openAudioYT(query){
   modal.style.display = "none";
 }
 /* ===============================
-   ASK BHAKTI – STEP B (FINAL STABLE, FIXED)
+   ASK BHAKTI – STEP B (FINAL STABLE)
 =============================== */
 
 // English → Hindi alias
@@ -501,6 +501,15 @@ const aiInfo = document.getElementById("aiInfo");
 const aiTitle = document.getElementById("aiTitle");
 const aiButtons = document.querySelectorAll(".ai-btn");
 
+// UI → data keys mapping
+const TYPE_MAP = {
+  mantra: "mantra",
+  aarti: "aarti",
+  puja: "poojaVidhi",   // ← यही असली mismatch था
+  chalisa: "chalisa",
+  stotra: "stotra",
+};
+
 let bhaktiData = null;
 
 /* ========= ASK ========= */
@@ -512,16 +521,16 @@ async function ask() {
   aiInfo.style.display = "none";
   bhaktiData = null;
 
-  if (!q) {
-    result.innerHTML = "<p>कृपया देवता का नाम लिखें</p>";
-    return;
-  }
-
   // 🔴 पहले सभी बटन disable + inactive
   aiButtons.forEach(btn => {
     btn.disabled = true;
     btn.classList.remove("active");
   });
+
+  if (!q) {
+    result.innerHTML = "<p>कृपया देवता का नाम लिखें</p>";
+    return;
+  }
 
   try {
     const res = await fetch("https://bhakti-panchang-backend.onrender.com/api/ask-bhakti", {
@@ -538,10 +547,17 @@ async function ask() {
 
     bhaktiData = data.content;
 
-    // 🟢 जिनका data है वही बटन enable
+    // 🟢 जिनका data है वही बटन enable (mapped keys)
     aiButtons.forEach(btn => {
-      const type = btn.getAttribute("onclick").match(/'(.*?)'/)[1];
-      if (bhaktiData[type] && bhaktiData[type].length) {
+      const uiType = btn.getAttribute("onclick").match(/'(.*?)'/)[1]; // e.g., 'aarti','puja'
+      const key = TYPE_MAP[uiType];                                   // e.g., 'poojaVidhi'
+      const val = bhaktiData[key];
+
+      const hasData =
+        (Array.isArray(val) && val.length > 0) ||
+        (typeof val === "string" && val.trim().length > 0);
+
+      if (hasData) {
         btn.disabled = false;
         btn.classList.add("active"); // ग्रीन
       }
@@ -559,43 +575,50 @@ async function ask() {
 
 /* ========= SHOW SECTION ========= */
 function showSection(type) {
-  if (!bhaktiData || !bhaktiData[type]) return;
+  if (!bhaktiData) return;
 
   // 🔁 active state switch
   aiButtons.forEach(btn => btn.classList.remove("active"));
   const activeBtn = document.querySelector(`.ai-btn[onclick*="${type}"]`);
   if (activeBtn) activeBtn.classList.add("active");
 
-  let html = "";
-  const data = bhaktiData[type];
+  const key = TYPE_MAP[type];
+  const data = bhaktiData[key];
+  if (!data) return;
 
-  if (Array.isArray(data)) {
-  data.forEach((item, i) => {
-    if (typeof item === "string") {
-      html += `<p>🕉️ ${item}</p><hr>`;
-    } else {
-      // aarti object case
+  let html = "";
+
+  // Aarti: objects array [{ title, aarti:[lines] }]
+  if (type === "aarti" && Array.isArray(data)) {
+    data.forEach(item => {
       html += `<p><b>${item.title || ""}</b></p>`;
       if (Array.isArray(item.aarti)) {
         item.aarti.forEach(line => {
           html += `<p>${line}</p>`;
         });
-      }
-      if (item.source) {
-        html += `<p>📌 स्रोत: ${item.source}</p>`;
-      }
-      if (item.pdf) {
-        html += `<p><a href="${item.pdf}" target="_blank">📄 PDF खोलें</a></p>`;
+      } else if (typeof item.aarti === "string") {
+        item.aarti.split("\n").forEach(line => {
+          const t = line.trim();
+          if (t) html += `<p>${t}</p>`;
+        });
       }
       html += `<hr>`;
-    }
-  });
-}
+    });
+  }
+  // Mantra/Chalisa/Stotra/PoojaVidhi: string or array of strings
+  else if (Array.isArray(data)) {
+    data.forEach(item => {
+      const line = typeof item === "string" ? item : "";
+      if (line.trim()) html += `<p>${line}</p>`;
+    });
   } else if (typeof data === "string") {
-    html = `<p>${data}</p>`;
+    data.split("\n").forEach(line => {
+      const t = line.trim();
+      if (t) html += `<p>${t}</p>`;
+    });
   }
 
-  result.innerHTML = html;
+  result.innerHTML = html || "<p>डेटा उपलब्ध नहीं</p>";
   result.scrollIntoView({ behavior: "smooth" });
 }
 
