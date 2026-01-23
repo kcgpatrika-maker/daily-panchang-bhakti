@@ -577,7 +577,6 @@ async function ask() {
 function showSection(type) {
   if (!bhaktiData) return;
 
-  // 🔁 active state switch
   aiButtons.forEach(btn => btn.classList.remove("active"));
   const activeBtn = document.querySelector(`.ai-btn[onclick*="${type}"]`);
   if (activeBtn) activeBtn.classList.add("active");
@@ -588,14 +587,12 @@ function showSection(type) {
 
   let html = "";
 
-  // Aarti: objects array [{ title, aarti:[lines] }]
+  // आरती
   if (type === "aarti" && Array.isArray(data)) {
     data.forEach(item => {
       html += `<p><b>${item.title || ""}</b></p>`;
       if (Array.isArray(item.aarti)) {
-        item.aarti.forEach(line => {
-          html += `<p>${line}</p>`;
-        });
+        item.aarti.forEach(line => { html += `<p>${line}</p>`; });
       } else if (typeof item.aarti === "string") {
         item.aarti.split("\n").forEach(line => {
           const t = line.trim();
@@ -606,7 +603,7 @@ function showSection(type) {
     });
   }
 
-  // 🪷 पूजा विधि: objects array [{ text }, { pdf, source }]
+  // 🪷 पूजा विधि
   else if (type === "puja" && Array.isArray(data)) {
     data.forEach(item => {
       if (item.text) {
@@ -618,11 +615,11 @@ function showSection(type) {
     });
   }
 
-  // Mantra/Chalisa/Stotra: string or array of strings
+  // मंत्र/चालीसा/स्तोत्र
   else if (Array.isArray(data)) {
-    data.forEach(item => {
-      const line = typeof item === "string" ? item : "";
-      if (line.trim()) html += `<p>${line}</p>`;
+    data.forEach(line => {
+      const t = typeof line === "string" ? line.trim() : "";
+      if (t) html += `<p>${t}</p>`;
     });
   } else if (typeof data === "string") {
     data.split("\n").forEach(line => {
