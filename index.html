@@ -605,7 +605,20 @@ function showSection(type) {
       html += `<hr>`;
     });
   }
-  // Mantra/Chalisa/Stotra/PoojaVidhi: string or array of strings
+
+  // 🪷 पूजा विधि: objects array [{ text }, { pdf, source }]
+  else if (type === "puja" && Array.isArray(data)) {
+    data.forEach(item => {
+      if (item.text) {
+        html += `<p class="font-semibold whitespace-pre-line">${item.text}</p><hr>`;
+      }
+      if (item.pdf) {
+        html += `<p><a href="${item.pdf}" target="_blank" rel="noopener noreferrer" class="text-blue-600 underline">📄 ${item.source || "PDF लिंक"}</a></p><hr>`;
+      }
+    });
+  }
+
+  // Mantra/Chalisa/Stotra: string or array of strings
   else if (Array.isArray(data)) {
     data.forEach(item => {
       const line = typeof item === "string" ? item : "";
