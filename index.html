@@ -606,9 +606,11 @@ function showSection(type) {
   // 🪷 पूजा विधि
   else if (type === "poojaVidhi" && Array.isArray(data)) {
   data.forEach(item => {
+    // संकल्प टेक्स्ट
     if (item.text) {
       html += `<p class="font-semibold whitespace-pre-line">${item.text}</p><hr>`;
     }
+    // PDF लिंक
     if (item.pdf) {
       html += `<p><a href="${item.pdf}" target="_blank" rel="noopener noreferrer" class="text-blue-600 underline">📄 ${item.source || "PDF लिंक"}</a></p><hr>`;
     }
