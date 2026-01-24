@@ -505,7 +505,7 @@ const aiButtons = document.querySelectorAll(".ai-btn");
 const TYPE_MAP = {
   mantra: "mantra",
   aarti: "aarti",
-  puja: "poojaVidhi",   // ← यही असली mismatch था
+  poojaVidhi: "poojaVidhi", // ← यहाँ "puja" की जगह "poojaVidhi" रखिएा
   chalisa: "chalisa",
   stotra: "stotra",
 };
@@ -604,16 +604,16 @@ function showSection(type) {
   }
 
   // 🪷 पूजा विधि
-  else if (type === "puja" && Array.isArray(data)) {
-    data.forEach(item => {
-      if (item.text) {
-        html += `<p class="font-semibold whitespace-pre-line">${item.text}</p><hr>`;
-      }
-      if (item.pdf) {
-        html += `<p><a href="${item.pdf}" target="_blank" rel="noopener noreferrer" class="text-blue-600 underline">📄 ${item.source || "PDF लिंक"}</a></p><hr>`;
-      }
-    });
-  }
+  else if (type === "poojaVidhi" && Array.isArray(data)) {
+  data.forEach(item => {
+    if (item.text) {
+      html += `<p class="font-semibold whitespace-pre-line">${item.text}</p><hr>`;
+    }
+    if (item.pdf) {
+      html += `<p><a href="${item.pdf}" target="_blank" rel="noopener noreferrer" class="text-blue-600 underline">📄 ${item.source || "PDF लिंक"}</a></p><hr>`;
+    }
+  });
+}
 
   // मंत्र/चालीसा/स्तोत्र
   else if (Array.isArray(data)) {
