@@ -80,7 +80,7 @@ export default function AskNews() {
           🪔 आरती
         </button>
         <button
-          className={`p-2 rounded ${isAvailable("poojaVidhi") ? "bg-green-500 text-white" : "bg-gray-300"}`}
+          className={`p-2 rounded ${isAvailable("poojaVidhi") ? "bg-green-500 text-white" : "bg-gray-300"}`} 
           onClick={() => isAvailable("poojaVidhi") && setActiveButton("poojaVidhi")}
         >
           🪷 पूजा विधि
@@ -118,7 +118,7 @@ export default function AskNews() {
             Array.isArray(result.content?.poojaVidhi) ? (
               result.content.poojaVidhi.map((item, idx) => (
                 <div key={idx} className="mb-4">
-                  {item.text && <p className="font-semibold">{item.text}</p>}
+                  {item.text && <p className="font-semibold whitespace-pre-line">{item.text}</p>}
                   {item.pdf && (
                     <p>
                       <a href={item.pdf} target="_blank" rel="noopener noreferrer" className="text-blue-600 underline">
