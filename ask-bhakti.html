@@ -100,7 +100,7 @@ function renderContent(d) {
 
   fillSimpleSection("mantra", "मंत्र", d.content.mantra);
   fillAartiSection("aarti", "आरती", d.content.aarti);
-  fillSimpleSection("pujaVidhi", "पूजा विधि", normalizeToLines(d.content.poojaVidhi));
+  fillPujaSection("pujaVidhi", "पूजा विधि", d.content.poojaVidhi);
   fillSimpleSection("chalisa", "चालीसा", normalizeToLines(d.content.chalisa));
   fillSimpleSection("stotra", "स्तोत्र", d.content.stotra);
 
@@ -144,6 +144,33 @@ function normalizeAartiItems(arr) {
     const title = typeof item?.title === "string" ? item.title.trim() : "";
     const lines = normalizeToLines(item?.aarti);
     return { title, aarti: lines };
+  });
+}
+// पूजा विधि सेक्शन: objects array [{ text }, { pdf, source }]
+function fillPujaSection(id, title, arr) {
+  const sec = document.getElementById(id);
+  sec.innerHTML = "";
+
+  if (!Array.isArray(arr) || !arr.length) return;
+
+  const h3 = document.createElement("h3");
+  h3.textContent = title;
+  sec.appendChild(h3);
+
+  arr.forEach(item => {
+    if (item.text) {
+      const p = document.createElement("p");
+      p.textContent = item.text;
+      sec.appendChild(p);
+    }
+    if (item.pdf) {
+      const a = document.createElement("a");
+      a.href = item.pdf;
+      a.target = "_blank";
+      a.rel = "noopener noreferrer";
+      a.textContent = `📄 ${item.source || "PDF लिंक"}`;
+      sec.appendChild(a);
+    }
   });
 }
 
