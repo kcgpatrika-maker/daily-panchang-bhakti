@@ -617,18 +617,31 @@ function showSection(type) {
   });
 }
 
-  // मंत्र/चालीसा/स्तोत्र
-  else if (Array.isArray(data)) {
-    data.forEach(line => {
-      const t = typeof line === "string" ? line.trim() : "";
-      if (t) html += `<p>${t}</p>`;
-    });
-  } else if (typeof data === "string") {
-    data.split("\n").forEach(line => {
-      const t = line.trim();
-      if (t) html += `<p>${t}</p>`;
-    });
-  }
+  // 🪷 चालीसा
+else if (type === "chalisa" && Array.isArray(data)) {
+  data.forEach(item => {
+    if (item.pdf) {
+      html += `<p><a href="${item.pdf}" target="_blank" rel="noopener noreferrer" 
+        class="text-green-600 font-bold">📄 ${item.source || "PDF लिंक"}</a></p><hr>`;
+    }
+    if (item.text) {
+      html += `<p>${item.text}</p><hr>`;
+    }
+  });
+}
+
+// मंत्र/स्तोत्र (unchanged)
+else if (Array.isArray(data)) {
+  data.forEach(line => {
+    const t = typeof line === "string" ? line.trim() : "";
+    if (t) html += `<p>${t}</p>`;
+  });
+} else if (typeof data === "string") {
+  data.split("\n").forEach(line => {
+    const t = line.trim();
+    if (t) html += `<p>${t}</p>`;
+  });
+}
 
   result.innerHTML = html || "<p>डेटा उपलब्ध नहीं</p>";
   result.scrollIntoView({ behavior: "smooth" });
