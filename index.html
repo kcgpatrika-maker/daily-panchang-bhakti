@@ -548,18 +548,25 @@ async function ask() {
     bhaktiData = data.content;
 
     // 🟢 जिनका data है वही बटन enable (mapped keys)
-    aiButtons.forEach(btn => {
-      const uiType = btn.getAttribute("onclick").match(/'(.*?)'/)[1]; // e.g., 'aarti','puja'
-      const key = TYPE_MAP[uiType];                                   // e.g., 'poojaVidhi'
-      const val = bhaktiData[key];
-
-      const hasData =
-        (Array.isArray(val) && val.length > 0) ||
-        (typeof val === "string" && val.trim().length > 0);
-
+    aiButtons.forEach(btn => { 
+      const uiType = btn.getAttribute("onclick").match(/'(.*?)'/)[1]; // e.g., 'aarti','chalisa' 
+      const key = TYPE_MAP[uiType]; 
+      const val = bhaktiData[key]; 
+      
+      let hasData = false; 
+      
+      if (uiType === "chalisa" && Array.isArray(val)) { 
+        // chalisa object array check 
+        hasData = val.some(item => item.pdf || item.text);
+      } else { 
+        hasData =
+          (Array.isArray(val) && val.length > 0) ||
+          (typeof val === "string" && val.trim().length > 0);
+      }
+      
       if (hasData) {
         btn.disabled = false;
-        btn.classList.add("active"); // ग्रीन
+        btn.classList.add("active"); // हरा
       }
     });
 
