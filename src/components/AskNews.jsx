@@ -5,12 +5,12 @@ function AskNews({ content }) {
 
   // ✅ Availability check
   const isAvailable = {
-    mantra: Array.isArray(content.mantra) && content.mantra.length > 0,
-    aarti: Array.isArray(content.aarti) && content.aarti.length > 0,
-    poojaVidhi: Array.isArray(content.poojaVidhi) && content.poojaVidhi.length > 1,
-    chalisa: Array.isArray(content.chalisa) && content.chalisa.some(item => item.pdf || item.text),
-    stotra: Array.isArray(content.stotra) && content.stotra.length > 0,
-  };
+  mantra: Array.isArray(content.mantra) && content.mantra.length > 0,
+  aarti: Array.isArray(content.aarti) && content.aarti.length > 0,
+  poojaVidhi: Array.isArray(content.poojaVidhi) && content.poojaVidhi.length > 1,
+  chalisa: Array.isArray(content.chalisa) && content.chalisa.some(item => item.pdf || item.text),
+  stotra: Array.isArray(content.stotra) && content.stotra.length > 0,
+};
 
   return (
     <div>
@@ -81,21 +81,17 @@ function AskNews({ content }) {
 
         {/* ✅ Chalisa rendering */}
         {active === "chalisa" &&
-          content.chalisa.map((item, idx) => (
-            <div key={idx}>
-              {item.pdf && (
-                <a
-                  href={item.pdf}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  style={{ color: "green", fontWeight: "bold" }}
-                >
-                  📄 {item.source || "PDF लिंक"}
-                </a>
-              )}
-              {item.text && <p>{item.text}</p>}
-            </div>
-          ))}
+  content.chalisa.map((item, idx) => (
+    <div key={idx}>
+      {item.pdf && (
+        <a href={item.pdf} target="_blank" rel="noopener noreferrer"
+           style={{ color: "green", fontWeight: "bold" }}>
+          📄 {item.source || "PDF लिंक"}
+        </a>
+      )}
+      {item.text && <p>{item.text}</p>}
+    </div>
+  ))}
 
         {active === "stotra" &&
           content.stotra.map((line, idx) => <p key={idx}>{line}</p>)}
