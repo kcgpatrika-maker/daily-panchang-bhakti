@@ -678,55 +678,32 @@ function showSection(type) {
       html += `<p><b>${item.title || ""}</b></p>`;
       if (Array.isArray(item.aarti)) {
         item.aarti.forEach(line => { html += `<p>${line}</p>`; });
-      } else if (typeof item.aarti === "string") {
-        item.aarti.split("\n").forEach(line => {
-          const t = line.trim();
-          if (t) html += `<p>${t}</p>`;
-        });
       }
       html += `<hr>`;
     });
   }
 
-  // 🪷 पूजा विधि
+  // पूजा विधि
   else if (type === "poojaVidhi" && Array.isArray(data)) {
-  data.forEach(item => {
-    // संकल्प टेक्स्ट
-    if (item.text) {
-      html += `<p class="font-semibold whitespace-pre-line">${item.text}</p><hr>`;
-    }
-    // PDF लिंक
-    if (item.pdf) {
-      html += `<p><a href="${item.pdf}" target="_blank" rel="noopener noreferrer" class="text-blue-600 underline">📄 ${item.source || "PDF लिंक"}</a></p><hr>`;
-    }
-  });
-}
+    data.forEach(item => {
+      if (item.text) html += `<p class="font-semibold whitespace-pre-line">${item.text}</p><hr>`;
+      if (item.pdf) html += `<p><a href="${item.pdf}" target="_blank" rel="noopener noreferrer" class="text-blue-600 underline">📄 ${item.source}</a></p><hr>`;
+    });
+  }
 
-  // 🪷 चालीसा
-else if (type === "chalisa" && Array.isArray(data)) {
-  data.forEach(item => {
-    if (item.pdf) {
-      html += `<p><a href="${item.pdf}" target="_blank" rel="noopener noreferrer" 
-        class="text-green-600 font-bold">📄 ${item.source || "PDF लिंक"}</a></p><hr>`;
-    }
-    if (item.text) {
-      html += `<p>${item.text}</p><hr>`;
-    }
-  });
-}
+  // चालीसा
+  else if (type === "chalisa" && Array.isArray(data)) {
+    data.forEach(item => {
+      if (item.pdf) html += `<p><a href="${item.pdf}" target="_blank" rel="noopener noreferrer" class="text-green-600 font-bold">📄 ${item.source}</a></p><hr>`;
+    });
+  }
 
-// मंत्र/स्तोत्र (unchanged)
-else if (Array.isArray(data)) {
-  data.forEach(line => {
-    const t = typeof line === "string" ? line.trim() : "";
-    if (t) html += `<p>${t}</p>`;
-  });
-} else if (typeof data === "string") {
-  data.split("\n").forEach(line => {
-    const t = line.trim();
-    if (t) html += `<p>${t}</p>`;
-  });
-}
+  // स्तोत्र
+  else if (type === "stotra" && Array.isArray(data)) {
+    data.forEach(item => {
+      if (item.pdf) html += `<p><a href="${item.pdf}" target="_blank" rel="noopener noreferrer" class="text-purple-600 font-bold">📄 ${item.source}</a></p><hr>`;
+    });
+  }
 
   result.innerHTML = html || "<p>डेटा उपलब्ध नहीं</p>";
   result.scrollIntoView({ behavior: "smooth" });
