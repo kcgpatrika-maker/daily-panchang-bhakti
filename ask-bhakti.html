@@ -209,6 +209,15 @@ function fillChalisaSection(id, title, arr) {
 /* ---------------------------------------------
    Stotra Section — final
 --------------------------------------------- */
+function flattenArray(arr) {
+  const out = [];
+  arr.forEach(item => {
+    if (Array.isArray(item)) out.push(...flattenArray(item));
+    else out.push(item);
+  });
+  return out;
+}
+
 function fillStotraSection(id, title, arr) {
   const sec = document.getElementById(id);
   sec.innerHTML = "";
@@ -218,7 +227,8 @@ function fillStotraSection(id, title, arr) {
   h3.textContent = title;
   sec.appendChild(h3);
 
-  arr.forEach(item => {
+  const flatArr = flattenArray(arr);
+  flatArr.forEach(item => {
     if (item.pdf) {
       const a = document.createElement("a");
       a.href = item.pdf;
