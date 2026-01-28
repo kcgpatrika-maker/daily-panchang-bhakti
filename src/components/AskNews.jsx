@@ -9,7 +9,7 @@ function AskNews({ content }) {
     aarti: Array.isArray(content.aarti) && content.aarti.length > 0,
     poojaVidhi: Array.isArray(content.poojaVidhi) && content.poojaVidhi.length > 1,
     chalisa: Array.isArray(content.chalisa) && content.chalisa.some(item => item.pdf),
-    stotra: Array.isArray(content.stotra) && content.stotra.some(item => item.pdf),
+    stotra: Array.isArray(content.stotra) && content.stotra.length > 0,
   };
 
   return (
@@ -47,14 +47,17 @@ function AskNews({ content }) {
           </div>
         ))}
 
-        {active === "stotra" && content.stotra.map((item, idx) => (
+        {active === "stotra" && Array.isArray(content.stotra) && content.stotra.map((item, idx) => (
           <div key={idx}>
-            {item.pdf && <a href={item.pdf} target="_blank" rel="noopener noreferrer" style={{ color: "purple", fontWeight: "bold" }}>📄 {item.source}</a>}
+            <a
+              href={item.pdf}
+              target="_blank"
+              rel="noopener noreferrer"
+              style={{ color: "purple", fontWeight: "bold" }}
+            >
+              📄 {item.source}
+            </a>
           </div>
         ))}
-      </div>
-    </div>
-  );
-}
 
 export default AskNews;
