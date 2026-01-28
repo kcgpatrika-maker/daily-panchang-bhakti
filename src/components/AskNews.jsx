@@ -1,141 +1,107 @@
-import { useState } from "react";
+import React, { useState } from "react";
 
-export default function AskNews() {
-  const [deity, setDeity] = useState("");
-  const [result, setResult] = useState(null);
-  const [loading, setLoading] = useState(false);
-  const [activeButton, setActiveButton] = useState("");
+function AskNews({ content }) {
+  const [active, setActive] = useState(null);
 
-  const BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
-
-  const askBhakti = async () => {
-    const q = deity.trim();
-    if (!q) return;
-    setLoading(true);
-    setResult(null);
-    setActiveButton("");
-    try {
-      const res = await fetch(`${BACKEND_URL}/api/ask-bhakti?deity=${encodeURIComponent(q)}`);
-      const data = await res.json();
-      setResult(data);
-    } catch (e) {
-      console.error(e);
-      setResult(null);
-    }
-    setLoading(false);
-  };
-
-  const resetAll = () => {
-    setDeity("");
-    setResult(null);
-    setActiveButton("");
-  };
-
-  const isAvailable = (type) => Boolean(result?.available?.[type]);
-
-  const renderText = (value) => {
-    if (!value) return null;
-    if (Array.isArray(value)) return value.map((v, i) => <p key={i}>{v}</p>);
-    if (typeof value === "string") return value.split("\n").map((v, i) => <p key={i}>{v}</p>);
-    return <p>{String(value)}</p>;
+  // ✅ Availability check
+  const isAvailable = {
+    mantra: Array.isArray(content.mantra) && content.mantra.length > 0,
+    aarti: Array.isArray(content.aarti) && content.aarti.length > 0,
+    poojaVidhi: Array.isArray(content.poojaVidhi) && content.poojaVidhi.length > 1,
+    chalisa: Array.isArray(content.chalisa) && content.chalisa.some(item => item.pdf || item.text),
+    stotra: Array.isArray(content.stotra) && content.stotra.length > 0,
   };
 
   return (
-    <div className="ask-news-container p-4">
-      <h2>🙏 Ask Bhakti</h2>
-
-      <input
-        type="text"
-        placeholder="देवी / देवता / त्योहार का नाम लिखें..."
-        value={deity}
-        onChange={(e) => setDeity(e.target.value)}
-        className="border p-2 rounded w-full mb-2"
-      />
-
-      <div className="flex space-x-2 mb-2">
-        <button
-          onClick={askBhakti}
-          disabled={loading}
-          className="p-2 rounded bg-blue-500 text-white"
-        >
-          {loading ? "लोड हो रहा है..." : "पूछें"}
-        </button>
-        <button onClick={resetAll} className="p-2 rounded bg-gray-200">
-          रीसेट
-        </button>
-      </div>
-
+    <div>
       {/* Buttons */}
-      <div className="flex space-x-2 mb-4">
+      <div className="buttons">
         <button
-          className={`p-2 rounded ${isAvailable("mantra") ? "bg-green-500 text-white" : "bg-gray-300"}`}
-          onClick={() => isAvailable("mantra") && setActiveButton("mantra")}
+          className={isAvailable.mantra ? "btn green" : "btn"}
+          onClick={() => setActive("mantra")}
         >
-          🕉️ मंत्र
+          मंत्र
         </button>
         <button
-          className={`p-2 rounded ${isAvailable("aarti") ? "bg-green-500 text-white" : "bg-gray-300"}`}
-          onClick={() => isAvailable("aarti") && setActiveButton("aarti")}
+          className={isAvailable.aarti ? "btn green" : "btn"}
+          onClick={() => setActive("aarti")}
         >
-          🪔 आरती
+          आरती
         </button>
         <button
-          className={`p-2 rounded ${isAvailable("poojaVidhi") ? "bg-green-500 text-white" : "bg-gray-300"}`} 
-          onClick={() => isAvailable("poojaVidhi") && setActiveButton("poojaVidhi")}
+          className={isAvailable.poojaVidhi ? "btn green" : "btn"}
+          onClick={() => setActive("poojaVidhi")}
         >
-          🪷 पूजा विधि
+          पूजा विधि
         </button>
         <button
-          className={`p-2 rounded ${isAvailable("stotra") ? "bg-green-500 text-white" : "bg-gray-300"}`}
-          onClick={() => isAvailable("stotra") && setActiveButton("stotra")}
+          className={isAvailable.chalisa ? "btn green" : "btn"}
+          onClick={() => setActive("chalisa")}
         >
-          📜 स्तोत्र
+          चालीसा
         </button>
         <button
-          className={`p-2 rounded ${isAvailable("chalisa") ? "bg-green-500 text-white" : "bg-gray-300"}`}
-          onClick={() => isAvailable("chalisa") && setActiveButton("chalisa")}
+          className={isAvailable.stotra ? "btn green" : "btn"}
+          onClick={() => setActive("stotra")}
         >
-          📜 चालीसा
+          स्तोत्र
         </button>
       </div>
 
-      {/* Content display */}
-      {activeButton && result && (
-        <div className="mt-4">
-          {activeButton === "aarti" ? (
-            Array.isArray(result.content?.aarti) ? (
-              result.content.aarti.map((item, idx) => (
-                <div key={idx} className="mb-4">
-                  {item.title && <h3 className="font-semibold">{item.title}</h3>}
-                  {Array.isArray(item.aarti) &&
-                    item.aarti.map((line, i) => <p key={i}>{line}</p>)}
-                </div>
-              ))
-            ) : (
-              <p>आरती उपलब्ध नहीं है</p>
-            )
-          ) : activeButton === "poojaVidhi" ? (
-            Array.isArray(result.content?.poojaVidhi) ? (
-              result.content.poojaVidhi.map((item, idx) => (
-                <div key={idx} className="mb-4">
-                  {item.text && <p className="font-semibold whitespace-pre-line">{item.text}</p>}
-                  {item.pdf && (
-                    <p>
-                      <a href={item.pdf} target="_blank" rel="noopener noreferrer" className="text-blue-600 underline">
-                        📄 {item.source || "PDF लिंक"}
-                      </a>
-                    </p>
-                  )}
-                </div>
-              ))
-            ) : (
-              <p>पूजा विधि उपलब्ध नहीं है</p>
-            )
-          ) : (
-            renderText(result.content?.[activeButton])
-          )}
-        </div>
-      )}
+      {/* Display Sections */}
+      <div className="section">
+        {active === "mantra" &&
+          content.mantra.map((line, idx) => <p key={idx}>{line}</p>)}
+
+        {active === "aarti" &&
+          content.aarti.map((item, idx) => (
+            <div key={idx}>
+              {item.title && <h4>{item.title}</h4>}
+              {Array.isArray(item.aarti) &&
+                item.aarti.map((line, i) => <p key={i}>{line}</p>)}
+            </div>
+          ))}
+
+        {active === "poojaVidhi" &&
+          content.poojaVidhi.map((item, idx) => (
+            <div key={idx}>
+              {item.text && <p>{item.text}</p>}
+              {item.pdf && (
+                <a
+                  href={item.pdf}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  style={{ color: "blue", textDecoration: "underline" }}
+                >
+                  📄 {item.source || "PDF लिंक"}
+                </a>
+              )}
+            </div>
+          ))}
+
+        {/* ✅ Chalisa rendering */}
+        {active === "chalisa" &&
+          content.chalisa.map((item, idx) => (
+            <div key={idx}>
+              {item.pdf && (
+                <a
+                  href={item.pdf}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  style={{ color: "green", fontWeight: "bold" }}
+                >
+                  📄 {item.source || "PDF लिंक"}
+                </a>
+              )}
+              {item.text && <p>{item.text}</p>}
+            </div>
+          ))}
+
+        {active === "stotra" &&
+          content.stotra.map((line, idx) => <p key={idx}>{line}</p>)}
+      </div>
     </div>
   );
 }
+
+export default AskNews;
