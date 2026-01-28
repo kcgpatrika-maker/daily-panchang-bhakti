@@ -548,29 +548,28 @@ async function ask() {
     bhaktiData = data.content;
 
     // 🟢 जिनका data है वही बटन enable (mapped keys)
-    aiButtons.forEach(btn => { 
-      const uiType = btn.getAttribute("onclick").match(/'(.*?)'/)[1]; // e.g., 'aarti','chalisa' 
-      const key = TYPE_MAP[uiType]; 
-      const val = bhaktiData[key]; 
-      
-      let hasData = false; 
-      
-      if (uiType === "chalisa" && Array.isArray(val)) { 
-        // chalisa object array check 
+    aiButtons.forEach(btn => {
+      const uiType = btn.getAttribute("onclick").match(/'(.*?)'/)[1]; 
+      const key = TYPE_MAP[uiType];
+      const val = bhaktiData[key];
+
+      let hasData = false;
+
+      if (uiType === "chalisa" && Array.isArray(val)) {
+        // chalisa object array check
         hasData = val.some(item => item.pdf || item.text);
-      } else { 
+      } else {
         hasData =
           (Array.isArray(val) && val.length > 0) ||
           (typeof val === "string" && val.trim().length > 0);
       }
-      
+
       if (hasData) {
         btn.disabled = false;
         btn.classList.add("active"); // हरा
       }
     });
 
-    // ℹ️ सिर्फ info दिखे — कोई कंटेंट नहीं
     aiTitle.innerText = `🙏 ${query.value.trim()}`;
     aiInfo.style.display = "block";
 
@@ -578,6 +577,86 @@ async function ask() {
     console.error(e);
     result.innerHTML = "<p>सर्वर से उत्तर नहीं मिला</p>";
   }
+}
+
+/* ========= SHOW SECTION ========= */
+function showSection(type) {
+  if (!bhaktiData) return;
+
+  aiButtons.forEach(btn => btn.classList.remove("active"));
+  const activeBtn = document.querySelector(`.ai-btn[onclick*="${type}"]`);
+  if (activeBtn) activeBtn.classList.add("active");
+
+  const key = TYPE_MAP[type];
+  const data = bhaktiData[key];
+  if (!data) return;
+
+  let html = "";
+
+  // आरती
+  if (type === "aarti" && Array.isArray(data)) {
+    data.forEach(item => {
+      html += `<p><b>${item.title || ""}</b></p>`;
+      if (Array.isArray(item.aarti)) {
+        item.aarti.forEach(line => { html += `<p>${line}</p>`; });
+      }
+      html += `<hr>`;
+    });
+  }
+
+  // 🪷 पूजा विधि
+  else if (type === "poojaVidhi" && Array.isArray(data)) {
+    data.forEach(item => {
+      if (item.text) {
+        html += `<p class="font-semibold whitespace-pre-line">${item.text}</p><hr>`;
+      }
+      if (item.pdf) {
+        html += `<p><a href="${item.pdf}" target="_blank" rel="noopener noreferrer" class="text-blue-600 underline">📄 ${item.source || "PDF लिंक"}</a></p><hr>`;
+      }
+    });
+  }
+
+  // 🪷 चालीसा
+  else if (type === "chalisa" && Array.isArray(data)) {
+    data.forEach(item => {
+      if (item.pdf) {
+        html += `<p><a href="${item.pdf}" target="_blank" rel="noopener noreferrer" 
+          class="text-green-600 font-bold">📄 ${item.source || "PDF लिंक"}</a></p><hr>`;
+      }
+      if (item.text) {
+        html += `<p>${item.text}</p><hr>`;
+      }
+    });
+  }
+
+  // मंत्र/स्तोत्र
+  else if (Array.isArray(data)) {
+    data.forEach(line => {
+      const t = typeof line === "string" ? line.trim() : "";
+      if (t) html += `<p>${t}</p>`;
+    });
+  } else if (typeof data === "string") {
+    data.split("\n").forEach(line => {
+      const t = line.trim();
+      if (t) html += `<p>${t}</p>`;
+    });
+  }
+
+  result.innerHTML = html || "<p>डेटा उपलब्ध नहीं</p>";
+  result.scrollIntoView({ behavior: "smooth" });
+}
+
+/* ========= RESET ========= */
+function resetAsk() {
+  query.value = "";
+  result.innerHTML = "";
+  aiInfo.style.display = "none";
+  bhaktiData = null;
+
+  aiButtons.forEach(btn => {
+    btn.disabled = true;
+    btn.classList.remove("active");
+  });
 }
 
 /* ========= SHOW SECTION ========= */
