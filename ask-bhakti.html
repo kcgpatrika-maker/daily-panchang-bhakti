@@ -102,7 +102,7 @@ function renderContent(d) {
   fillAartiSection("aarti", "आरती", d.content.aarti);
   fillPujaSection("pujaVidhi", "पूजा विधि", d.content.poojaVidhi);
   fillChalisaSection("chalisa", "चालीसा", d.content.chalisa);
-  fillSimpleSection("stotra", "स्तोत्र", d.content.stotra);
+  fillStotraSection("stotra", "स्तोत्र", d.content.stotra);
 
   show(document.getElementById("content"));
 }
@@ -173,6 +173,7 @@ function fillPujaSection(id, title, arr) {
     }
   });
 }
+
 /* ---------------------------------------------
    Chalisa Section — final
 --------------------------------------------- */
@@ -186,7 +187,6 @@ function fillChalisaSection(id, title, arr) {
   sec.appendChild(h3);
 
   arr.forEach(item => {
-    // अगर PDF object है
     if (item.pdf) {
       const a = document.createElement("a");
       a.href = item.pdf;
@@ -198,7 +198,6 @@ function fillChalisaSection(id, title, arr) {
       sec.appendChild(a);
       sec.appendChild(document.createElement("br"));
     }
-    // fallback text अगर कोई हो
     if (item.text) {
       const p = document.createElement("p");
       p.textContent = item.text;
@@ -206,6 +205,39 @@ function fillChalisaSection(id, title, arr) {
     }
   });
 }
+
+/* ---------------------------------------------
+   Stotra Section — final
+--------------------------------------------- */
+function fillStotraSection(id, title, arr) {
+  const sec = document.getElementById(id);
+  sec.innerHTML = "";
+  if (!Array.isArray(arr) || !arr.length) return;
+
+  const h3 = document.createElement("h3");
+  h3.textContent = title;
+  sec.appendChild(h3);
+
+  arr.forEach(item => {
+    if (item.pdf) {
+      const a = document.createElement("a");
+      a.href = item.pdf;
+      a.target = "_blank";
+      a.rel = "noopener noreferrer";
+      a.style.color = "purple";
+      a.style.fontWeight = "bold";
+      a.textContent = `📄 ${item.source}`;
+      sec.appendChild(a);
+      sec.appendChild(document.createElement("br"));
+    }
+    if (item.text) {
+      const p = document.createElement("p");
+      p.textContent = item.text;
+      sec.appendChild(p);
+    }
+  });
+}
+
 /* ---------------------------------------------
    Sections
 --------------------------------------------- */
