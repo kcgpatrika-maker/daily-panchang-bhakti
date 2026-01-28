@@ -556,13 +556,12 @@ async function ask() {
       let hasData = false;
 
       if (uiType === "chalisa" && Array.isArray(val)) {
-        // chalisa object array check
-        hasData = val.some(item => item.pdf || item.text);
-      } else {
-        hasData =
-          (Array.isArray(val) && val.length > 0) ||
-          (typeof val === "string" && val.trim().length > 0);
-      }
+  hasData = val.some(item => item.pdf || item.text);
+} else {
+  hasData =
+    (Array.isArray(val) && val.length > 0) ||
+    (typeof val === "string" && val.trim().length > 0);
+}
 
       if (hasData) {
         btn.disabled = false;
@@ -618,16 +617,16 @@ function showSection(type) {
 
   // 🪷 चालीसा
   else if (type === "chalisa" && Array.isArray(data)) {
-    data.forEach(item => {
-      if (item.pdf) {
-        html += `<p><a href="${item.pdf}" target="_blank" rel="noopener noreferrer" 
-          class="text-green-600 font-bold">📄 ${item.source || "PDF लिंक"}</a></p><hr>`;
-      }
-      if (item.text) {
-        html += `<p>${item.text}</p><hr>`;
-      }
-    });
-  }
+  data.forEach(item => {
+    if (item.pdf) {
+      html += `<p><a href="${item.pdf}" target="_blank" rel="noopener noreferrer"
+        class="text-green-600 font-bold">📄 ${item.source || "PDF लिंक"}</a></p><hr>`;
+    }
+    if (item.text) {
+      html += `<p>${item.text}</p><hr>`;
+    }
+  });
+}
 
   // मंत्र/स्तोत्र
   else if (Array.isArray(data)) {
