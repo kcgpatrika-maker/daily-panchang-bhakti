@@ -739,40 +739,58 @@ function showSection(type) {
 
   const key = TYPE_MAP[type];
   const data = bhaktiData[key];
-  if (!data) return;
 
   let html = "";
 
-  // आरती
-  if (type === "aarti" && Array.isArray(data)) {
+  // 🔱 मंत्र
+  if (type === "mantra") {
+    if (Array.isArray(data)) {
+      data.forEach(line => {
+        if (typeof line === "string" && line.trim()) {
+          html += `<p>${line.trim()}</p>`;
+        }
+      });
+    }
+  }
+
+  // 🪔 आरती
+  else if (type === "aarti" && Array.isArray(data)) {
     data.forEach(item => {
-      html += `<p><b>${item.title || ""}</b></p>`;
+      if (item.title) html += `<p><b>${item.title}</b></p>`;
       if (Array.isArray(item.aarti)) {
-        item.aarti.forEach(line => { html += `<p>${line}</p>`; });
+        item.aarti.forEach(line => html += `<p>${line}</p>`);
       }
       html += `<hr>`;
     });
   }
 
-  // पूजा विधि
+  // 🪷 पूजा विधि
   else if (type === "poojaVidhi" && Array.isArray(data)) {
     data.forEach(item => {
-      if (item.text) html += `<p class="font-semibold whitespace-pre-line">${item.text}</p><hr>`;
-      if (item.pdf) html += `<p><a href="${item.pdf}" target="_blank" rel="noopener noreferrer" class="text-blue-600 underline">📄 ${item.source}</a></p><hr>`;
+      if (item.text) html += `<p>${item.text}</p><hr>`;
+      if (item.pdf) {
+        html += `<p><a href="${item.pdf}" target="_blank">📄 ${item.source || "PDF"}</a></p><hr>`;
+      }
     });
   }
 
-  // चालीसा
+  // 🪷 चालीसा
   else if (type === "chalisa" && Array.isArray(data)) {
     data.forEach(item => {
-      if (item.pdf) html += `<p><a href="${item.pdf}" target="_blank" rel="noopener noreferrer" class="text-green-600 font-bold">📄 ${item.source}</a></p><hr>`;
+      if (item.pdf) {
+        html += `<p><a href="${item.pdf}" target="_blank"><b>📄 ${item.source}</b></a></p>`;
+      }
+      if (item.text) html += `<p>${item.text}</p>`;
+      html += `<hr>`;
     });
   }
 
-  // स्तोत्र
+  // 📿 स्तोत्र
   else if (type === "stotra" && Array.isArray(data)) {
     data.forEach(item => {
-      if (item.pdf) html += `<p><a href="${item.pdf}" target="_blank" rel="noopener noreferrer" class="text-purple-600 font-bold">📄 ${item.source}</a></p><hr>`;
+      if (item.pdf) {
+        html += `<p><a href="${item.pdf}" target="_blank"><b>📄 ${item.source}</b></a></p><hr>`;
+      }
     });
   }
 
