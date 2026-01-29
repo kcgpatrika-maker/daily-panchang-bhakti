@@ -586,7 +586,7 @@ function showSection(type) {
   const activeBtn = document.querySelector(`.ai-btn[onclick*="${type}"]`);
   if (activeBtn) activeBtn.classList.add("active");
 
-  const cleanType = (type || "").trim().toLowerCase();
+  const cleanType = type;
   const key = TYPE_MAP[cleanType];
   const data = bhaktiData[key];
   if (!data) {
