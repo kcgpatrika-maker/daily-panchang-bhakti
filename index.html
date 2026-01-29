@@ -579,7 +579,6 @@ async function ask() {
 }
 
 /* ========= SHOW SECTION ========= */
-console.log("SHOW:", type, "KEY:", TYPE_MAP[type], "DATA:", bhaktiData?.[TYPE_MAP[type]]);
 function showSection(type) {
   if (!bhaktiData) return;
 
@@ -587,36 +586,33 @@ function showSection(type) {
   const activeBtn = document.querySelector(`.ai-btn[onclick*="${type}"]`);
   if (activeBtn) activeBtn.classList.add("active");
 
-  const key = TYPE_MAP[type];
+  const cleanType = (type || "").trim().toLowerCase();
+  const key = TYPE_MAP[cleanType];
   const data = bhaktiData[key];
-  if (!data) return;
+  if (!data) {
+    result.innerHTML = "<p>डेटा उपलब्ध नहीं</p>";
+    return;
+  }
 
   let html = "";
 
-  /* =====================
-     🔱 मंत्र (सबसे पहले)
-  ===================== */
-  if (type === "mantra") {
+  /* 🔱 मंत्र — सबसे पहले (FIX) */
+  if (cleanType === "mantra") {
     if (Array.isArray(data)) {
-      data.forEach(item => {
-        if (typeof item === "string" && item.trim()) {
-          html += `<p>${item}</p>`;
-        } else if (item?.text) {
-          html += `<p>${item.text}</p>`;
+      data.forEach(line => {
+        if (typeof line === "string" && line.trim()) {
+          html += `<p>${line.trim()}</p>`;
         }
       });
     } else if (typeof data === "string") {
       data.split("\n").forEach(line => {
-        const t = line.trim();
-        if (t) html += `<p>${t}</p>`;
+        if (line.trim()) html += `<p>${line.trim()}</p>`;
       });
     }
   }
 
-  /* =====================
-     🪔 आरती
-  ===================== */
-  else if (type === "aarti" && Array.isArray(data)) {
+  /* 🪔 आरती */
+  else if (cleanType === "aarti" && Array.isArray(data)) {
     data.forEach(item => {
       if (item.title) html += `<p><b>${item.title}</b></p>`;
       if (Array.isArray(item.aarti)) {
@@ -628,10 +624,8 @@ function showSection(type) {
     });
   }
 
-  /* =====================
-     🪷 पूजा विधि
-  ===================== */
-  else if (type === "poojaVidhi" && Array.isArray(data)) {
+  /* 🪷 पूजा विधि */
+  else if (cleanType === "poojaVidhi" && Array.isArray(data)) {
     data.forEach(item => {
       if (item.text) {
         html += `<p class="font-semibold whitespace-pre-line">${item.text}</p><hr>`;
@@ -639,13 +633,44 @@ function showSection(type) {
       if (item.pdf) {
         html += `<p>
           <a href="${item.pdf}" target="_blank" rel="noopener noreferrer"
-             class="text-blue-600 underline">
-             📄 ${item.source || "PDF लिंक"}
-          </a>
+             class="text-blue-600 underline">📄 ${item.source || "PDF लिंक"}</a>
         </p><hr>`;
       }
     });
   }
+
+  /* 🪷 चालीसा */
+  else if (cleanType === "chalisa" && Array.isArray(data)) {
+    data.forEach(item => {
+      if (item.pdf) {
+        html += `<p>
+          <a href="${item.pdf}" target="_blank" rel="noopener noreferrer"
+             class="text-green-600 font-bold">📄 ${item.source || "PDF लिंक"}</a>
+        </p>`;
+      }
+      if (item.text) html += `<p>${item.text}</p>`;
+      html += `<hr>`;
+    });
+  }
+
+  /* 📿 स्तोत्र */
+  else if (cleanType === "stotra" && Array.isArray(data)) {
+    data.forEach(item => {
+      if (item.pdf) {
+        html += `<p>
+          <a href="${item.pdf}" target="_blank" rel="noopener noreferrer"
+             class="text-purple-600 font-bold">📄 ${item.source || "PDF लिंक"}</a>
+        </p><hr>`;
+      }
+      if (item.text) {
+        html += `<p>${item.text}</p><hr>`;
+      }
+    });
+  }
+
+  result.innerHTML = html || "<p>डेटा उपलब्ध नहीं</p>";
+  result.scrollIntoView({ behavior: "smooth" });
+}
 
   /* =====================
      📿 चालीसा
