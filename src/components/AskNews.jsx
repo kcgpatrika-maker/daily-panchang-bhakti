@@ -4,7 +4,7 @@ function AskNews({ content = {} }) {
   const [active, setActive] = useState(null);
 
   const isAvailable = {
-    mantra: Array.isArray(content?.mantra) && content.mantra.length > 0,
+    mantra: Array.isArray(content.mantra) && content.mantra.length > 0,
     aarti: Array.isArray(content?.aarti) && content.aarti.length > 0,
     poojaVidhi: Array.isArray(content?.poojaVidhi) && content.poojaVidhi.length > 0,
     chalisa: Array.isArray(content?.chalisa) && content.chalisa.some(i => i.pdf),
