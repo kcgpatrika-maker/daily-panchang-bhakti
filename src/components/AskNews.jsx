@@ -22,10 +22,10 @@ function AskNews({ content = {} }) {
       </div>
 
       <div className="section">
-        {active === "mantra" &&
-          Array.isArray(content?.mantra) &&
-          content.mantra.map((line, idx) => <p key={idx}>{line}</p>)
-        }
+        {/* मंत्र */}
+        {active === "mantra" && Array.isArray(content?.mantra) && content.mantra.map((line, idx) => (
+          <p key={idx}>{line}</p>
+        ))}
 
         {active === "aarti" &&
           content?.aarti?.map((item, idx) => (
