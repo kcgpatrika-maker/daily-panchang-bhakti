@@ -675,8 +675,16 @@ function showSection(type) {
 
   let html = "";
 
+  // ✅ मंत्र (अलग block सबसे पहले)
+  if (type === "mantra" && Array.isArray(data)) {
+    data.forEach(line => {
+      const t = typeof line === "string" ? line.trim() : "";
+      if (t) html += `<p>${t}</p>`;
+    });
+  }
+
   // आरती
-  if (type === "aarti" && Array.isArray(data)) {
+  else if (type === "aarti" && Array.isArray(data)) {
     data.forEach(item => {
       html += `<p><b>${item.title || ""}</b></p>`;
       if (Array.isArray(item.aarti)) {
@@ -686,25 +694,41 @@ function showSection(type) {
     });
   }
 
-  // पूजा विधि
+  // 🪷 पूजा विधि
   else if (type === "poojaVidhi" && Array.isArray(data)) {
     data.forEach(item => {
-      if (item.text) html += `<p class="font-semibold whitespace-pre-line">${item.text}</p><hr>`;
-      if (item.pdf) html += `<p><a href="${item.pdf}" target="_blank" rel="noopener noreferrer" class="text-blue-600 underline">📄 ${item.source}</a></p><hr>`;
+      if (item.text) {
+        html += `<p class="font-semibold whitespace-pre-line">${item.text}</p><hr>`;
+      }
+      if (item.pdf) {
+        html += `<p><a href="${item.pdf}" target="_blank" rel="noopener noreferrer" class="text-blue-600 underline">📄 ${item.source || "PDF लिंक"}</a></p><hr>`;
+      }
     });
   }
 
-  // चालीसा
+  // 🪷 चालीसा
   else if (type === "chalisa" && Array.isArray(data)) {
     data.forEach(item => {
-      if (item.pdf) html += `<p><a href="${item.pdf}" target="_blank" rel="noopener noreferrer" class="text-green-600 font-bold">📄 ${item.source}</a></p><hr>`;
+      if (item.pdf) {
+        html += `<p><a href="${item.pdf}" target="_blank" rel="noopener noreferrer"
+          class="text-green-600 font-bold">📄 ${item.source || "PDF लिंक"}</a></p><hr>`;
+      }
+      if (item.text) {
+        html += `<p>${item.text}</p><hr>`;
+      }
     });
   }
 
-  // स्तोत्र
+  // ✅ स्तोत्र (अलग block, pdf + text)
   else if (type === "stotra" && Array.isArray(data)) {
     data.forEach(item => {
-      if (item.pdf) html += `<p><a href="${item.pdf}" target="_blank" rel="noopener noreferrer" class="text-purple-600 font-bold">📄 ${item.source}</a></p><hr>`;
+      if (item.pdf) {
+        html += `<p><a href="${item.pdf}" target="_blank" rel="noopener noreferrer"
+          class="text-purple-600 font-bold">📄 ${item.source || "PDF लिंक"}</a></p><hr>`;
+      }
+      if (item.text) {
+        html += `<p>${item.text}</p><hr>`;
+      }
     });
   }
 
