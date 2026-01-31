@@ -412,70 +412,49 @@ function toggleKathaMenu(){
   m.style.display = m.style.display === "block" ? "none" : "block";
 }
 
-/* VIDEO */
-function openVideoKatha(){
+/* VIDEO KATHA */
+async function openVideoKatha(){
+  const res = await fetch("vrat-katha-list.json");
+  const data = await res.json();
   modalTitle.innerText = "▶️ व्रत कथा (वीडियो)";
-  modalBody.innerHTML = `
-    <ul>
-      <li><a href="#" onclick="playVideo('सोमवार व्रत कथा')">सोमवार व्रत कथा</a></li>
-      <li><a href="#" onclick="playVideo('एकादशी व्रत कथा')">एकादशी व्रत कथा</a></li>
-      <li><a href="#" onclick="playVideo('सत्यनारायण व्रत कथा')">सत्यनारायण कथा</a></li>
-    </ul>
-  `;
-  modal.style.display="block";
+  modalBody.innerHTML = "<ul>" + data.video.map(k =>
+    `<li><a href="#" onclick="playVideo('${k}')">${k.replace("वीडियो","")}</a></li>`
+  ).join("") + "</ul>";
+  modal.style.display = "block";
 }
 
 function playVideo(q){
   window.open(
-    "https://www.youtube.com/results?search_query="+encodeURIComponent(q),
+    "https://www.youtube.com/results?search_query=" + encodeURIComponent(q),
     "_blank"
   );
   closeMainModal();
 }
-/* ===============================
-   AUDIO KATHA (STABLE METHOD)
-=============================== */
 
-function openAudioModal(){
+/* AUDIO KATHA */
+async function openAudioModal(){
+  const res = await fetch("vrat-katha-list.json");
+  const data = await res.json();
   modalTitle.innerText = "🎧 व्रत कथा (ऑडियो)";
-  modalBody.innerHTML = `
-    <ul>
-      <li>
-        <a href="#" onclick="openAudioYT('सत्यनारायण व्रत कथा ऑडियो हिंदी')">
-          📿 सत्यनारायण व्रत कथा
-        </a>
-      </li>
-      <li>
-        <a href="#" onclick="openAudioYT('एकादशी व्रत कथा ऑडियो हिंदी')">
-          📿 एकादशी व्रत कथा
-        </a>
-      </li>
-      <li>
-        <a href="#" onclick="openAudioYT('करवा चौथ व्रत कथा ऑडियो हिंदी')">
-          📿 करवा चौथ व्रत कथा
-        </a>
-      </li>
-      <li>
-        <a href="#" onclick="openAudioYT('महाशिवरात्रि व्रत कथा ऑडियो हिंदी')">
-          📿 महाशिवरात्रि कथा
-        </a>
-      </li>
-    </ul>
-    <p style="font-size:12px;color:#555;margin-top:8px">
-      👉 कथा चुनते ही ऑडियो-केंद्रित YouTube रिजल्ट खुलेंगे
-    </p>
-  `;
+  modalBody.innerHTML = "<ul>" + data.audio.map(k =>
+    `<li><a href="#" onclick="openAudioYT('${k}')">${k.replace("ऑडियो हिंदी","")}</a></li>`
+  ).join("") + "</ul>";
   modal.style.display = "block";
 }
 
 function openAudioYT(query){
   window.open(
-    "https://www.youtube.com/results?search_query=" +
-    encodeURIComponent(query),
+    "https://www.youtube.com/results?search_query=" + encodeURIComponent(query),
     "_blank"
   );
+  closeMainModal();
+}
+
+/* CLOSE MODAL */
+function closeMainModal(){
   modal.style.display = "none";
 }
+
 /* ===============================
    ASK BHAKTI – STEP B (FINAL STABLE)
 =============================== */
@@ -779,7 +758,6 @@ function sharePage(){
 
 /* Outside click close */
 window.onclick = e=>{
-  if(e.target===document.getElementById("kathaModal")) closeKathaModal();
   if(e.target===modal) modal.style.display="none";
 };
   /* ===============================
@@ -910,43 +888,9 @@ window.closeSandesh = function () {
   <div class="modal-content">
     <span class="close" onclick="closeAudioModal()">×</span>
     <h3>🎧 व्रत कथाएँ (ऑडियो)</h3>
-
-    <ul style="padding-left:18px;font-size:14px">
-      <li>
-        <a href="https://archive.org/details/satyanarayan-katha-hindi-audio"
-           target="_blank">
-          📿 सत्यनारायण व्रत कथा
-        </a>
-      </li>
-
-      <li>
-        <a href="https://archive.org/details/ekadashi-vrat-katha-hindi"
-           target="_blank">
-          📿 एकादशी व्रत कथा
-        </a>
-      </li>
-
-      <li>
-        <a href="https://archive.org/details/karva-chauth-katha-hindi-audio"
-           target="_blank">
-          📿 करवा चौथ व्रत कथा
-        </a>
-      </li>
-
-      <li>
-        <a href="https://archive.org/details/mahashivratri-katha-hindi-audio"
-           target="_blank">
-          📿 महाशिवरात्रि कथा
-        </a>
-      </li>
-    </ul>
-
-    <p style="font-size:12px;color:#555;margin-top:8px">
-      👉 कथा पर क्लिक करते ही नया टैब खुलेगा और ऑडियो वहीं चलेगा
-    </p>
+    <!-- यहाँ JS से dynamic लिस्ट आएगी -->
   </div>
 </div>
-
 
 </body>
 </html>
