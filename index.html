@@ -57,16 +57,17 @@ footer{text-align:center;padding:10px;background:#fff3e0;font-size:13px;color:#4
   margin-bottom:4px;
 }
 
-.katha-btn{
-  display:inline-block;
-  width:auto;
-  margin-top:4px;
-  padding:4px 8px;
+.katha-btn {
+  display:block;       /* block रहने दें ताकि ऊपर-नीचे दिखें */
+  width:auto;          /* auto width ताकि टेक्स्ट जितना हो उतना ही स्पेस ले */
+  margin:4px auto;     /* auto margin से center alignment */
+  padding:4px 10px;    /* padding कम */
   font-size:12px;
   border:none;
   border-radius:6px;
   color:#fff;
   cursor:pointer;
+  text-align:center;   /* टेक्स्ट center में */
 }
 
 .katha-btn.video{
