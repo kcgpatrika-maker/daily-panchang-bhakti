@@ -116,7 +116,7 @@ footer{text-align:center;padding:10px;background:#fff3e0;font-size:13px;color:#4
  .panchang-wrap{
   display:flex;
   justify-content:space-between;
-  align-items:center;
+  align-items:flex-start;
   gap:12px;
 }
 
@@ -124,6 +124,26 @@ footer{text-align:center;padding:10px;background:#fff3e0;font-size:13px;color:#4
   flex:1;
   font-size:14px;
   line-height:1.6;
+}
+
+.panchang-left p.date-line{
+  font-size:18px;
+  font-weight:bold;
+}
+
+.panchang-block p{
+  margin:2px 0;
+  font-size:14px;
+}
+
+.panchang-block p span{
+  font-weight:bold;
+  color:#1565c0; /* अलग रंग */
+}
+
+.sunmoon{
+  font-size:12px;
+  line-height:1.4;
 }
 
 .panchang-source{
@@ -266,22 +286,28 @@ footer{text-align:center;padding:10px;background:#fff3e0;font-size:13px;color:#4
 
 <div class="panchang-wrap">
   <div class="panchang-left">
-    <p>📅 <b id="dateText"></b> | <b id="vaar"></b></p>
-    <p>मास: <b id="maas"></b> | पक्ष: <b id="paksha"></b> | तिथि: <b id="tithi"></b></p>
-    <p>🌅 सूर्योदय: <b id="sunrise"></b> | 🌇 सूर्यास्त: <b id="sunset"></b></p>
-    <p>🌙 चंद्रोदय: <b id="moonrise"></b> | 🌑 चंद्रास्त: <b id="moonset"></b></p>
-    <p>विक्रम संवत: <b id="vikram"></b> | शक संवत: <b id="shak"></b></p>
-   <div style="font-size:12px;color:#555;margin-top:4px" id="panchangSource">
-  📌 स्रोत: —
+    <p class="date-line">📅 <b id="dateText"></b> | <b id="vaar"></b></p>
+    
+    <div class="panchang-block">
+      <p>मास: <span id="maas"></span> | पक्ष: <span id="paksha"></span> | तिथि: <span id="tithi"></span></p>
+      <p>विक्रम संवत: <span id="vikram"></span> | शक संवत: <span id="shak"></span></p>
+    </div>
+    
+    <p class="sunmoon">🌅 सूर्योदय: <b id="sunrise"></b> | 🌇 सूर्यास्त: <b id="sunset"></b></p>
+    <p class="sunmoon">🌙 चंद्रोदय: <b id="moonrise"></b> | 🌑 चंद्रास्त: <b id="moonset"></b></p>
+    
+    <div class="panchang-source" id="panchangSource">
+      📌 स्रोत: —
+    </div>
   </div>
-</div>
+  
   <div class="panchang-right">
     <button class="religious-btn" onclick="openReligiousMessage()">
       ⭕️
     </button>
     <div class="btn-label">
-  आज का<br>धार्मिक संदेश
-</div>
+      आज का<br>धार्मिक संदेश
+    </div>
   </div>
 </div>
   <div style="display:flex; gap:5px; flex-wrap:nowrap; margin-top:8px; margin-bottom:10px;">
