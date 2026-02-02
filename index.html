@@ -474,25 +474,25 @@ async function loadPanchang() {
     const data = await res.json();
 
     // Date & Day
-    dateText.innerText = data.date ?? "—";
-    vaar.innerText = data.day ?? "—";
+      document.getElementById("dateText").innerText = data.date ?? "—";
+      document.getElementById("vaar").innerText = data.day ?? "—";
 
-    // Sunrise / Sunset
-    sunrise.innerText = data.sunrise ?? "—";
-    sunset.innerText = data.sunset ?? "—";
+      // Sunrise / Sunset
+      document.getElementById("sunrise").innerText = data.sunrise ?? "—";
+      document.getElementById("sunset").innerText = data.sunset ?? "—";
 
-    // Moonrise / Moonset
-    moonrise.innerText = data.moonrise ?? "—";
-    moonset.innerText = data.moonset ?? "—";
+      // Moonrise / Moonset
+      document.getElementById("moonrise").innerText = data.moonrise ?? "—";
+      document.getElementById("moonset").innerText = data.moonset ?? "—";
 
-    // Vikram & Shak Samvat
-    vikram.innerText = data.vikramSamvat ?? "—";
-    shak.innerText   = data.shakaSamvat ?? "—";
+      // Vikram & Shak Samvat
+      document.getElementById("vikram").innerText = data.vikramSamvat ?? "—";
+      document.getElementById("shak").innerText   = data.shakaSamvat ?? "—";
 
-    // Masa, Tithi, Paksha
-    maas.innerText = data.month ?? "—";
-    paksha.innerText = data.paksha ?? "—";
-    tithi.innerText = data.tithi ?? "—";
+      // Masa, Tithi, Paksha
+      document.getElementById("maas").innerText = data.month ?? "—";
+      document.getElementById("paksha").innerText = data.paksha ?? "—";
+      document.getElementById("tithi").innerText = data.tithi ?? "—";
 
     // Festivals / Vrat (optional future use)
     if (Array.isArray(data.festivalList) && data.festivalList.length > 0) {
