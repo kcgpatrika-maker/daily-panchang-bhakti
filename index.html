@@ -175,6 +175,28 @@ footer{text-align:center;padding:10px;background:#fff3e0;font-size:13px;color:#4
   color: #fff;
 }
 
+/* Layout styles */
+.channel-list {
+  display: flex;
+  flex-wrap: wrap;          /* बटन wrap होंगे */
+  justify-content: center;  /* center alignment */
+  gap: 8px;                 /* बटन के बीच spacing */
+  margin: 8px 0;
+}
+
+.channel-btn {
+  flex: 1 1 45%;            /* छोटे स्क्रीन पर 2 बटन प्रति row */
+  max-width: 140px;         /* बटन की चौड़ाई limit */
+  text-align: center;
+  border: none;
+  border-radius: 6px;
+  padding: 6px 10px;
+  font-size: 13px;
+  cursor: pointer;
+  white-space: nowrap;
+  color: #fff;
+}
+
 /* Branding styles */
 .channel-btn.sanskar {
   background: #e65100;
@@ -200,7 +222,6 @@ footer{text-align:center;padding:10px;background:#fff3e0;font-size:13px;color:#4
   background: #7f0000;
 }
 
-/* New channels */
 .channel-btn.arihant {
   background: #2e7d32; /* हरा रंग */
   font-family: "Tahoma", sans-serif;
@@ -372,7 +393,7 @@ footer{text-align:center;padding:10px;background:#fff3e0;font-size:13px;color:#4
     Arihant TV ▶️
   </button>
 
-  <button class="channel-btn subh" onclick="window.open('https://www.youtube.com/@subhtvindia/live','_blank')">
+  <button class="channel-btn subh" onclick="window.open('https://www.youtube.com/@ShubhTV/live','_blank')">
     Subh TV ▶️
   </button>
 </div>
