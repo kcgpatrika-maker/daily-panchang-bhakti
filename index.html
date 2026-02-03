@@ -16,7 +16,7 @@ header{background:linear-gradient(90deg,#ff9800,#ffb300);padding:10px 12px;color
 .header-actions button{background:#fff;border:none;border-radius:8px;padding:6px 10px;font-size:12px;font-weight:600;cursor:pointer}
 .section{padding:12px}
 .card{background:#fff;border-radius:12px;padding:12px;margin-bottom:12px;box-shadow:0 2px 6px rgba(0,0,0,.1)}
-.panchang p{margin:4px 0;font-size:14px}
+.panchang-left p{margin:3px 0;font-size:14px}
 .panchang p:first-child{font-size:16px;font-weight:700}
 .ask-row{display:flex;gap:6px}
 .highlight{background:linear-gradient(135deg,#ffe082,#ffcc80);border-left:5px solid #ff6f00}
@@ -242,7 +242,7 @@ footer{text-align:center;padding:10px;background:#fff3e0;font-size:13px;color:#4
 
 /* ===== MOBILE ===== */
 @media (max-width:600px){
-  .panchang-left{font-size:13px}
+  .panchang-left{font-size:14px}
   .panchang-left p:first-child{font-size:17px;font-weight:700}
   .btn-label{font-size:15px}
 }
@@ -276,7 +276,9 @@ footer{text-align:center;padding:10px;background:#fff3e0;font-size:13px;color:#4
 <div class="panchang-wrap">
   <div class="panchang-left">
 
-    <p> <b id="dateText"></b> | <b id="vaar"></b></p>
+    <p style="font-size:16px;font-weight:700;margin:2px 0;">
+  <b id="dateText"></b> | <b id="vaar"></b>
+</p>
 
     <p>
       <span style="color:#d84315;font-weight:700;font-size:15px" id="maas"></span> ·
@@ -284,21 +286,24 @@ footer{text-align:center;padding:10px;background:#fff3e0;font-size:13px;color:#4
       <span style="color:#b71c1c;font-weight:700;font-size:15px" id="tithi"></span>
     </p>
 
-    <p style="margin-top:-2px;font-size:13px">
-      विक्रम संवत: <b id="vikram"></b>
-    </p>
-
-    <p style="margin-top:-4px;font-size:13px">
-      शक संवत: <b id="shak"></b>
-    </p>
+    <p style="margin:2px 0">
+  विक्रम संवत: <b id="vikram"></b>
+</p>
+<p style="margin:2px 0">
+  शक संवत: <b id="shak"></b>
+</p>
 
     <p style="font-size:13px">सूर्योदय: <b id="sunrise"></b> | सूर्यास्त: <b id="sunset"></b></p>
 
     <p style="margin-top:-3px;font-size:13px">चंद्रोदय: <b id="moonrise"></b> | चंद्रास्त: <b id="moonset"></b></p>
 
-    <div style="font-size:12px;color:#555;margin-top:-2px" id="panchangSource">
-      स्रोत: —
-    </div>
+    <p style="margin:2px 0">
+  चंद्रोदय: <b id="moonrise"></b> |
+  चंद्रास्त: <b id="moonset"></b>
+  <span style="font-size:12px;color:#555">
+    | स्रोत: —
+  </span>
+</p>
 
   </div>
 
