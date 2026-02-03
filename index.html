@@ -125,7 +125,7 @@ footer{text-align:center;padding:10px;background:#fff3e0;font-size:13px;color:#4
 .panchang-left{
   flex:1;
   font-size:14px;
-  line-height:1.6;
+  line-height:1.4;
 }
 
 .panchang-source{
@@ -288,7 +288,11 @@ footer{text-align:center;padding:10px;background:#fff3e0;font-size:13px;color:#4
 
     <p style="margin:2px 0">
   विक्रम संवत: <b id="vikram"></b><span id="vikramName"></span>
+</p>
+
+<p style="margin:2px 0">
   शक संवत: <b id="shak"></b><span id="shakName"></span>
+</p>
 
     <p style="font-size:13px">सूर्योदय: <b id="sunrise"></b> | सूर्यास्त: <b id="sunset"></b></p>
 
@@ -486,12 +490,6 @@ async function loadPanchang() {
     // Vikram & Shak Samvat (only number bold)
 vikram.innerText = data.vikramSamvat ?? "—";
 shak.innerText   = data.shakaSamvat ?? "—";
-
-document.getElementById("vikramName").innerText =
-  data.vikramName ? ` (${data.vikramName})` : "";
-
-document.getElementById("shakName").innerText =
-  data.shakaName ? ` (${data.shakaName})` : "";
 
     // Masa, Tithi, Paksha
     maas.innerText = data.month ?? "—";
