@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import logo from "./logo.png";
 
 function AskNews({ content = {} }) {
   const [active, setActive] = useState(null);
