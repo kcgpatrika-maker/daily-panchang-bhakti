@@ -301,7 +301,9 @@ footer{text-align:center;padding:10px;background:#fff3e0;font-size:13px;color:#4
     <p style="margin:2px 0">
   चंद्रोदय: <b id="moonrise"></b> |
   चंद्रास्त: <b id="moonset"></b>
-  <span id="panchangSource" style="font-size:12px;color:#555"></span>
+</p>
+
+<p style="margin:2px 0;font-size:12px;color:#555" id="panchangSource">
 </p>
 
   </div>
@@ -487,9 +489,15 @@ async function loadPanchang() {
     moonrise.innerText = data.moonrise ?? "—";
     moonset.innerText = data.moonset ?? "—";
 
-    // Vikram & Shak Samvat
-    vikram.innerText = data.vikramSamvat ?? "—";
-    shak.innerText   = data.shakaSamvat ?? "—";
+    // Vikram & Shak Samvat (only number bold)
+vikram.innerText = data.vikramSamvat ?? "—";
+shak.innerText   = data.shakaSamvat ?? "—";
+
+document.getElementById("vikramName").innerText =
+  data.vikramName ? ` (${data.vikramName})` : "";
+
+document.getElementById("shakName").innerText =
+  data.shakaName ? ` (${data.shakaName})` : "";
 
     // Masa, Tithi, Paksha
     maas.innerText = data.month ?? "—";
