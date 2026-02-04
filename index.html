@@ -245,6 +245,22 @@ footer{text-align:center;padding:10px;background:#fff3e0;font-size:13px;color:#4
 .channel-btn.subh:hover {
   background: #4a148c;
 }
+.share-btn{
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  font-size:14px;
+  color:#4a148c;
+  cursor:pointer;
+}
+.share-btn .material-icons{
+  font-size:22px;
+  line-height:1;
+}
+.share-text{
+  margin-top:2px;
+  font-weight:600;
+}
 
 /* ===== MOBILE ===== */
 @media (max-width:600px){
@@ -268,7 +284,10 @@ footer{text-align:center;padding:10px;background:#fff3e0;font-size:13px;color:#4
       </div>
     </div>
     <div class="header-actions">
-      <button onclick="sharePage()">🔗 शेयर</button>
+      <div class="share-btn" onclick="sharePage()">
+        <span class="material-icons">push_pin</span>
+        <div class="share-text">शेयर</div>
+      </div>
     </div>
   </div>
 </header>
