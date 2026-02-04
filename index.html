@@ -9,9 +9,11 @@
 <meta name="robots" content="index, follow">
 <style>
 body{margin:0;font-family:system-ui;background:#fff8e1;color:#4e342e}
-header{background:linear-gradient(180deg,#ffb300,#f57c00);padding:10px 12px;color:#fff;box-shadow:0 2px 6px rgba(0,0,0,.15);position:sticky;top:0;z-index:100}
-.header-row{display:flex;justify-content:space-between;align-items:center;gap:8px}
-.header-title{font-size:18px;font-weight:800;white-space:nowrap;letter-spacing:.3px}
+header{background:linear-gradient(180deg,#ffb300,#f57c00);padding:8px 12px;color:#fff;box-shadow:0 2px 6px rgba(0,0,0,.15)}
+.header-row{display:flex;justify-content:space-between;align-items:center;gap:6px}
+.header-left{display:flex;align-items:center;gap:8px}
+.header-left img{height:36px}
+.header-title{font-size:18px;font-weight:800;line-height:1.1}
 .tagline{font-size:13px;margin-top:2px;font-weight:500;opacity:.95}
 .header-actions button{background:#fff;border:none;border-radius:8px;padding:6px 10px;font-size:12px;font-weight:600;cursor:pointer}
 .section{padding:12px}
@@ -254,8 +256,8 @@ footer{text-align:center;padding:10px;background:#fff3e0;font-size:13px;color:#4
 <body>
 
 <header>
-  <div class="header-row">
-    <img src="logo.png" alt="Logo" style="height:40px;width:auto;">
+  <div class="header-left">
+  <img src="/logo.png">
       
       <div>
         <div class="header-title">Panchang – Bhakti Guide</div>
