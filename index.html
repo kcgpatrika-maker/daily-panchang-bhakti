@@ -249,14 +249,22 @@ footer{text-align:center;padding:10px;background:#fff3e0;font-size:13px;color:#4
   display:flex;
   flex-direction:column;
   align-items:center;
-  background:none;
-  border:none;
-  color:#4a148c;
+  color:#fff;                 /* icon + text सफेद */
+  background:#4a148c;         /* devotional मरून बैकग्राउंड */
+  padding:6px 10px;           /* थोड़ा बड़ा */
+  border-radius:6px;
   cursor:pointer;
 }
-.share-icon{ font-size:26px; line-height:1; }
-.share-text{ margin-top:2px; font-size:12px; font-weight:600; color:#4a148c; }
-
+.share-icon{
+  font-size:26px;             /* icon readable size */
+  line-height:1;
+}
+.share-text{
+  margin-top:2px;
+  font-size:12px;
+  font-weight:600;
+  color:#fff;                 /* टेक्स्ट सफेद */
+}
 /* ===== MOBILE ===== */
 @media (max-width:600px){
   .panchang-left{font-size:14px}
@@ -281,7 +289,7 @@ footer{text-align:center;padding:10px;background:#fff3e0;font-size:13px;color:#4
     <div class="header-actions">
       <div class="share-btn" onclick="sharePage()">
         <div class="share-icon">📤</div>
-        <div class="share-text">शेयर</div>
+        <div class="share-text">Share</div>
       </div>
     </div>
   </div>
