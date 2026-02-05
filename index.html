@@ -249,21 +249,16 @@ footer{text-align:center;padding:10px;background:#fff3e0;font-size:13px;color:#4
   display:flex;
   flex-direction:column;
   align-items:center;
-  color:#fff;                 /* icon + text सफेद */
-  background:none;         
-  border:none;
   cursor:pointer;
-}
-.share-icon{
-  font-size:26px;             /* icon readable size */
-  line-height:1;
+  color:#fff;              /* icon + text सफेद */
 }
 .share-text{
   margin-top:2px;
   font-size:13px;
   font-weight:600;
-  color:#fff;                 /* टेक्स्ट सफेद */
+  color:#fff;
 }
+
 /* ===== MOBILE ===== */
 @media (max-width:600px){
   .panchang-left{font-size:14px}
@@ -287,11 +282,13 @@ footer{text-align:center;padding:10px;background:#fff3e0;font-size:13px;color:#4
     </div>
     <div class="header-actions">
       <div class="share-btn" onclick="sharePage()">
-        <div class="share-icon">📤</div>
-        <div class="share-text">Share</div>
-      </div>
-    </div>
-  </div>
+  <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" fill="currentColor" viewBox="0 0 16 16">
+    <path d="M13.5 1a1.5 1.5 0 0 1 1.415 1.987l-5.5 11a1.5 1.5 0 0 1-2.83 0l-5.5-11A1.5 1.5 0 0 1 2.5 1h11z"/>
+  </svg>
+  <div class="share-text">Share</div>
+</div>
+</div>
+</div>
 </header>
 <div class="section">
 
