@@ -19,8 +19,13 @@ header{background:linear-gradient(180deg,#ffb300,#f57c00);padding:8px 12px;color
 .header-actions button:hover{box-shadow:0 0 8px rgba(255,255,255,.6)}
 .section{padding:12px}
 .card{background:#fff;border-radius:12px;padding:12px;margin-bottom:12px;box-shadow:0 2px 6px rgba(0,0,0,.1)}
-.panchang-left p{margin:3px 0;font-size:14px}
-.panchang p:first-child{font-size:18px;font-weight:800;color:#4a148c;letter-spacing:0.5px}
+.panchang-date{font-size:18px;font-weight:800;color:#4a148c;letter-spacing:0.5px;margin:2px 0}
+.panchang-vrat{margin:2px 0;font-size:14px}
+.panchang-vikram{margin-top:8px;font-size:14px}
+.panchang-shaka{margin:2px 0;font-size:14px}
+.panchang-surya{margin-top:8px;font-size:13px}
+.panchang-chandra{margin:2px 0;font-size:14px}
+.panchang-source{margin:2px 0;font-size:12px;color:#555}
 .ask-row{display:flex;gap:6px}
 .highlight{background:linear-gradient(135deg,#ffe082,#ffcc80);border-left:5px solid #ff6f00}
 .highlight h3{margin:0 0 6px;font-size:15px;color:#b71c1c}
@@ -136,7 +141,7 @@ footer{text-align:center;padding:10px;background:#fff3e0;font-size:13px;color:#4
 .panchang-source{
   font-size:11px;
   color:#666;
-  margin-top:4px;
+  margin:2px 0;   /* timings के साथ compact */
 }
 
 .panchang-right{
@@ -268,8 +273,15 @@ footer{text-align:center;padding:10px;background:#fff3e0;font-size:13px;color:#4
 
 /* ===== MOBILE ===== */
 @media (max-width:600px){
+
   .panchang-left{font-size:14px}
-  .panchang-left p:first-child{font-size:17px;font-weight:700}
+  .panchang-date{font-size:17px;font-weight:700}
+  .panchang-vrat{font-size:14px}
+  .panchang-vikram{font-size:14px}
+  .panchang-shaka{font-size:14px}
+  .panchang-surya{font-size:13px}
+  .panchang-chandra{font-size:14px}
+  .panchang-source{font-size:11px;color:#666}
   .btn-label{font-size:15px}
 }
 }
@@ -302,35 +314,43 @@ footer{text-align:center;padding:10px;background:#fff3e0;font-size:13px;color:#4
 <div class="panchang-wrap">
   <div class="panchang-left">
 
-    <p style="font-size:16px;font-weight:700;margin:2px 0;">
-  <b id="dateText"></b> | <b id="vaar"></b>
-</p>
+    <!-- Date + Vaar (नो चेंज) -->
+    <p class="panchang-date">
+      <b id="dateText"></b> | <b id="vaar"></b>
+    </p>
 
-    <p>
+    <!-- Maas + Paksha + Tithi (नो चेंज) -->
+    <p class="panchang-vrat">
       <span style="color:#d84315;font-weight:700;font-size:15px" id="maas"></span> ·
       <span style="color:#6a1b9a;font-weight:700;font-size:15px" id="paksha"></span> ·
       <span style="color:#b71c1c;font-weight:700;font-size:15px" id="tithi"></span>
     </p>
 
-    <p style="margin:2px 0">
-  <b>विक्रम संवत:</b> <span id="vikram"></span><span id="vikramName"></span>
-</p>
+    <!-- Vikram संवत (gap ऊपर से) -->
+    <p class="panchang-vikram">
+      <b>विक्रम संवत:</b> <span id="vikram"></span><span id="vikramName"></span>
+    </p>
 
-<p style="margin:2px 0">
-  <b>शक संवत:</b> <span id="shak"></span><span id="shakName"></span>
-</p>
+    <!-- Shak संवत (बिना gap, Vikram के साथ) -->
+    <p class="panchang-shaka">
+      <b>शक संवत:</b> <span id="shak"></span><span id="shakName"></span>
+    </p>
 
-    <p style="font-size:13px">सूर्योदय: <b id="sunrise"></b> | सूर्यास्त: <b id="sunset"></b></p>
+    <!-- सूर्योदय/सूर्यास्त (संवत से gap) -->
+    <p class="panchang-surya">
+      सूर्योदय: <b id="sunrise"></b> | सूर्यास्त: <b id="sunset"></b>
+    </p>
 
-    <p style="margin:2px 0">
-  चंद्रोदय: <b id="moonrise"></b> |
-  चंद्रास्त: <b id="moonset"></b>
-</p>
+    <!-- चंद्रोदय/चंद्रास्त (बिना gap, सूर्योदय के साथ) -->
+    <p class="panchang-chandra">
+      चंद्रोदय: <b id="moonrise"></b> | चंद्रास्त: <b id="moonset"></b>
+    </p>
 
-<p style="margin:2px 0;font-size:12px;color:#555" id="panchangSource">
-</p>
+    <!-- Source (timings के साथ compact) -->
+    <p class="panchang-source" id="panchangSource"></p>
 
   </div>
+</div>
 
   <div class="panchang-right">
     <button class="religious-btn" onclick="openReligiousMessage()">✨</button>
