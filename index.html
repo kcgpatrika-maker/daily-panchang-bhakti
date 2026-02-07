@@ -33,7 +33,7 @@ header{background:linear-gradient(180deg,#ffb300,#f57c00);padding:8px 12px;color
 .highlight h3{margin:0 0 6px;font-size:15px;color:#b71c1c}
 .highlight ul{margin:0;padding-left:18px}
 .highlight li{font-size:14px}
-.ask-box h3{margin:0 0 8px;font-size:15px}
+.ask-box h3{margin:0 0 6px;font-size:16px;color:#bf360c;background:#ffe0b2;padding:6px 8px;border-left:5px solid #ff6f00;border-radius:6px}
 .ask-box{background:#fff8e1;padding:10px;border-radius:12px;margin-top:10px}
 .ask-row input{flex:1;padding:6px 8px}
 .ask-row button{padding:8px 10px;border:none;border-radius:8px;background:#ff6f00;color:#fff;font-weight:600}
@@ -101,20 +101,10 @@ footer{text-align:center;padding:10px;background:#fff3e0;font-size:13px;color:#4
 
 .ai-btn{
   flex:1;
-  border:1px solid #ddd;
-  border-radius:12px;
-  background:#f5f5f5;
-  color:#777;
-  padding:8px 4px;
-  font-size:12px;
-}
-
-.ai-btn{
-  flex:1;
-  border:1px solid #ccc;
+  border:1px solid #ffcc80;
   border-radius:20px;
-  background:#f2f2f2;
-  color:#777;
+  background:#ffe0b2;
+  color:#bf360c;
   padding:8px 4px;
   font-size:14px;
   text-align:center;
@@ -124,10 +114,10 @@ footer{text-align:center;padding:10px;background:#fff3e0;font-size:13px;color:#4
 .ai-btn .text{display:block;font-size:14px;margin-top:2px;font-weight:600}
 
 .ai-btn.active{
-  background:#2e7d32;
+  background:#ff6f00;
   color:#fff;
   border:none;
-  box-shadow:0 2px 6px rgba(0,0,0,.2);
+  cursor:pointer;
 }
  .panchang-wrap{
   display:flex;
@@ -411,23 +401,18 @@ footer{text-align:center;padding:10px;background:#fff3e0;font-size:13px;color:#4
 <!-- AI OPTIONS (FIXED PLACE) -->
 <div class="ai-options">
   <button class="ai-btn" onclick="showSection('mantra')">
-    <span class="emoji">🔹</span>
     <span class="text">मंत्र</span>
   </button>
   <button class="ai-btn" onclick="showSection('aarti')">
-    <span class="emoji">🎵</span>
     <span class="text">आरती</span>
   </button>
   <button class="ai-btn" onclick="showSection('poojaVidhi')">
-    <span class="emoji">🙏</span>
     <span class="text">पूजा विधि</span>
   </button>
   <button class="ai-btn" onclick="showSection('chalisa')">
-    <span class="emoji">📜</span>
     <span class="text">चालीसा</span>
   </button>
   <button class="ai-btn" onclick="showSection('stotra')">
-    <span class="emoji">🕉️</span>
     <span class="text">स्तोत्र</span>
   </button>
 </div>
