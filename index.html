@@ -26,14 +26,17 @@ header{background:linear-gradient(180deg,#ffb300,#f57c00);padding:8px 12px;color
 .panchang-surya{margin:2px 0;font-size:13px}    
 .panchang-chandra{margin:2px 0;font-size:13px}   
 .panchang-source{margin:4px 0 0;font-size:12px;color:#666} 
-.ask-row{display:flex;gap:6px}
+.ask-row{display:flex;gap:8px;margin:8px 0}
+.ask-row input{flex:1;padding:10px;border-radius:8px;border:1px solid #ccc}
+.ask-row button{padding:10px 12px;border-radius:8px;border:none;background:#4a148c;color:#fff;font-weight:600}
 .highlight{background:linear-gradient(135deg,#ffe082,#ffcc80);border-left:5px solid #ff6f00}
 .highlight h3{margin:0 0 6px;font-size:15px;color:#b71c1c}
 .highlight ul{margin:0;padding-left:18px}
 .highlight li{font-size:14px}
 .ask-box h3{margin:0 0 8px;font-size:15px}
 .ask-row input{flex:1;padding:8px}
-.ask-row button{padding:8px 10px} 
+.ask-row button{padding:8px 10px}
+.result{margin-top:10px;background:#fff;padding:10px;border-radius:10px;box-shadow:0 2px 6px rgba(0,0,0,.08);font-size:14px;line-height:1.6}
 .result button{display:block;width:100%;margin-top:6px}
 .key-pages ul{margin:0;padding-left:18px}
 .key-pages li{margin:4px 0;font-size:14px}
@@ -91,20 +94,18 @@ footer{text-align:center;padding:10px;background:#fff3e0;font-size:13px;color:#4
 }
 .ai-options{
   display:flex;
-  gap:6px;
-  margin-top:8px;
+  gap:8px;
+  margin-top:10px;
 }
 
 .ai-btn{
   flex:1;
-  border:1px solid #ccc;
-  border-radius:10px;
-  background:#f2f2f2;
+  border:1px solid #ddd;
+  border-radius:12px;
+  background:#f5f5f5;
   color:#777;
-  padding:6px 4px;
+  padding:8px 4px;
   font-size:12px;
-  text-align:center;
-  cursor:not-allowed;
 }
 
 .ai-btn .emoji{
@@ -123,7 +124,7 @@ footer{text-align:center;padding:10px;background:#fff3e0;font-size:13px;color:#4
   background:#2e7d32;
   color:#fff;
   border:none;
-  cursor:pointer;
+  box-shadow:0 2px 6px rgba(0,0,0,.2);
 }
  .panchang-wrap{
   display:flex;
