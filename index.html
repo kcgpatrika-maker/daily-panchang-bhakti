@@ -19,13 +19,13 @@ header{background:linear-gradient(180deg,#ffb300,#f57c00);padding:8px 12px;color
 .header-actions button:hover{box-shadow:0 0 8px rgba(255,255,255,.6)}
 .section{padding:12px}
 .card{background:#fff;border-radius:12px;padding:12px;margin-bottom:12px;box-shadow:0 2px 6px rgba(0,0,0,.1)}
-.panchang-date{font-size:18px;font-weight:800;color:#4a148c;letter-spacing:0.5px;margin:2px 0}
-.panchang-vrat{margin:2px 0;font-size:14px}
-.panchang-vikram{margin:2px 0;font-size:13px}   
-.panchang-shaka{margin-top:6px;font-size:13px}      
-.panchang-surya{margin:2px 0;font-size:12px}    
-.panchang-chandra{margin-top:6px;font-size:12px}   
-.panchang-source{margin:0;font-size:12px;color:#555} 
+.panchang-date{font-size:18px;font-weight:800;color:#4a148c;letter-spacing:.5px;margin:2px 0 4px}
+.panchang-vrat{margin:0 0 4px;font-size:14px}
+.panchang-vikram{margin:1px 0;font-size:13px}   
+.panchang-shaka{margin:1px 0 4px;font-size:13px}      
+.panchang-surya{margin:2px 0;font-size:13px}    
+.panchang-chandra{margin:2px 0;font-size:13px}   
+.panchang-source{margin:4px 0 0;font-size:12px;color:#666} 
 .ask-row{display:flex;gap:6px}
 .highlight{background:linear-gradient(135deg,#ffe082,#ffcc80);border-left:5px solid #ff6f00}
 .highlight h3{margin:0 0 6px;font-size:15px;color:#b71c1c}
@@ -307,34 +307,35 @@ footer{text-align:center;padding:10px;background:#fff3e0;font-size:13px;color:#4
 <div class="panchang-wrap">
   <div class="panchang-left">
 
-    <p style="font-size:16px;font-weight:700;margin:2px 0;">
+    <p class="panchang-date">
       <b id="dateText"></b> | <b id="vaar"></b>
     </p>
 
-    <p>
-      <span style="color:#d84315;font-weight:700;font-size:15px" id="maas"></span> ·
-      <span style="color:#6a1b9a;font-weight:700;font-size:15px" id="paksha"></span> ·
-      <span style="color:#b71c1c;font-weight:700;font-size:15px" id="tithi"></span>
+    <p class="panchang-vrat">
+      <span style="color:#d84315;font-weight:700" id="maas"></span> ·
+      <span style="color:#6a1b9a;font-weight:700" id="paksha"></span> ·
+      <span style="color:#b71c1c;font-weight:700" id="tithi"></span>
     </p>
 
-    <p style="margin:2px 0">
+    <p class="panchang-vikram">
       <b>विक्रम संवत:</b> <span id="vikram"></span><span id="vikramName"></span>
     </p>
 
-    <p style="margin:2px 0">
+    <p class="panchang-shaka">
       <b>शक संवत:</b> <span id="shak"></span><span id="shakName"></span>
     </p>
 
-    <!-- सूर्य और चंद्र एक ही लाइन में -->
-    <p style="margin:2px 0;font-size:13px">
-      सूर्योदय: <b id="sunrise"></b> | सूर्यास्त: <b id="sunset"></b>
-      </p>
-    <p style="margin:2px 0">
-      चंद्रोदय: <b id="moonrise"></b> | चंद्रास्त: <b id="moonset"></b>
+    <p class="panchang-surya">
+      🌅 सूर्योदय: <b id="sunrise"></b> |
+      🌇 सूर्यास्त: <b id="sunset"></b>
     </p>
 
-    <!-- Source अलग नीचे -->
-    <p style="margin:2px 0;font-size:12px;color:#555" id="panchangSource"></p>
+    <p class="panchang-chandra">
+      🌙 चंद्रोदय: <b id="moonrise"></b> |
+      🌘 चंद्रास्त: <b id="moonset"></b>
+    </p>
+
+    <p class="panchang-source" id="panchangSource"></p>
 
   </div>
 
