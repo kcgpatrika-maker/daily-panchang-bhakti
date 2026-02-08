@@ -42,7 +42,8 @@ header{background:linear-gradient(180deg,#ffb300,#f57c00);padding:8px 12px;color
 .key-pages ul{margin:0;padding-left:18px}
 .key-pages li{margin:4px 0;font-size:14px}
 footer{text-align:center;padding:10px;background:#fff3e0;font-size:13px;color:#4e342e}
-.ask-heading{text-align:center;background:#ffe0b2;border:2px solid #000;border-radius:12px;padding:8px;margin:10px 0;color:#bf360c;font-weight:bold}
+.ask-heading{display:inline-block;text-align:center;background:#ffe0b2;border:2px solid #000;border-radius:12px;padding:8px;margin:10px auto;color:#bf360c;font-weight:bold}
+.ask-box{border-left:2px solid #000;border-right:2px solid #000;padding:8px;border-radius:12px}
 .modal{display:none;position:fixed;inset:0;background:rgba(0,0,0,.6);z-index:1000}
 .modal-content{background:#fff;border-radius:12px;margin:12% auto;padding:15px;width:90%;max-height:70%;overflow-y:auto}
 .close{float:right;font-size:20px;cursor:pointer}
@@ -390,11 +391,11 @@ footer{text-align:center;padding:10px;background:#fff3e0;font-size:13px;color:#4
 </h3>
 
 <p style="font-size:13px;color:#555;margin-bottom:6px">
-देवता का नाम लिखें और मंत्र, आरती, पूजा विधि आदि पाएं
+देवी-देवता का नाम लिखें और Ask बटन दबाएं
 </p>
 
 <div class="ask-row">
-  <input id="query" placeholder="देवता का नाम लिखें (जैसे: शिव / Shiv)">
+  <input id="query" placeholder="देवी-देवता लिखें (जैसे: शिव / Shiv)">
   <button onclick="ask()">Ask</button>
   <button onclick="resetAsk()">Reset</button>
 </div>
