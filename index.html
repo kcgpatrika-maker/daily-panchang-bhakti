@@ -181,40 +181,25 @@ footer{text-align:center;padding:10px;background:#fff3e0;font-size:13px;color:#4
 .btn-label span.message{
   color:#c62828;           /* “धार्मिक संदेश” रेड */
 }
-.channel-list {
-  display: flex;
-  justify-content: space-around;
-  gap: 6px;
-  margin: 6px 0;
-}
-
-.channel-btn {
-  border: none;
-  border-radius: 6px;
-  padding: 6px 10px;
-  font-size: 13px;
-  cursor: pointer;
-  white-space: nowrap;
-  color: #fff;
-}
-
-/* Layout styles */
+.card h3{margin:4px 0;font-size:15px}
+.card{padding:6px 8px}
+ 
 .channel-list {
   display: flex;
   flex-wrap: wrap;          /* बटन wrap होंगे */
   justify-content: center;  /* center alignment */
-  gap: 8px;                 /* बटन के बीच spacing */
-  margin: 8px 0;
+  gap: 6px;                 /* spacing थोड़ी कम */
+  margin: 4px 0;            /* ऊपर‑नीचे gap कम */
 }
 
 .channel-btn {
   flex: 1 1 45%;            /* छोटे स्क्रीन पर 2 बटन प्रति row */
-  max-width: 140px;         /* बटन की चौड़ाई limit */
+  max-width: 130px;         /* width थोड़ी कम */
   text-align: center;
   border: none;
   border-radius: 6px;
-  padding: 6px 10px;
-  font-size: 13px;
+  padding: 5px 8px;         /* compact padding */
+  font-size: 12px;          /* font थोड़ा छोटा */
   cursor: pointer;
   white-space: nowrap;
   color: #fff;
