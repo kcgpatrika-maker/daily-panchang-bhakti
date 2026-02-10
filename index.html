@@ -186,25 +186,26 @@ footer{text-align:center;padding:10px;background:#fff3e0;font-size:13px;color:#4
  
 .channel-header {
   display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 8px;
+  align-items: center;   /* सब vertical center पर */
+  gap: 20px;             /* heading और channels के बीच spacing */
+  flex-wrap: nowrap;     /* सब एक लाइन में रहेंगे */
 }
 
 .channel-header h3 {
   margin: 0;
-  font-size: 18px;      /* heading बड़ा */
-  font-weight: 700;     /* bold */
+  font-size: 18px;       /* heading बड़ा */
+  font-weight: 700;      /* bold */
   display: flex;
-  align-items: center;  /* emoji और टेक्स्ट एक लाइन में */
-  gap: 6px;             /* emoji और टेक्स्ट के बीच spacing */
+  align-items: center;   /* emoji और टेक्स्ट एक लाइन में */
+  gap: 6px;              /* emoji और टेक्स्ट के बीच spacing */
+  white-space: nowrap;   /* heading कभी न टूटे */
 }
 
 .channel-item {
   display: inline-flex;
   align-items: center;
   gap: 4px;              /* प्ले बटन और नाम के बीच छोटा gap */
-  margin-right: 16px;    /* दोनों चैनल के बीच spacing */
+  margin-right: 16px;    /* Sanskar और Aastha के बीच spacing */
 }
 
 .play-circle {
@@ -427,7 +428,7 @@ footer{text-align:center;padding:10px;background:#fff3e0;font-size:13px;color:#4
   
 <div class="card"> 
   <div class="channel-header">
-    <h3>📺 देखे भक्ति चैनल</h3>
+    <h3>📺 देखें भक्ति चैनल</h3>
     
     <span class="channel-item">
       <span class="play-circle" onclick="window.open('https://app.sanskargroup.in/live-tv-play','_blank')">▶</span>
