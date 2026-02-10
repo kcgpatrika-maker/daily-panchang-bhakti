@@ -197,34 +197,33 @@ footer{text-align:center;padding:10px;background:#fff3e0;font-size:13px;color:#4
   font-weight: 600;
 }
 
-.channel-btn {
-  flex: none;
-  width: 120px;
-  height: 40px;
-  border-radius: 20px;          /* pill shape */
-  background: #eee;             /* dull neutral background */
-  color: #000;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: flex-start;
-  gap: 8px;
-  padding: 0 10px;
-  font-size: 12px;
-  font-weight: 600;
-}
-
-/* Play icon circle */
-.channel-btn .play-icon {
-  width: 20px;
-  height: 20px;
+.play-circle {
+  width: 22px;
+  height: 22px;
   background: red;
   border-radius: 50%;
-  display: flex;
+  display: inline-flex;
   align-items: center;
   justify-content: center;
   color: #fff;
   font-size: 12px;
+  font-weight: bold;
+  cursor: pointer;
+  margin-right: 6px;
+}
+.channel-name {
+  font-weight: 700;
+  font-size: 13px;
+}
+
+.channel-name.sanskar {
+  color: #e65100;   /* नारंगी */
+  font-family: "Trebuchet MS", sans-serif;
+}
+
+.channel-name.aastha {
+  color: #fdd835;   /* पीला */
+  font-family: "Verdana", sans-serif;
 }
 
 .card {
@@ -413,18 +412,15 @@ footer{text-align:center;padding:10px;background:#fff3e0;font-size:13px;color:#4
   <div class="channel-header">
     <h3>📺 देखे भक्ति चैनल</h3>
     
-    <button class="channel-btn sanskar" 
-      onclick="window.open('https://app.sanskargroup.in/live-tv-play?id=20','_blank')">
-      <span class="play-icon">▶</span> Sanskar TV
-    </button>
+    <span class="play-circle" 
+      onclick="window.open('https://app.sanskargroup.in/live-tv-play','_blank')">▶</span>
+    <span class="channel-name sanskar">Sanskar TV</span>
     
-    <button class="channel-btn aastha" 
-      onclick="window.open('https://aasthatv.tv/channel/live/aastha','_blank')">
-      <span class="play-icon">▶</span> Aastha TV
-    </button>
+    <span class="play-circle" 
+      onclick="window.open('https://aasthatv.tv/channel/live/aastha','_blank')">▶</span>
+    <span class="channel-name aastha">Aastha TV</span>
   </div>
 </div>
-
 <footer> © 2026 | भक्ति पंचांग | संकलन: कैलाश गौतम </footer>
 
 <div class="modal" id="modal">
