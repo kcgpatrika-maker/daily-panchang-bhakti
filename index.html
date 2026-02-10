@@ -28,7 +28,7 @@ header{background:linear-gradient(180deg,#ffb300,#f57c00);padding:8px 12px;color
 .panchang-source{margin:4px 0 0;font-size:12px;color:#666} 
 .ask-row{display:flex;gap:8px;margin:8px 0} 
 .ask-row input{flex:1;padding:10px;border-radius:8px;border:1px solid #ccc} 
-.ask-row button{padding:10px 12px;border-radius:50px;border:none;font-weight:600}
+.ask-row button{padding:12px 14px;border-radius:50px;border:none;font-weight:600}
 .ask-row button:first-of-type{background:#a83232;color:#fff} /* Ask मरून */ 
 .ask-row button:last-of-type{background:#1565c0;color:#fff} /* Reset नीला */
 .highlight{background:linear-gradient(135deg,#ffe082,#ffcc80);border-left:5px solid #ff6f00}
@@ -184,15 +184,6 @@ footer{text-align:center;padding:10px;background:#fff3e0;font-size:13px;color:#4
 .card h3{margin:4px 0;font-size:15px}
 .card{padding:6px 8px}
  
-/* Channel Section */
-.channel-section {
-  background: #111;            /* Dark background for contrast */
-  color: #fff;
-  padding: 10px;
-  border-radius: 8px;
-  margin-top: 10px;
-}
-
 .channel-header {
   display: flex;
   align-items: center;
@@ -204,49 +195,23 @@ footer{text-align:center;padding:10px;background:#fff3e0;font-size:13px;color:#4
   margin: 0;
   font-size: 15px;
   font-weight: 600;
-  color: #eee;                 /* Heading in light grey */
 }
 
-/* Channel Buttons */
 .channel-btn {
-  background: #222;            /* Neutral dark background */
-  color: #fff;
-  border: none;
-  border-radius: 20px;         /* Pill shape */
-  padding: 6px 12px;
+  flex: none;
+  max-width: 120px;
+  padding: 6px 10px;
   font-size: 12px;
+  border-radius: 20px;   /* modern pill shape */
+  color: #fff;
   cursor: pointer;
   display: flex;
   align-items: center;
-  gap: 6px;
+  gap: 4px;
 }
 
-.channel-btn:hover {
-  background: #444;            /* Subtle hover effect */
-}
-
-/* Branding Colors */
-.sanskar {
-  color: #e65100;              /* Sanskar branding (orange) */
-  font-family: "Trebuchet MS", sans-serif;
-  font-weight: 600;
-}
-
-.aastha {
-  color: #fdd835;              /* Aastha branding (yellow) */
-  font-family: "Verdana", sans-serif;
-  font-weight: 600;
-}
-
-/* Footer */
-footer {
-  background: #222;
-  color: #ccc;
-  font-size: 12px;
-  text-align: center;
-  padding: 6px;
-  margin-top: 10px;
-  border-radius: 4px;
+.channel-btn::before {
+  content: "▶️";         /* attractive play icon */
 }
 
 .share-btn{
@@ -378,6 +343,7 @@ footer {
       ▶️ वीडियो कथा
     </button>
 
+
    <button onclick="openAudioModal()" class="katha-btn audio">
 🎧 ऑडियो कथा
 </button>
@@ -424,27 +390,21 @@ footer {
 </div>
 
   
-<div class="card channel-section">
+<div class="card"> 
   <div class="channel-header">
-    <h3>📺 देखें भक्ति चैनल</h3>
-    
-    <!-- Sanskar -->
-    <button class="channel-btn" 
-      onclick="window.open('https://app.sanskargroup.in/live-tv-play','_blank')">
-      ▶️ <span class="sanskar">संस्कार TV</span>
+    <h3>📺 देखे भक्ति चैनल</h3>
+    <button class="channel-btn sanskar" 
+      onclick="window.open('https://app.sanskargroup.in/live-tv-play?id=20','_blank')">
+      Sanskar
     </button>
-    
-    <!-- Aastha -->
-    <button class="channel-btn" 
+    <button class="channel-btn aastha" 
       onclick="window.open('https://aasthatv.tv/channel/live/aastha','_blank')">
-      ▶️ <span class="aastha">आस्था TV</span>
+      Aastha
     </button>
   </div>
 </div>
 
-<footer>
-  © 2026 | भक्ति पंचांग | संकलन: कैलाश गौतम
-</footer>
+<footer> © 2026 | भक्ति पंचांग | संकलन: कैलाश गौतम </footer>
 
 <div class="modal" id="modal">
   <div class="modal-content">
@@ -734,7 +694,8 @@ function showSection(type) {
         html += `<p class="font-semibold whitespace-pre-line">${item.text}</p><hr>`;
       }
       if (item.pdf) {
-        html += `<p><a href="${item.pdf}" target="_blank" rel="noopener noreferrer" class="text-blue-600 underline">📄 ${item.source || "PDF लिंक"}</a></p><hr>`;
+        html += `<p><a href="${item.pdf}" target="_blank" rel="noopener noreferrer"
+ class="text-blue-600 underline">📄 ${item.source || "PDF लिंक"}</a></p><hr>`;
       }
     });
   }
