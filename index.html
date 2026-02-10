@@ -200,42 +200,43 @@ footer{text-align:center;padding:10px;background:#fff3e0;font-size:13px;color:#4
 .channel-item {
   display: inline-flex;
   align-items: center;
-  gap: 4px;          /* सिर्फ़ छोटा gap */
-  margin-right: 12px; /* दोनों चैनल के बीच spacing */
+  gap: 4px;              /* प्ले बटन और नाम के बीच छोटा gap */
+  margin-right: 16px;    /* दोनों चैनल के बीच spacing */
 }
 
 .play-circle {
-  width: 22px;
-  height: 22px;
+  width: 24px;
+  height: 24px;
   background: red;
   border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
   color: #fff;
-  font-size: 12px;
+  font-size: 13px;
   font-weight: bold;
   cursor: pointer;
 }
 
 .channel-name {
-  font-weight: 900;   /* extra bold */
-  font-size: 13px;
+  font-weight: 900;       /* extra bold */
+  font-size: 16px;        /* बड़ा font */
+  text-shadow: 1px 1px 2px #000; /* हल्का shadow readability के लिए */
 }
 
 .channel-name.sanskar {
-  color: #e65100;
+  color: #e65100;         /* नारंगी */
   font-family: "Trebuchet MS", sans-serif;
 }
 
 .channel-name.aastha {
-  color: #fdd835;
+  color: #fdd835;         /* पीला */
   font-family: "Verdana", sans-serif;
 }
 
 .tv-text {
-  font-weight: 400;   /* normal weight */
-  font-size: 13px;
+  font-weight: 700;       /* अब bold */
+  font-size: 15px;        /* थोड़ा बड़ा */
   color: #333;
 }
 
@@ -427,12 +428,12 @@ footer{text-align:center;padding:10px;background:#fff3e0;font-size:13px;color:#4
     
     <span class="channel-item">
       <span class="play-circle" onclick="window.open('https://app.sanskargroup.in/live-tv-play','_blank')">▶</span>
-      <span class="channel-name sanskar"><strong>Sanskar</strong></span> <span class="tv-text">TV</span>
+      <span class="channel-name sanskar">Sanskar</span> <span class="tv-text">TV</span>
     </span>
     
     <span class="channel-item">
       <span class="play-circle" onclick="window.open('https://aasthatv.tv/channel/live/aastha','_blank')">▶</span>
-      <span class="channel-name aastha"><strong>Aastha</strong></span> <span class="tv-text">TV</span>
+      <span class="channel-name aastha">Aastha</span> <span class="tv-text">TV</span>
     </span>
   </div>
 </div>
