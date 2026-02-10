@@ -186,61 +186,61 @@ footer{text-align:center;padding:10px;background:#fff3e0;font-size:13px;color:#4
  
 .channel-header {
   display: flex;
-  align-items: center;   /* सब vertical center पर */
-  gap: 20px;             /* heading और channels के बीच spacing */
-  flex-wrap: nowrap;     /* सब एक लाइन में रहेंगे */
+  align-items: center;
+  justify-content: space-between; /* सबको बराबर spacing में रखेगा */
+  gap: 10px;                      /* spacing कम */
+  flex-wrap: nowrap;              /* कभी wrap न हो */
+  overflow: hidden;               /* बाहर न निकले */
 }
 
 .channel-header h3 {
   margin: 0;
-  font-size: 18px;       /* heading बड़ा */
-  font-weight: 700;      /* bold */
+  font-size: 16px;                /* heading थोड़ा compact */
+  font-weight: 700;
   display: flex;
-  align-items: center;   /* emoji और टेक्स्ट एक लाइन में */
-  gap: 6px;              /* emoji और टेक्स्ट के बीच spacing */
-  white-space: nowrap;   /* heading कभी न टूटे */
+  align-items: center;
+  gap: 4px;
+  white-space: nowrap;            /* heading कभी न टूटे */
 }
 
 .channel-item {
   display: inline-flex;
   align-items: center;
-  gap: 4px;              /* प्ले बटन और नाम के बीच छोटा gap */
-  margin-right: 16px;    /* Sanskar और Aastha के बीच spacing */
+  gap: 3px;                       /* बटन और नाम के बीच छोटा gap */
+  flex-shrink: 1;                 /* जरूरत पड़ने पर थोड़ा shrink हो */
 }
 
 .play-circle {
-  width: 24px;
-  height: 24px;
+  width: 20px;
+  height: 20px;
   background: red;
   border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
   color: #fff;
-  font-size: 13px;
+  font-size: 11px;
   font-weight: bold;
   cursor: pointer;
 }
 
 .channel-name {
-  font-weight: 900;       /* extra bold */
-  font-size: 16px;        /* बड़ा font */
-  text-shadow: 1px 1px 2px #000; /* readability */
+  font-weight: 900;               /* extra bold */
+  font-size: 14px;                /* compact size */
+  text-shadow: 1px 1px 2px #000;
 }
 
 .channel-name.sanskar {
   color: #e65100;
-  font-family: "Trebuchet MS", sans-serif;
 }
 
 .channel-name.aastha {
   color: #fdd835;
-  font-family: "Verdana", sans-serif;
 }
 
 .tv-text {
-  font-weight: 700;       /* अब bold */
-  font-size: 15px;        /* बड़ा */
+  font-weight: 700;               /* bold */
+  font-size: 13px;                /* थोड़ा छोटा */
   color: #333;
 }
 
