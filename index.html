@@ -199,22 +199,36 @@ footer{text-align:center;padding:10px;background:#fff3e0;font-size:13px;color:#4
 
 .channel-btn {
   flex: none;
-  max-width: 120px;
-  padding: 6px 10px;
-  font-size: 12px;
-  border-radius: 20px;   /* modern pill shape */
-  color: #fff;
+  width: 120px;
+  height: 40px;
+  border-radius: 20px;          /* pill shape */
+  background: #eee;             /* dull neutral background */
+  color: #000;
   cursor: pointer;
   display: flex;
   align-items: center;
-  gap: 4px;
+  justify-content: flex-start;
+  gap: 8px;
+  padding: 0 10px;
+  font-size: 12px;
+  font-weight: 600;
 }
 
-.channel-btn::before {
-  content: "▶️";         /* attractive play icon */
+/* Play icon circle */
+.channel-btn .play-icon {
+  width: 20px;
+  height: 20px;
+  background: red;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  font-size: 12px;
 }
+
 .card {
-  margin-top: 6px;              /* Ask सेक्शन से हल्का gap */
+  margin-top: 4px;              /* Ask सेक्शन से हल्का gap */
   border-top: 1px solid #ddd;    /* हल्की grey लाइन */
   padding-top: 8px;              /* लाइन और content के बीच breathing space */
 }
