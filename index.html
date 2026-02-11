@@ -225,14 +225,19 @@ footer{text-align:center;padding:4px;background:#fff3e0;font-size:13px;color:#4e
   cursor: pointer;
 }
 
-.channel-name.आस्था,
-.channel-name.ईश्वर {
-  color: #fdd835;                  /* बेस पीला */
-  background: linear-gradient(90deg, #fdd835, #ff9800); /* पीला + हल्का ऑरेंज */
+.channel-name {
+  font-weight: 700;       /* readability के लिए हल्का bold */
+  font-size: 15px;
+  text-shadow: 1px 1px 2px #000;
+}
+
+/* आस्था और ईश्वर दोनों के लिए पीला + हल्का ऑरेंज gradient */
+.channel-name.aastha,
+.channel-name.ishwar {
+  background: linear-gradient(90deg, #fdd835, #ff9800); /* पीला + ऑरेंज */
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
-  text-shadow: 0 0 6px #ffb74d;    /* हल्की ऑरेंज चमक */
-  font-weight: 700;                /* readability के लिए थोड़ा हल्का bold */
+  text-shadow: 0 0 6px #ffb74d; /* हल्की ऑरेंज चमक */
 }
 
 .tv-text {
@@ -436,16 +441,16 @@ footer {
   <div class="channel-header">
     <h3>📺 भक्ति चैनल</h3>
     
-    <!-- Aastha Channel -->
+    <!-- आस्था चैनल -->
     <span class="channel-item">
       <span class="play-circle" onclick="window.open('https://aasthatv.tv/channel/live/aastha','_blank')">▶</span>
-      <span class="channel-name aastha">Aastha</span><span class="tv-text">TV</span>
+      <span class="channel-name aastha">आस्था</span><span class="tv-text">TV</span>
     </span>
     
-    <!-- Ishwar Channel -->
+    <!-- ईश्वर चैनल -->
     <span class="channel-item">
       <span class="play-circle" onclick="window.open('https://www.sadhna.com/ishwar.html','_blank')">▶</span>
-      <span class="channel-name ishwar">Ishwar</span><span class="tv-text">TV</span>
+      <span class="channel-name ishwar">ईश्वर</span><span class="tv-text">TV</span>
     </span>
   </div>
 </div>
