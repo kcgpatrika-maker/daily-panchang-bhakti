@@ -105,23 +105,21 @@ footer{text-align:center;padding:4px;background:#fff3e0;font-size:13px;color:#4e
 .ai-btn {
   flex: 1;
   border: 1px solid #81c784; /* हल्का हरा बॉर्डर */
-  border-radius: 50%; /* अब पूरी तरह गोल */
-  background: #c8e6c9; /* हल्का हरा shade */
+  border-radius: 50%;        /* अब पूरी तरह गोल */
+  background: #c8e6c9;       /* हल्का हरा shade */
   color: #1b5e20;
-  width: 64px; /* fix चौड़ाई */
-  height: 64px; /* fix ऊँचाई */
+  width: 64px;               /* fix चौड़ाई */
+  height: 64px;              /* fix ऊँचाई */
   font-size: 16px;
   text-align: center;
   cursor: not-allowed;
   display: flex;
   align-items: center;
-  justify-content: center; /* टेक्स्ट को बीच में रखने के लिए */
+  justify-content: center;   /* टेक्स्ट को बीच में रखने के लिए */
 }
 
 .ai-btn .text {
-  display: block;
-  font-size: 16px;
-  margin-top: 2px;
+  font-size: 14px;
   font-weight: 600;
 }
 
@@ -217,18 +215,17 @@ footer{text-align:center;padding:4px;background:#fff3e0;font-size:13px;color:#4e
 }
 
 .play-circle {
-  width: 22px;
-  height: 22px;
-  background: red;
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: #fff;
-  font-size: 16px;
-  font-weight: bold;
+  font-size: 24px;   /* पहले छोटा था, अब बड़ा */
+  width: 32px;       /* fix चौड़ाई */
+  height: 32px;      /* fix ऊँचाई */
+  line-height: 32px; /* टेक्स्ट को बीच में रखने के लिए */
+  border-radius: 50%; 
+  text-align: center;
+  background: #ffeb3b; /* पीला बैकग्राउंड */
+  color: #000;
   cursor: pointer;
 }
+
 
 .channel-name {
   font-weight: 700;       /* readability के लिए हल्का bold */
