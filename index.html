@@ -225,17 +225,14 @@ footer{text-align:center;padding:4px;background:#fff3e0;font-size:13px;color:#4e
   cursor: pointer;
 }
 
-.channel-name {
-  font-weight: 700;       /* पहले 900 था, अब हल्का किया */
-  font-size: 15px;
-  text-shadow: 1px 1px 2px #000;
-}
-
-/* Aastha और Ishwar दोनों के लिए चमकदार पीला */
-.channel-name.aastha,
-.channel-name.ishwar {
-  color: #fdd835;               /* गहरा पीला */
-  text-shadow: 0 0 6px #ffeb3b; /* हल्की चमक */
+.channel-name.आस्था,
+.channel-name.ईश्वर {
+  color: #fdd835;                  /* बेस पीला */
+  background: linear-gradient(90deg, #fdd835, #ff9800); /* पीला + हल्का ऑरेंज */
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  text-shadow: 0 0 6px #ffb74d;    /* हल्की ऑरेंज चमक */
+  font-weight: 700;                /* readability के लिए थोड़ा हल्का bold */
 }
 
 .tv-text {
