@@ -186,26 +186,26 @@ footer{text-align:center;padding:10px;background:#fff3e0;font-size:13px;color:#4
  
 .channel-header {
   display: flex;
-  align-items: center;       /* सबको baseline पर लाना */
+  align-items: center;
   justify-content: space-between;
   gap: 10px;
-  flex-wrap: wrap;           /* मोबाइल पर wrap हो सके */
+  flex-wrap: wrap;
 }
 
 .channel-header h3 {
   margin: 0;
-  font-size: 18px;           /* थोड़ा छोटा ताकि जगह बचे */
+  font-size: 18px;
   font-weight: 800;
   display: flex;
   align-items: center;
   gap: 6px;
   white-space: nowrap;
-  text-shadow: 0.5px 0.5px 1px #999;
+  text-shadow: 1px 1px 2px #666; /* subtle shadow, ज्यादा नहीं */
 }
 
 .channel-item {
   display: inline-flex;
-  align-items: baseline;     /* टेक्स्ट और आइकन baseline पर */
+  align-items: baseline;
   gap: 4px;
   flex-wrap: nowrap;
   max-width: 100%;
@@ -231,13 +231,8 @@ footer{text-align:center;padding:10px;background:#fff3e0;font-size:13px;color:#4
   text-shadow: 1px 1px 2px #000;
 }
 
-.channel-name.sanskar {
-  color: #e65100;
-}
-
-.channel-name.aastha {
-  color: #fdd835;
-}
+.channel-name.aastha { color: #fdd835; }
+.channel-name.sanskar { color: #e65100; }
 
 .tv-text {
   font-weight: 700;
@@ -245,22 +240,20 @@ footer{text-align:center;padding:10px;background:#fff3e0;font-size:13px;color:#4
   color: #333;
 }
 
-/* Card spacing */
 .card {
   margin-top: 2px;
   border-top: 1px solid #ddd;
-  padding-top: 12px;
-  padding-bottom: 2px;       /* footer से gap कम */
+  padding-top: 14px;   /* Ask सेक्शन से हल्का अलग */
+  padding-bottom: 0px; /* footer से gap और कम */
 }
 
-/* Footer special style */
 footer {
   font-family: "Georgia", serif;
-  font-size: 14px;           /* readability बेहतर */
+  font-size: 14px;
   font-style: italic;
   text-align: center;
   color: #333;
-  margin-top: 2px;           /* gap कम */
+  margin-top: 0px;     /* gap न्यूनतम */
 }
 
 .share-btn{
@@ -442,20 +435,28 @@ footer {
   <div class="channel-header">
     <h3>📺 भक्ति चैनल</h3>
     
+    <!-- Aastha Channel -->
+    <span class="channel-item">
+      <span class="play-circle" onclick="window.open('https://aasthatv.tv/channel/live/aastha','_blank')">▶</span>
+      <span class="channel-name aastha">Aastha</span><span class="tv-text">TV</span>
+    </span>
+    
+    <!-- Sanskar Official -->
     <span class="channel-item">
       <span class="play-circle" onclick="window.open('https://www.sanskargroup.in/live-tv','_blank')">▶</span>
       <span class="channel-name sanskar">Sanskar</span><span class="tv-text">TV</span>
     </span>
     
+    <!-- Sanskar YouTube Live -->
     <span class="channel-item">
-      <span class="play-circle" onclick="window.open('https://aasthatv.tv/channel/live/aastha','_blank')">▶</span>
-      <span class="channel-name aastha">Aastha</span><span class="tv-text">TV</span>
+      <span class="play-circle" onclick="window.open('https://www.youtube.com/@SanskarTV/live','_blank')">▶</span>
+      <span class="channel-name sanskar">Sanskar</span><span class="tv-text">YouTube</span>
     </span>
   </div>
 </div>
 
 <footer>© 2026 | भक्ति पंचांग | संकलन: कैलाश गौतम</footer>
-  
+
 
 <div class="modal" id="modal">
   <div class="modal-content">
