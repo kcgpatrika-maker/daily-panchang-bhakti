@@ -186,32 +186,34 @@ footer{text-align:center;padding:10px;background:#fff3e0;font-size:13px;color:#4
  
 .channel-header {
   display: flex;
-  align-items: center;
-  justify-content: space-between; /* सब बराबर spacing में */
-  gap: 14px;
-  flex-wrap: nowrap;
+  align-items: center;       /* सबको baseline पर लाना */
+  justify-content: space-between;
+  gap: 10px;
+  flex-wrap: wrap;           /* मोबाइल पर wrap हो सके */
 }
 
 .channel-header h3 {
   margin: 0;
-  font-size: 20px;       /* heading बड़ा */
-  font-weight: 800;      /* extra bold */
+  font-size: 18px;           /* थोड़ा छोटा ताकि जगह बचे */
+  font-weight: 800;
   display: flex;
   align-items: center;
   gap: 6px;
   white-space: nowrap;
+  text-shadow: 1px 1px 3px #666;
 }
 
 .channel-item {
   display: inline-flex;
-  align-items: center;
+  align-items: baseline;     /* टेक्स्ट और आइकन baseline पर */
   gap: 4px;
-  margin-right: 14px;
+  flex-wrap: nowrap;
+  max-width: 100%;
 }
 
 .play-circle {
-  width: 24px;
-  height: 24px;
+  width: 22px;
+  height: 22px;
   background: red;
   border-radius: 50%;
   display: flex;
@@ -225,7 +227,7 @@ footer{text-align:center;padding:10px;background:#fff3e0;font-size:13px;color:#4
 
 .channel-name {
   font-weight: 900;
-  font-size: 16px;
+  font-size: 15px;
   text-shadow: 1px 1px 2px #000;
 }
 
@@ -239,26 +241,26 @@ footer{text-align:center;padding:10px;background:#fff3e0;font-size:13px;color:#4
 
 .tv-text {
   font-weight: 700;
-  font-size: 15px;
+  font-size: 14px;
   color: #333;
 }
 
 /* Card spacing */
 .card {
-  margin-top: 2px;              /* Ask सेक्शन से gap कम */
+  margin-top: 2px;
   border-top: 1px solid #ddd;
-  padding-top: 12px;            /* सेक्शन थोड़ा बड़ा */
-  padding-bottom: 8px;          /* footer से gap कम */
+  padding-top: 10px;
+  padding-bottom: 4px;       /* footer से gap कम */
 }
 
 /* Footer special style */
 footer {
-  font-family: "Georgia", serif; /* special elegant font */
-  font-size: 13px;
+  font-family: "Georgia", serif;
+  font-size: 14px;           /* readability बेहतर */
   font-style: italic;
   text-align: center;
-  color: #444;
-  margin-top: 6px;              /* gap कम */
+  color: #333;
+  margin-top: 4px;           /* gap कम */
 }
 
 .share-btn{
@@ -436,13 +438,12 @@ footer {
 <div id="result" class="result"></div>
 </div>
 
-  
 <div class="card"> 
   <div class="channel-header">
     <h3>📺 भक्ति चैनल</h3>
     
     <span class="channel-item">
-      <span class="play-circle" onclick="window.open('https://app.sanskargroup.in/live-tv-play','_blank')">▶</span>
+      <span class="play-circle" onclick="window.open('https://www.sanskargroup.in/live-tv','_blank')">▶</span>
       <span class="channel-name sanskar">Sanskar</span><span class="tv-text">TV</span>
     </span>
     
@@ -454,6 +455,7 @@ footer {
 </div>
 
 <footer>© 2026 | भक्ति पंचांग | संकलन: कैलाश गौतम</footer>
+  
 
 <div class="modal" id="modal">
   <div class="modal-content">
