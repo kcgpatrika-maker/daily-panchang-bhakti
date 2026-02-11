@@ -186,12 +186,12 @@ footer{text-align:center;padding:4px;background:#fff3e0;font-size:13px;color:#4e
  
 .channel-header {
   display: flex;
-  align-items: center;
+  align-items: center;       /* सबको vertical center में लाने के लिए */
   justify-content: space-between;
-  gap: 10px;
+  gap: 8px;
   flex-wrap: wrap;
-  padding-top: 6px;       /* ऊपर बराबर space */
-  padding-bottom: 6px;    /* नीचे बराबर space */
+  padding-top: 4px;          /* ऊपर बराबर space */
+  padding-bottom: 4px;       /* नीचे बराबर space */
 }
 
 .channel-header h3 {
@@ -202,16 +202,14 @@ footer{text-align:center;padding:4px;background:#fff3e0;font-size:13px;color:#4e
   align-items: center;
   gap: 6px;
   white-space: nowrap;
-  line-height: 1.4;        /* heading को vertical balance में लाने के लिए */
+  line-height: 1.4;          /* heading को vertical balance में लाने के लिए */
   text-shadow: 0 0 2px #aaa; /* हल्का और soft shadow */
 }
 
 .channel-item {
-  display: inline-flex;
-  align-items: baseline;
-  gap: 6px;
-  flex-wrap: nowrap;
-  max-width: 100%;
+  display: flex;
+  align-items: center;       /* चैनल नाम और TV को baseline पर लाने के लिए */
+  gap: 4px;                  /* नाम और TV के बीच हल्का space */
 }
 
 .play-circle {
