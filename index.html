@@ -226,13 +226,17 @@ footer{text-align:center;padding:4px;background:#fff3e0;font-size:13px;color:#4e
 }
 
 .channel-name {
-  font-weight: 700;
+  font-weight: 700;       /* पहले 900 था, अब हल्का किया */
   font-size: 15px;
   text-shadow: 1px 1px 2px #000;
 }
 
-.channel-name.aastha { color: #fdd835; }
-.channel-name.ishwar { color: #4caf50; } /* Ishwar के लिए नया रंग */
+/* Aastha और Ishwar दोनों के लिए चमकदार पीला */
+.channel-name.aastha,
+.channel-name.ishwar {
+  color: #fdd835;               /* गहरा पीला */
+  text-shadow: 0 0 6px #ffeb3b; /* हल्की चमक */
+}
 
 .tv-text {
   font-weight: 700;
