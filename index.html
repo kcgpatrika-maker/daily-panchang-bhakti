@@ -1052,6 +1052,12 @@ window.closeSandesh = function () {
     <!-- यहाँ JS से dynamic लिस्ट आएगी -->
   </div>
 </div>
-
+<script>
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', function () {
+    navigator.serviceWorker.register('/sw.js');
+  });
+}
+</script>
 </body>
 </html>
