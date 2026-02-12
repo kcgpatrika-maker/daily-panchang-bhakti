@@ -230,8 +230,16 @@ footer{text-align:center;padding:4px;background:#fff3e0;font-size:13px;color:#4e
 .channel-name {
   font-weight: 700;       /* readability के लिए हल्का bold */
   font-size: 20px;
-  text-shadow: none;     /* distortion हटाया */
-  font-family: 'Noto Sans Devanagari', 'Mangal', sans-serif;
+  text-shadow: 1px 1px 2px #000;
+}
+
+/* आस्था और ईश्वर दोनों के लिए पीला + हल्का ऑरेंज gradient */
+.channel-name.aastha,
+.channel-name.ishwar {
+  background: linear-gradient(90deg, #fdd835, #ff9800); /* पीला + ऑरेंज */
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  text-shadow: 0 0 3px #ffb74d; /* पहले 6px था, अब हल्का किया */
 }
 
 .tv-text {
@@ -434,16 +442,18 @@ footer{text-align:center;padding:4px;background:#fff3e0;font-size:13px;color:#4e
   <div class="channel-header">
     <h3>📺 भक्ति चैनल</h3>
     
-    <div class="channel-item">
-  <span class="play-circle">▶</span>
-  <span class="channel-name aastha">आस्था</span>
-  <span class="tv-text">TV</span>
-</div>
-
-<div class="channel-item">
-  <span class="play-circle">▶</span>
-  <span class="channel-name ishwar">ईश्वर</span>
-  <span class="tv-text">TV</span>
+    <!-- आस्था चैनल -->
+    <span class="channel-item">
+      <span class="play-circle" onclick="window.open('https://aasthatv.tv/channel/live/aastha','_blank')">▶</span>
+      <span class="channel-name aastha">आस्था</span><span class="tv-text">TV</span>
+    </span>
+    
+    <!-- ईश्वर चैनल -->
+    <span class="channel-item">
+      <span class="play-circle" onclick="window.open('https://www.sadhna.com/ishwar.html','_blank')">▶</span>
+     <span class="channel-name ishwar">ईश्वर</span><span class="tv-text">TV</span>
+    </span>
+  </div>
 </div>
 
 <footer>© 2026 | भक्ति पंचांग | संकलन: कैलाश गौतम</footer>
