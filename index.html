@@ -189,9 +189,9 @@ footer{text-align:center;padding:4px;background:#fff3e0;font-size:13px;color:#4e
 .channel-header {
   display: flex;
   align-items: center;       /* सबको vertical center में लाने के लिए */
-  justify-content: space-between;
+  justify-content: flex-start;
   gap: 8px;
-  flex-wrap: wrap;
+  flex-wrap: nowrap;
   padding-top: 4px;          /* ऊपर बराबर space */
   padding-bottom: 4px;       /* नीचे बराबर space */
 }
@@ -215,22 +215,27 @@ footer{text-align:center;padding:4px;background:#fff3e0;font-size:13px;color:#4e
 }
 
 .play-circle {
-  font-size: 18px;   /* पहले छोटा था, अब बड़ा */
-  width: 30px;       /* fix चौड़ाई */
-  height: 30px;      /* fix ऊँचाई */
-  line-height: 30px; /* टेक्स्ट को बीच में रखने के लिए */
-  border-radius: 50%; 
+  font-size: 16px;
+  width: 32px;
+  height: 32px;
+  line-height: 32px;
+  border-radius: 50%;
   text-align: center;
   background: red;
   color: #fff;
   cursor: pointer;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.25);
+  transition: transform 0.15s ease;
+}
+.play-circle:active {
+  transform: scale(0.92);
 }
 
-
 .channel-name {
-  font-weight: 700;       /* readability के लिए हल्का bold */
+  font-weight: 700;
   font-size: 20px;
   text-shadow: 1px 1px 2px #000;
+  font-family: system-ui, -apple-system, "Noto Sans Devanagari", sans-serif;
 }
 
 /* आस्था और ईश्वर दोनों के लिए पीला + हल्का ऑरेंज gradient */
@@ -456,7 +461,9 @@ footer{text-align:center;padding:4px;background:#fff3e0;font-size:13px;color:#4e
   </div>
 </div>
 
-<footer>© 2026 | भक्ति पंचांग | संकलन: कैलाश गौतम</footer>
+<footer style="text-align:center; font-size:13px; color:#666; padding:8px 0;">
+  © 2026 | भक्ति पंचांग | संकलन: कैलाश गौतम
+</footer>
 
 <div class="modal" id="modal">
   <div class="modal-content">
