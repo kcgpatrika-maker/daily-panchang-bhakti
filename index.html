@@ -3,6 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="manifest" href="./manifest.json">
 <title>Panchang – Bhakti Guide</title>
 <meta name="description" content="आज का पंचांग, व्रत-त्योहार, देवी-देवता की पूजा विधि, आरती, चालीसा और स्तोत्र।">
 <meta name="keywords" content="आज का पंचांग, व्रत, पूजा, आरती, चालीसा, भक्ति">
@@ -257,7 +258,7 @@ footer{text-align:center;padding:4px;background:#fff3e0;font-size:13px;color:#4e
   margin-top: 4px;
   border-top: 1px solid #ddd;
   padding-top: 8px;   /* Ask सेक्शन से हल्का अलग */
-  padding-bottom: 8px; /* footer से gap न्यूनतम */
+  padding-bottom: 2px; /* footer से gap न्यूनतम */
 }
 
 .footer-text {
@@ -266,7 +267,7 @@ footer{text-align:center;padding:4px;background:#fff3e0;font-size:13px;color:#4e
   color: #666;            /* हल्का grey, background पर साफ़ दिखे */
   text-align: center;     /* mobile पर balanced look */
   line-height: 1.5;       /* breathing space */
-  margin-top: 12px;       /* ऊपर sections से separation */
+  margin-top: 4px;       /* ऊपर sections से separation */
 }
 
 .share-btn{
@@ -285,10 +286,20 @@ footer{text-align:center;padding:4px;background:#fff3e0;font-size:13px;color:#4e
 
 /* ===== MOBILE ===== */
 @media (max-width:600px){
+  /* Text sizes */
   .panchang-left{font-size:14px}
   .panchang-left p:first-child{font-size:17px;font-weight:700}
   .btn-label{font-size:15px}
-  .ai-btn{font-size:18px;padding:14px 8px} /* मोबाइल पर और बड़ा */
+  .ai-btn{font-size:18px;padding:14px 8px}
+
+  /* Header हमेशा एक लाइन में */
+  .header-row { flex-wrap: nowrap; }
+  .header-title { font-size:18px; white-space:nowrap; }
+  .tagline { font-size:13px; }
+
+  /* सभी buttons एक ही row में */
+  .button-row { display:flex; gap:6px; }
+  .button-row button { flex:1; min-width:0; }
 }
 
 }
@@ -685,13 +696,14 @@ async function ask() {
       return;
     }
 
-    bhaktiData = data.content;
+    bhaktiData = data.content || {};
 
     // 🟢 जिनका data है वही बटन enable (mapped keys)
     aiButtons.forEach(btn => {
       const uiType = btn.getAttribute("onclick").match(/'(.*?)'/)[1]; 
       const key = TYPE_MAP[uiType];
       const val = bhaktiData[key];
+      const isAvailable = data.available?.[key];
 
       let hasData = false;
 
@@ -1051,6 +1063,11 @@ window.closeSandesh = function () {
     <!-- यहाँ JS से dynamic लिस्ट आएगी -->
   </div>
 </div>
+<script>
+  if ("serviceWorker" in navigator) {
+    navigator.serviceWorker.register("./sw.js"); 
+  }
+</script>
 
 </body>
 </html>
