@@ -286,10 +286,20 @@ footer{text-align:center;padding:4px;background:#fff3e0;font-size:13px;color:#4e
 
 /* ===== MOBILE ===== */
 @media (max-width:600px){
+  /* Text sizes */
   .panchang-left{font-size:14px}
   .panchang-left p:first-child{font-size:17px;font-weight:700}
   .btn-label{font-size:15px}
-  .ai-btn{font-size:18px;padding:14px 8px} /* मोबाइल पर और बड़ा */
+  .ai-btn{font-size:18px;padding:14px 8px}
+
+  /* Header हमेशा एक लाइन में */
+  .header-row { flex-wrap: nowrap; }
+  .header-title { font-size:18px; white-space:nowrap; }
+  .tagline { font-size:13px; }
+
+  /* सभी buttons एक ही row में */
+  .button-row { display:flex; gap:6px; }
+  .button-row button { flex:1; min-width:0; }
 }
 
 }
