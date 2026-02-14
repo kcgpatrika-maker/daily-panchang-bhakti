@@ -689,17 +689,15 @@ async function ask() {
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ deity: q })
     });
-    const data = await res.json();
-    
-    console.log("Ask API response:", data);
-
     const content = data?.content || data?.data || data;
-    if (!content || typeof content !== "object") {
-      result.innerHTML = "<p>डेटा उपलब्ध नहीं</p>";
-      return;
-    }
 
-    bhaktiData = content;
+if (!content || typeof content !== "object") {
+  result.innerHTML = "<p>डेटा उपलब्ध नहीं</p>";
+  return;
+}
+
+bhaktiData = content;
+
 
     // 🟢 जिनका data है वही बटन enable (mapped keys)
     aiButtons.forEach(btn => {
@@ -707,14 +705,18 @@ async function ask() {
       const key = TYPE_MAP[uiType];
       const val = bhaktiData[key];
 
-let hasData =
-  val &&
-  (
-    (Array.isArray(val) && val.length > 0) ||
-    (typeof val === "string" && val.trim().length > 0) ||
-    (typeof val === "object")
-  );
+      let hasData = false;
 
+      if (uiType === "chalisa" && Array.isArray(val)) {
+        hasData = val.some(item => item.pdf || item.text);
+      } else if (uiType === "stotra" && Array.isArray(val)) {
+        hasData = val.some(item => item.pdf || item.text);
+      } else if (uiType === "mantra" && Array.isArray(val)) {
+        hasData = val.length > 0; // ✅ मंत्र के लिए साफ़ check 
+      } else { hasData =
+    (Array.isArray(val) && val.length > 0) ||
+    (typeof val === "string" && val.trim().length > 0);
+}
 
       if (hasData) {
         btn.disabled = false;
