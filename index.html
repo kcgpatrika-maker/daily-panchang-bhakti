@@ -258,7 +258,7 @@ footer{text-align:center;padding:4px;background:#fff3e0;font-size:13px;color:#4e
   margin-top: 4px;
   border-top: 1px solid #ddd;
   padding-top: 8px;   /* Ask सेक्शन से हल्का अलग */
-  padding-bottom: 8px; /* footer से gap न्यूनतम */
+  padding-bottom: 2px; /* footer से gap न्यूनतम */
 }
 
 .footer-text {
@@ -267,7 +267,7 @@ footer{text-align:center;padding:4px;background:#fff3e0;font-size:13px;color:#4e
   color: #666;            /* हल्का grey, background पर साफ़ दिखे */
   text-align: center;     /* mobile पर balanced look */
   line-height: 1.5;       /* breathing space */
-  margin-top: 12px;       /* ऊपर sections से separation */
+  margin-top: 4px;       /* ऊपर sections से separation */
 }
 
 .share-btn{
@@ -286,12 +286,21 @@ footer{text-align:center;padding:4px;background:#fff3e0;font-size:13px;color:#4e
 
 /* ===== MOBILE ===== */
 @media (max-width:600px){
+  /* Text sizes */
   .panchang-left{font-size:14px}
   .panchang-left p:first-child{font-size:17px;font-weight:700}
   .btn-label{font-size:15px}
-  .ai-btn{font-size:18px;padding:14px 8px} /* मोबाइल पर और बड़ा */
-}
+  .ai-btn{font-size:18px;padding:14px 8px}
 
+  /* Header हमेशा एक लाइन में */
+  .header-row { flex-wrap: nowrap; }
+  .header-title { font-size:18px; white-space:nowrap; }
+  .tagline { font-size:13px; }
+
+  /* सभी buttons एक ही row में */
+  .button-row { display:flex; gap:6px; }
+  .button-row button { flex:1; min-width:0; }
+}
 </style>
 </head>
 
@@ -415,31 +424,19 @@ footer{text-align:center;padding:4px;background:#fff3e0;font-size:13px;color:#4e
   <button onclick="resetAsk()">Reset</button>
 </div>
 
-<!-- AI OPTIONS (FIXED PLACE) -->
 <div class="ai-options">
-  <button class="ai-btn" onclick="showSection('mantra')">
-    <span class="text">मंत्र</span>
-  </button>
-  <button class="ai-btn" onclick="showSection('aarti')">
-    <span class="text">आरती</span>
-  </button>
-  <button class="ai-btn" onclick="showSection('poojaVidhi')">
-    <span class="text">पूजा विधि</span>
-  </button>
-  <button class="ai-btn" onclick="showSection('chalisa')">
-    <span class="text">चालीसा</span>
-  </button>
-  <button class="ai-btn" onclick="showSection('stotra')">
-    <span class="text">स्तोत्र</span>
-  </button>
+  <button class="ai-btn" onclick="showSection('mantra')"><span class="text">मंत्र</span></button>
+  <button class="ai-btn" onclick="showSection('aarti')"><span class="text">आरती</span></button>
+  <button class="ai-btn" onclick="showSection('poojaVidhi')"><span class="text">पूजा विधि</span></button>
+  <button class="ai-btn" onclick="showSection('chalisa')"><span class="text">चालीसा</span></button>
+  <button class="ai-btn" onclick="showSection('stotra')"><span class="text">स्तोत्र</span></button>
 </div>
 
-<!-- INFO LINE -->
 <div id="aiInfo" style="display:none;margin-top:8px;">
-  <h3 id="aiTitle" style="margin:4px 0"></h3>
+  <h3 id="aiTitle"></h3>
   <p style="font-size:12px;color:#555">ऊपर दिए गए विकल्पों में से चुनें</p>
 </div>
-<!-- CONTENT AREA -->
+
 <div id="result" class="result"></div>
 </div>
 
@@ -653,151 +650,102 @@ const TYPE_MAP = {
 let bhaktiData = null;
 
 /* ========= ASK ========= */
-async function ask() {
-  let q = query.value.trim().toLowerCase();
-  q = deityAliasMap[q] || q;
+async function ask(){
+  let q=query.value.trim().toLowerCase();
+  q=deityAliasMap[q]||q;
 
-  result.innerHTML = "";
-  aiInfo.style.display = "none";
-  bhaktiData = null;
+  result.innerHTML="";
+  aiInfo.style.display="none";
+  bhaktiData=null;
 
-  // 🔴 पहले सभी बटन disable + inactive
-  aiButtons.forEach(btn => {
-    btn.disabled = true;
+  aiButtons.forEach(btn=>{
+    btn.disabled=true;
     btn.classList.remove("active");
   });
 
-  if (!q) {
-    result.innerHTML = "<p>कृपया देवता का नाम लिखें</p>";
+  if(!q){
+    result.innerHTML="<p>कृपया देवता का नाम लिखें</p>";
     return;
   }
 
-  try {
-    const res = await fetch("https://bhakti-panchang-backend.onrender.com/api/ask-bhakti", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ deity: q })
+  try{
+    const res=await fetch("https://bhakti-panchang-backend.onrender.com/api/ask-bhakti",{
+      method:"POST",
+      headers:{"Content-Type":"application/json"},
+      body:JSON.stringify({deity:q})
     });
-    const data = await res.json();
 
-    if (!data || !data.content) {
-      result.innerHTML = "<p>डेटा उपलब्ध नहीं</p>";
+    const data=await res.json();
+
+    const content=data?.content||data?.data||data;
+
+    if(!content){
+      result.innerHTML="<p>डेटा उपलब्ध नहीं</p>";
       return;
     }
 
-    bhaktiData = data.content;
+    bhaktiData=content;
 
-    // 🟢 जिनका data है वही बटन enable (mapped keys)
-    aiButtons.forEach(btn => {
-      const uiType = btn.getAttribute("onclick").match(/'(.*?)'/)[1]; 
-      const key = TYPE_MAP[uiType];
-      const val = bhaktiData[key];
+    aiButtons.forEach(btn=>{
+      const uiType=btn.getAttribute("onclick").match(/'(.*?)'/)[1];
+      const key=TYPE_MAP[uiType];
+      const val=bhaktiData[key];
 
-      let hasData = false;
+      let hasData=Array.isArray(val)?val.length>0:!!val;
 
-      if (uiType === "chalisa" && Array.isArray(val)) {
-        hasData = val.some(item => item.pdf || item.text);
-      } else if (uiType === "stotra" && Array.isArray(val)) {
-        hasData = val.some(item => item.pdf || item.text);
-      } else if (uiType === "mantra" && Array.isArray(val)) {
-        hasData = val.length > 0; // ✅ मंत्र के लिए साफ़ check 
-      } else { hasData =
-    (Array.isArray(val) && val.length > 0) ||
-    (typeof val === "string" && val.trim().length > 0);
-}
-
-      if (hasData) {
-        btn.disabled = false;
-        btn.classList.add("active"); // हरा
+      if(hasData){
+        btn.disabled=false;
+        btn.classList.add("active");
       }
     });
 
-    aiTitle.innerText = `🙏 ${query.value.trim()}`;
-    aiInfo.style.display = "block";
+    aiTitle.innerText=`🙏 ${query.value.trim()}`;
+    aiInfo.style.display="block";
 
-  } catch (e) {
-    console.error(e);
-    result.innerHTML = "<p>सर्वर से उत्तर नहीं मिला</p>";
+  }catch(e){
+    result.innerHTML="<p>सर्वर से उत्तर नहीं मिला</p>";
   }
 }
 
 /* ========= SHOW SECTION ========= */
-function showSection(type) {
-  if (!bhaktiData) return;
+function showSection(type){
+  if(!bhaktiData)return;
 
-  aiButtons.forEach(btn => btn.classList.remove("active"));
-  const activeBtn = document.querySelector(`.ai-btn[onclick*="${type}"]`);
-  if (activeBtn) activeBtn.classList.add("active");
+  aiButtons.forEach(btn=>btn.classList.remove("active"));
+  const activeBtn=document.querySelector(`.ai-btn[onclick*="${type}"]`);
+  if(activeBtn)activeBtn.classList.add("active");
 
-  const key = TYPE_MAP[type];
-  const data = bhaktiData[key];
-  if (!data) return;
+  const key=TYPE_MAP[type];
+  const data=bhaktiData[key];
+  if(!data)return;
 
-  let html = "";
+  let html="";
 
-  // आरती
-  if (type === "aarti" && Array.isArray(data)) {
-    data.forEach(item => {
-      html += `<p><b>${item.title || ""}</b></p>`;
-      if (Array.isArray(item.aarti)) {
-        item.aarti.forEach(line => { html += `<p>${line}</p>`; });
+  if(Array.isArray(data)){
+    data.forEach(item=>{
+      if(typeof item==="string"){
+        html+=`<p>${item}</p>`;
+      }else if(item.text){
+        html+=`<p>${item.text}</p>`;
       }
-      html += `<hr>`;
+      if(item.pdf){
+        html+=`<p><a href="${item.pdf}" target="_blank">📄 PDF</a></p>`;
+      }
+      html+="<hr>";
     });
   }
 
-  // 🪷 पूजा विधि
-  else if (type === "poojaVidhi" && Array.isArray(data)) {
-    data.forEach(item => {
-      if (item.text) {
-        html += `<p class="font-semibold whitespace-pre-line">${item.text}</p><hr>`;
-      }
-      if (item.pdf) {
-        html += `<p><a href="${item.pdf}" target="_blank" rel="noopener noreferrer"
- class="text-blue-600 underline">📄 ${item.source || "PDF लिंक"}</a></p><hr>`;
-      }
-    });
-  }
-
-  // 🪷 चालीसा
-  else if (type === "chalisa" && Array.isArray(data)) {
-  data.forEach(item => {
-    if (item.pdf) {
-      html += `<p><a href="${item.pdf}" target="_blank" rel="noopener noreferrer"
-        class="text-green-600 font-bold">📄 ${item.source || "PDF लिंक"}</a></p><hr>`;
-    }
-    if (item.text) {
-      html += `<p>${item.text}</p><hr>`;
-    }
-  });
+  result.innerHTML=html||"<p>डेटा उपलब्ध नहीं</p>";
 }
-
-  // मंत्र/स्तोत्र
-  else if (Array.isArray(data)) {
-    data.forEach(line => {
-      const t = typeof line === "string" ? line.trim() : "";
-      if (t) html += `<p>${t}</p>`;
-    });
-  } else if (typeof data === "string") {
-    data.split("\n").forEach(line => {
-      const t = line.trim();
-      if (t) html += `<p>${t}</p>`;
-    });
-  }
-
-  result.innerHTML = html || "<p>डेटा उपलब्ध नहीं</p>";
-  result.scrollIntoView({ behavior: "smooth" });
-}
-
 /* ========= RESET ========= */
-function resetAsk() {
-  query.value = "";
-  result.innerHTML = "";
-  aiInfo.style.display = "none";
-  bhaktiData = null;
+function resetAsk(){
+  query.value="";
+  result.innerHTML="";
+  aiInfo.style.display="none";
+  bhaktiData=null;
 
-  aiButtons.forEach(btn => {
-    btn.disabled = true;
+  aiButtons.forEach(btn=>{
+    btn.disabled=true;
     btn.classList.remove("active");
   });
 }
@@ -1052,9 +1000,9 @@ window.closeSandesh = function () {
   </div>
 </div>
 <script>
-  if ("serviceWorker" in navigator) {
-    navigator.serviceWorker.register("./sw.js"); 
-  }
+if("serviceWorker" in navigator){
+  // navigator.serviceWorker.register("./sw.js");
+}
 </script>
 
 </body>
