@@ -707,18 +707,14 @@ async function ask() {
       const key = TYPE_MAP[uiType];
       const val = bhaktiData[key];
 
-      let hasData = false;
-
-      if (uiType === "chalisa" && Array.isArray(val)) {
-        hasData = val.some(item => item.pdf || item.text);
-      } else if (uiType === "stotra" && Array.isArray(val)) {
-        hasData = val.some(item => item.pdf || item.text);
-      } else if (uiType === "mantra" && Array.isArray(val)) {
-        hasData = val.length > 0; // ✅ मंत्र के लिए साफ़ check 
-      } else { hasData =
+let hasData =
+  val &&
+  (
     (Array.isArray(val) && val.length > 0) ||
-    (typeof val === "string" && val.trim().length > 0);
-}
+    (typeof val === "string" && val.trim().length > 0) ||
+    (typeof val === "object")
+  );
+
 
       if (hasData) {
         btn.disabled = false;
