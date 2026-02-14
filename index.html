@@ -667,23 +667,24 @@ async function ask() {
     const data = await res.json();
     console.log("API RESPONSE:", data);
 
-    const content = data?.content || data?.data || data;
-    if (!content) {
+    const content = data?.content || {};
+    const available = data?.available || {};
+    if (!content || Object.keys(content).length === 0) {
       result.innerHTML = "<p>डेटा उपलब्ध नहीं</p>";
       return;
     }
 
     bhaktiData = content;
 
-    // ✅ बटन activate करने का नया तरीका (IDs से)
+    // ✅ अब बटन activate करने के लिए available flags का इस्तेमाल
     aiButtons.forEach(btn => {
-      const id = btn.id; // जैसे btnMantra, btnAarti
+      const id = btn.id; // btnMantra, btnAarti...
       const key = TYPE_MAP[id.replace("btn", "").toLowerCase()];
       const val = bhaktiData[key];
+      const isAvailable = available[key];
 
       let hasData = Array.isArray(val) ? val.length > 0 : !!val;
-
-      if (hasData) {
+      if (isAvailable && hasData) {
         btn.disabled = false;
         btn.classList.add("active");
       }
