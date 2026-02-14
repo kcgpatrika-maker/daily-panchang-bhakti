@@ -675,6 +675,7 @@ async function ask(){
     });
 
     const data=await res.json();
+    console.log("API RESPONSE:", data);
 
     const content=data?.content||data?.data||data;
 
