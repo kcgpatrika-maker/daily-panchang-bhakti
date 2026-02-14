@@ -3,10 +3,17 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Panchang – Bhakti Guide</title>
+<title>Daily Panchang + Bhakti Ask</title>
 <meta name="description" content="आज का पंचांग, व्रत-त्योहार, देवी-देवता की पूजा विधि, आरती, चालीसा और स्तोत्र।">
 <meta name="keywords" content="आज का पंचांग, व्रत, पूजा, आरती, चालीसा, भक्ति">
 <meta name="robots" content="index, follow">
+
+<!-- App icon (optional, safe to keep) -->
+<link rel="icon" type="image/png" href="/icons/icon-192.png">
+
+<!-- Global CSS -->
+<link rel="stylesheet" href="/style.css">
+
 <style>
 body{margin:0;font-family:system-ui;background:#fff8e1;color:#4e342e}
 header{background:linear-gradient(180deg,#ffb300,#f57c00);padding:8px 12px;color:#fff;box-shadow:0 2px 6px rgba(0,0,0,.15)}
@@ -48,7 +55,6 @@ footer{text-align:center;padding:4px;background:#fff3e0;font-size:13px;color:#4e
 .modal-content{background:#fff;border-radius:12px;margin:12% auto;padding:15px;width:90%;max-height:70%;overflow-y:auto}
 .close{float:right;font-size:20px;cursor:pointer}
   /* ===== Vrat Katha Right Panel Fix ===== */
-
 .vrat-box{
   display:flex;
   justify-content:space-between;
@@ -74,7 +80,9 @@ footer{text-align:center;padding:4px;background:#fff3e0;font-size:13px;color:#4e
   text-align: center;
   margin-bottom:4px;
 }
+
 #festivalList{font-family:'Roboto',sans-serif;font-size:14px;line-height:1.4}
+
 .katha-btn {
   display:block;       /* block रहने दें ताकि ऊपर-नीचे दिखें */
   width:auto;          /* auto width ताकि टेक्स्ट जितना हो उतना ही स्पेस ले */
@@ -95,6 +103,7 @@ footer{text-align:center;padding:4px;background:#fff3e0;font-size:13px;color:#4e
 .katha-btn.audio{
   background:#2e7d32;
 }
+
 .ai-options {
   display: flex;
   gap: 8px;
@@ -130,7 +139,7 @@ footer{text-align:center;padding:4px;background:#fff3e0;font-size:13px;color:#4e
   cursor: pointer;
 }
 
- .panchang-wrap{
+.panchang-wrap{
   display:flex;
   justify-content:space-between;
   align-items:center;
@@ -183,6 +192,7 @@ footer{text-align:center;padding:4px;background:#fff3e0;font-size:13px;color:#4e
 .btn-label span.message{
   color:#c62828;           /* “धार्मिक संदेश” रेड */
 }
+
 .card h3{margin:4px 0;font-size:15px}
 .card{padding:6px 8px}
  
@@ -266,7 +276,7 @@ footer{text-align:center;padding:4px;background:#fff3e0;font-size:13px;color:#4e
   color: #666;            /* हल्का grey, background पर साफ़ दिखे */
   text-align: center;     /* mobile पर balanced look */
   line-height: 1.5;       /* breathing space */
-  margin-top: 4px;       /* ऊपर sections से separation */
+  margin-top: 4px;        /* ऊपर sections से separation */
 }
 
 .share-btn{
@@ -373,70 +383,50 @@ footer{text-align:center;padding:4px;background:#fff3e0;font-size:13px;color:#4e
 <div style="display:flex; gap:16px; flex-wrap:wrap; margin-top:8px; margin-bottom:10px; justify-content:center;">
   
   <button onclick="openChoghadiya()"
-    style="padding:7px 12px; border-radius:50px; border:none;
-    background:#4a148c; color:#fff; font-size:15px; font-weight:600; white-space:nowrap;">
-    चौघडिया देखें
+    style="width:72px; height:72px; border-radius:50%; border:none;
+    background:#4a148c; color:#fff; font-size:13px; font-weight:600; display:flex; align-items:center; justify-content:center;">
+    चौघडिया
   </button>
 
   <button onclick="callJyotishi()"
-    style="padding:7px 12px; border-radius:50px; border:none;
-    background:#4a148c; color:#fff; font-size:15px; font-weight:600; white-space:nowrap;">
-    ज्योतिषी सम्पर्क
+    style="width:72px; height:72px; border-radius:50%; border:none;
+    background:#4a148c; color:#fff; font-size:13px; font-weight:600; display:flex; align-items:center; justify-content:center;">
+    ज्योतिषी
   </button>
 
   <button onclick="openRashiIshta()"
-    style="padding:7px 12px; border-radius:50px; border:none;
-    background:#4a148c; color:#fff; font-size:15px; font-weight:600; white-space:nowrap;">
-    इष्टदेव जानें
+    style="width:72px; height:72px; border-radius:50%; border:none;
+    background:#4a148c; color:#fff; font-size:13px; font-weight:600; display:flex; align-items:center; justify-content:center;">
+    इष्टदेव
   </button>
 </div>
-  
-<div class="card highlight vrat-box">
-  <div class="vrat-left">
-    <h3>🔔 व्रत / त्योहार</h3>
-    <ul id="festivalList"></ul>
-  </div>
 
-  <!-- RIGHT FIXED CATEGORY -->
-  <div class="vrat-right">
-    <div class="vrat-title">📿 व्रत कथाएँ</div>
-
-    <button onclick="openVideoKatha()" class="katha-btn video">
-      ▶️ वीडियो कथा
-    </button>
-
-
-   <button onclick="openAudioModal()" class="katha-btn audio">
-🎧 ऑडियो कथा
-</button>
-  </div>
-</div>
 
 <div class="ask-box">
   <h3 class="ask-heading">AI से जानें भक्ति का भंडार</h3>
   
   <p class="ask-subline">देवी-देवता का नाम लिखें और Ask बटन दबाएं</p>
 
-<div class="ask-row">
-  <input id="query" placeholder="देवी-देवता लिखें (जैसे: शिव / Shiv)">
-  <button onclick="ask()">Ask</button>
-  <button onclick="resetAsk()">Reset</button>
-</div>
+  <div class="ask-row">
+    <input id="query" placeholder="देवी-देवता लिखें (जैसे: शिव / Shiv)">
+    <button onclick="ask()" style="background:#a83232;color:#fff">Ask</button>
+    <button onclick="resetAsk()" style="background:#1565c0;color:#fff">Reset</button>
+  </div>
 
-<div class="ai-options">
-  <button class="ai-btn" onclick="showSection('mantra')"><span class="text">मंत्र</span></button>
-  <button class="ai-btn" onclick="showSection('aarti')"><span class="text">आरती</span></button>
-  <button class="ai-btn" onclick="showSection('poojaVidhi')"><span class="text">पूजा विधि</span></button>
-  <button class="ai-btn" onclick="showSection('chalisa')"><span class="text">चालीसा</span></button>
-  <button class="ai-btn" onclick="showSection('stotra')"><span class="text">स्तोत्र</span></button>
-</div>
+  <div class="ai-options">
+    <button class="ai-btn" id="btnMantra" onclick="showSection('mantra')"><span class="text">मंत्र</span></button>
+    <button class="ai-btn" id="btnAarti" onclick="showSection('aarti')"><span class="text">आरती</span></button>
+    <button class="ai-btn" id="btnPooja" onclick="showSection('poojaVidhi')"><span class="text">पूजा विधि</span></button>
+    <button class="ai-btn" id="btnChalisa" onclick="showSection('chalisa')"><span class="text">चालीसा</span></button>
+    <button class="ai-btn" id="btnStotra" onclick="showSection('stotra')"><span class="text">स्तोत्र</span></button>
+  </div>
 
-<div id="aiInfo" style="display:none;margin-top:8px;">
-  <h3 id="aiTitle"></h3>
-  <p style="font-size:12px;color:#555">ऊपर दिए गए विकल्पों में से चुनें</p>
-</div>
+  <div id="aiInfo" style="display:none;margin-top:8px;">
+    <h3 id="aiTitle"></h3>
+    <p style="font-size:12px;color:#555">ऊपर दिए गए विकल्पों में से चुनें</p>
+  </div>
 
-<div id="result" class="result"></div>
+  <div id="result" class="result"></div>
 </div>
 
 <div class="card"> 
