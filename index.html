@@ -641,7 +641,7 @@ let bhaktiData = null;
 /* ========= ASK ========= */
 async function ask() {
   let q = query.value.trim().toLowerCase();
-  q = deityAliasMap[q] || q;
+  q = deityAliasMap[q] || q; // Hindi → English alias
 
   result.innerHTML = "";
   aiInfo.style.display = "none";
