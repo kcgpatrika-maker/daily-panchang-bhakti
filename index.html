@@ -258,7 +258,7 @@ footer{text-align:center;padding:4px;background:#fff3e0;font-size:13px;color:#4e
   margin-top: 4px;
   border-top: 1px solid #ddd;
   padding-top: 8px;   /* Ask सेक्शन से हल्का अलग */
-  padding-bottom: 2px; /* footer से gap न्यूनतम */
+  padding-bottom: 8px; /* footer से gap न्यूनतम */
 }
 
 .footer-text {
@@ -267,7 +267,7 @@ footer{text-align:center;padding:4px;background:#fff3e0;font-size:13px;color:#4e
   color: #666;            /* हल्का grey, background पर साफ़ दिखे */
   text-align: center;     /* mobile पर balanced look */
   line-height: 1.5;       /* breathing space */
-  margin-top: 4px;       /* ऊपर sections से separation */
+  margin-top: 12px;       /* ऊपर sections से separation */
 }
 
 .share-btn{
@@ -286,21 +286,12 @@ footer{text-align:center;padding:4px;background:#fff3e0;font-size:13px;color:#4e
 
 /* ===== MOBILE ===== */
 @media (max-width:600px){
-  /* Text sizes */
   .panchang-left{font-size:14px}
   .panchang-left p:first-child{font-size:17px;font-weight:700}
   .btn-label{font-size:15px}
-  .ai-btn{font-size:18px;padding:14px 8px}
-
-  /* Header हमेशा एक लाइन में */
-  .header-row { flex-wrap: nowrap; }
-  .header-title { font-size:18px; white-space:nowrap; }
-  .tagline { font-size:13px; }
-
-  /* सभी buttons एक ही row में */
-  .button-row { display:flex; gap:6px; }
-  .button-row button { flex:1; min-width:0; }
+  .ai-btn{font-size:18px;padding:14px 8px} /* मोबाइल पर और बड़ा */
 }
+
 </style>
 </head>
 
@@ -687,15 +678,14 @@ async function ask() {
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ deity: q })
     });
-    const content = data?.content || data?.data || data;
+    const data = await res.json();
 
-if (!content || typeof content !== "object") {
-  result.innerHTML = "<p>डेटा उपलब्ध नहीं</p>";
-  return;
-}
+    if (!data || !data.content) {
+      result.innerHTML = "<p>डेटा उपलब्ध नहीं</p>";
+      return;
+    }
 
-bhaktiData = content;
-
+    bhaktiData = data.content;
 
     // 🟢 जिनका data है वही बटन enable (mapped keys)
     aiButtons.forEach(btn => {
@@ -784,16 +774,10 @@ function showSection(type) {
 
   // मंत्र/स्तोत्र
   else if (Array.isArray(data)) {
-  data.forEach(item => {
-    if (typeof item === "string") {
-      const t = item.trim();
+    data.forEach(line => {
+      const t = typeof line === "string" ? line.trim() : "";
       if (t) html += `<p>${t}</p>`;
-    } else if (item.text) {
-      html += `<p>${item.text}</p>`;
-    }
-  });
-}
-
+    });
   } else if (typeof data === "string") {
     data.split("\n").forEach(line => {
       const t = line.trim();
@@ -1069,7 +1053,7 @@ window.closeSandesh = function () {
 </div>
 <script>
   if ("serviceWorker" in navigator) {
-    // navigator.serviceWorker.register("./sw.js"); 
+    navigator.serviceWorker.register("./sw.js"); 
   }
 </script>
 
