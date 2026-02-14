@@ -786,10 +786,16 @@ function showSection(type) {
 
   // मंत्र/स्तोत्र
   else if (Array.isArray(data)) {
-    data.forEach(line => {
-      const t = typeof line === "string" ? line.trim() : "";
+  data.forEach(item => {
+    if (typeof item === "string") {
+      const t = item.trim();
       if (t) html += `<p>${t}</p>`;
-    });
+    } else if (item.text) {
+      html += `<p>${item.text}</p>`;
+    }
+  });
+}
+
   } else if (typeof data === "string") {
     data.split("\n").forEach(line => {
       const t = line.trim();
