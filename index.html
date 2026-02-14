@@ -690,20 +690,22 @@ async function ask() {
       body: JSON.stringify({ deity: q })
     });
     const data = await res.json();
+    
+    console.log("Ask API response:", data);
 
-    if (!data || !data.content) {
+    const content = data?.content || data?.data || data;
+    if (!content || typeof content !== "object") {
       result.innerHTML = "<p>डेटा उपलब्ध नहीं</p>";
       return;
     }
 
-    bhaktiData = data.content || {};
+    bhaktiData = content;
 
     // 🟢 जिनका data है वही बटन enable (mapped keys)
     aiButtons.forEach(btn => {
       const uiType = btn.getAttribute("onclick").match(/'(.*?)'/)[1]; 
       const key = TYPE_MAP[uiType];
       const val = bhaktiData[key];
-      const isAvailable = data.available?.[key];
 
       let hasData = false;
 
