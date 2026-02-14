@@ -678,17 +678,16 @@ async function ask() {
 
     // ✅ अब बटन activate करने के लिए available flags का इस्तेमाल
     aiButtons.forEach(btn => {
-      const id = btn.id; // btnMantra, btnAarti...
-      const key = TYPE_MAP[id.replace("btn", "").toLowerCase()];
-      const val = bhaktiData[key];
-      const isAvailable = available[key];
+  const id = btn.id; // जैसे btnMantra
+  const key = TYPE_MAP[id.replace("btn","").toLowerCase()];
+  const val = bhaktiData[key];
 
-      let hasData = Array.isArray(val) ? val.length > 0 : !!val;
-      if (isAvailable && hasData) {
-        btn.disabled = false;
-        btn.classList.add("active");
-      }
-    });
+  let hasData = Array.isArray(val) ? val.length > 0 : !!val;
+  if (hasData) {
+    btn.disabled = false;
+    btn.classList.add("active");
+  }
+});
 
     aiTitle.innerText = `🙏 ${query.value.trim()}`;
     aiInfo.style.display = "block";
