@@ -639,63 +639,62 @@ const TYPE_MAP = {
 let bhaktiData = null;
 
 /* ========= ASK ========= */
-async function ask(){
-  let q=query.value.trim().toLowerCase();
-  q=deityAliasMap[q]||q;
+async function ask() {
+  let q = query.value.trim().toLowerCase();
+  q = deityAliasMap[q] || q;
 
-  result.innerHTML="";
-  aiInfo.style.display="none";
-  bhaktiData=null;
+  result.innerHTML = "";
+  aiInfo.style.display = "none";
+  bhaktiData = null;
 
-  aiButtons.forEach(btn=>{
-    btn.disabled=true;
+  aiButtons.forEach(btn => {
+    btn.disabled = true;
     btn.classList.remove("active");
   });
 
-  if(!q){
-    result.innerHTML="<p>कृपया देवता का नाम लिखें</p>";
+  if (!q) {
+    result.innerHTML = "<p>कृपया देवता का नाम लिखें</p>";
     return;
   }
 
-  try{
-    const res=await fetch("https://bhakti-panchang-backend.onrender.com/api/ask-bhakti",{
-      method:"POST",
-      headers:{"Content-Type":"application/json"},
-      body:JSON.stringify({deity:q})
+  try {
+    const res = await fetch("https://bhakti-panchang-backend.onrender.com/api/ask-bhakti", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ deity: q })
     });
 
-    const data=await res.json();
+    const data = await res.json();
     console.log("API RESPONSE:", data);
 
-    const content=data?.content||data?.data||data;
-
-    if(!content){
-      result.innerHTML="<p>डेटा उपलब्ध नहीं</p>";
+    const content = data?.content || data?.data || data;
+    if (!content) {
+      result.innerHTML = "<p>डेटा उपलब्ध नहीं</p>";
       return;
     }
 
-    bhaktiData=content;
-    console.log("API DATA:", data);
-    console.log("CONTENT:", data.content);
+    bhaktiData = content;
 
-  aiButtons.forEach(btn=>{
-  const uiType = btn.onclick.toString().match(/'(.*?)'/)[1];
-  const key = TYPE_MAP[uiType];
-  const val = bhaktiData[key];
+    // ✅ बटन activate करने का नया तरीका (IDs से)
+    aiButtons.forEach(btn => {
+      const id = btn.id; // जैसे btnMantra, btnAarti
+      const key = TYPE_MAP[id.replace("btn", "").toLowerCase()];
+      const val = bhaktiData[key];
 
-  let hasData = Array.isArray(val) ? val.length > 0 : !!val;
+      let hasData = Array.isArray(val) ? val.length > 0 : !!val;
 
-  if(hasData){
-    btn.disabled = false;
-    btn.classList.add("active");
-  }
-});
+      if (hasData) {
+        btn.disabled = false;
+        btn.classList.add("active");
+      }
+    });
 
-    aiTitle.innerText=`🙏 ${query.value.trim()}`;
-    aiInfo.style.display="block";
+    aiTitle.innerText = `🙏 ${query.value.trim()}`;
+    aiInfo.style.display = "block";
 
-  }catch(e){
-    result.innerHTML="<p>सर्वर से उत्तर नहीं मिला</p>";
+  } catch (e) {
+    console.error("Ask error:", e);
+    result.innerHTML = "<p>सर्वर से उत्तर नहीं मिला</p>";
   }
 }
 
