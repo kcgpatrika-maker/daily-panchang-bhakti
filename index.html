@@ -687,17 +687,17 @@ async function ask(){
     bhaktiData=content;
 
     aiButtons.forEach(btn=>{
-      const uiType=btn.getAttribute("onclick").match(/'(.*?)'/)[1];
-      const key=TYPE_MAP[uiType];
-      const val=bhaktiData[key];
+  const uiType = btn.onclick.toString().match(/'(.*?)'/)[1];
+  const key = TYPE_MAP[uiType];
+  const val = bhaktiData[key];
 
-      let hasData=Array.isArray(val)?val.length>0:!!val;
+  let hasData = Array.isArray(val) ? val.length > 0 : !!val;
 
-      if(hasData){
-        btn.disabled=false;
-        btn.classList.add("active");
-      }
-    });
+  if(hasData){
+    btn.disabled = false;
+    btn.classList.add("active");
+  }
+});
 
     aiTitle.innerText=`🙏 ${query.value.trim()}`;
     aiInfo.style.display="block";
