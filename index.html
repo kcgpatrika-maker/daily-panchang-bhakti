@@ -632,6 +632,7 @@ const TYPE_MAP = {
 let bhaktiData = null;
 
 /* ========= ASK ========= */
+/* ========= ASK ========= */
 async function ask() {
   let q = query.value.trim().toLowerCase();
   q = deityAliasMap[q] || q;
@@ -660,25 +661,30 @@ async function ask() {
     const data = await res.json();
     console.log("API RESPONSE:", data);
 
-    // ✅ अब सिर्फ़ content को ही भरोसेमंद मानो
+    // ✅ Debug logs
+    console.log("AVAILABLE:", data.available);
+    console.log("CONTENT:", data.content);
+
     const content = data.content;
-    const available = data?.available || {};
+    const available = data.available || {};
     if (!content || Object.keys(content).length === 0) {
+      console.warn("CONTENT EMPTY OR INVALID:", content);
       result.innerHTML = "<p>डेटा उपलब्ध नहीं</p>";
       return;
     }
 
     bhaktiData = content;
+    console.log("BHAKTI DATA:", bhaktiData);
 
-    // ✅ बटन activate करने के लिए available flags + content दोनों check
     aiButtons.forEach(btn => {
-      const id = btn.id; // जैसे btnMantra
+      const id = btn.id; // btnMantra, btnAarti, btnPooja...
       const key = TYPE_MAP[id.replace("btn", "").toLowerCase()];
       const val = bhaktiData[key];
       const isAvailable = available[key];
 
-      let hasData = Array.isArray(val) ? val.length > 0 : !!val;
-      if (isAvailable && hasData) {
+      console.log("Checking button:", id, "→ key:", key, "→ available:", isAvailable, "→ value:", val);
+
+      if (isAvailable && val && (Array.isArray(val) ? val.length > 0 : true)) {
         btn.disabled = false;
         btn.classList.add("active");
       }
