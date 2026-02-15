@@ -649,9 +649,16 @@ let bhaktiData = null;
 /* ========= ASK ========= */
 async function ask() {
 
-  let raw = query.value.trim();
-  let key = raw.toLowerCase();
-  let q = deityAliasMap[key] || raw;
+const inputBox = document.getElementById("query");
+const raw = inputBox.value.trim();
+
+if (!raw) {
+  result.innerHTML = "<p>कृपया देवता का नाम लिखें</p>";
+  return;
+}
+
+const key = raw.toLowerCase();
+const q = deityAliasMap[key] || raw;
 
   result.innerHTML = "";
   aiInfo.style.display = "none";
