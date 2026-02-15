@@ -650,19 +650,12 @@ async function ask() {
   }
 
   try {
-    // ✅ Variant 1: अगर backend को key "deityName" चाहिए
+    // ✅ Final payload format
     const res = await fetch("https://bhakti-panchang-backend.onrender.com/api/ask-bhakti", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body:JSON.stringify(q) // <-- Test this first
+      body: JSON.stringify({ deityName: q })   // <-- सही key
     });
-
-    // ✅ Variant 2: अगर backend को सिर्फ़ string चाहिए
-    // const res = await fetch("https://bhakti-panchang-backend.onrender.com/api/ask-bhakti", {
-    //   method: "POST",
-    //   headers: { "Content-Type": "application/json" },
-    //   body: JSON.stringify(q)   // <-- If Variant 1 fails, try this
-    // });
 
     const data = await res.json();
     console.log("API RESPONSE:", data);
@@ -696,7 +689,6 @@ async function ask() {
     result.innerHTML = "<p>सर्वर से उत्तर नहीं मिला</p>";
   }
 }
-
 /* ========= SHOW SECTION ========= */
 function showSection(type){
   if(!bhaktiData)return;
