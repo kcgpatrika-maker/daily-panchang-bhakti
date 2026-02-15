@@ -668,21 +668,21 @@ async function ask() {
   }
 
   try {
-    const res = await fetch(
-      "https://bhakti-panchang-backend.onrender.com/api/ask-bhakti",
-      {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ deity: q })
-      }
-    );
+    const res = await fetch("https://bhakti-panchang-backend.onrender.com/api/ask-bhakti", {
+  method: "POST",
+  headers: { "Content-Type": "application/json" },
+  body: JSON.stringify({ deity: q.trim() })
+});
 
-    const data = await res.json();
+if (!res.ok) {
+  const err = await res.text();
+  console.log("Backend error:", err);
+  result.innerHTML = "<p>डेटा उपलब्ध नहीं</p>";
+  return;
+}
 
-    if (!data || !data.content) {
-      result.innerHTML = "<p>डेटा उपलब्ध नहीं</p>";
-      return;
-    }
+const data = await res.json();
+console.log("API response:", data);
 
     bhaktiData = data.content;
 
