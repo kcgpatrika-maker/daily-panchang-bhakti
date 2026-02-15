@@ -654,7 +654,7 @@ async function ask() {
     const res = await fetch("https://bhakti-panchang-backend.onrender.com/api/ask-bhakti", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ deityName: q })   // <-- Test this first
+      body: JSON.stringify({deity})   // <-- Test this first
     });
 
     // ✅ Variant 2: अगर backend को सिर्फ़ string चाहिए
