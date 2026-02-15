@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Daily Panchang + Bhakti Ask</title>
+<title>Panchang – Bhakti Guide</title>
 <meta name="description" content="आज का पंचांग, व्रत-त्योहार, देवी-देवता की पूजा विधि, आरती, चालीसा और स्तोत्र।">
 <meta name="keywords" content="आज का पंचांग, व्रत, पूजा, आरती, चालीसा, भक्ति">
 <meta name="robots" content="index, follow">
@@ -48,6 +48,7 @@ footer{text-align:center;padding:4px;background:#fff3e0;font-size:13px;color:#4e
 .modal-content{background:#fff;border-radius:12px;margin:12% auto;padding:15px;width:90%;max-height:70%;overflow-y:auto}
 .close{float:right;font-size:20px;cursor:pointer}
   /* ===== Vrat Katha Right Panel Fix ===== */
+
 .vrat-box{
   display:flex;
   justify-content:space-between;
@@ -73,9 +74,7 @@ footer{text-align:center;padding:4px;background:#fff3e0;font-size:13px;color:#4e
   text-align: center;
   margin-bottom:4px;
 }
-
 #festivalList{font-family:'Roboto',sans-serif;font-size:14px;line-height:1.4}
-
 .katha-btn {
   display:block;       /* block रहने दें ताकि ऊपर-नीचे दिखें */
   width:auto;          /* auto width ताकि टेक्स्ट जितना हो उतना ही स्पेस ले */
@@ -96,7 +95,6 @@ footer{text-align:center;padding:4px;background:#fff3e0;font-size:13px;color:#4e
 .katha-btn.audio{
   background:#2e7d32;
 }
-
 .ai-options {
   display: flex;
   gap: 8px;
@@ -132,7 +130,7 @@ footer{text-align:center;padding:4px;background:#fff3e0;font-size:13px;color:#4e
   cursor: pointer;
 }
 
-.panchang-wrap{
+ .panchang-wrap{
   display:flex;
   justify-content:space-between;
   align-items:center;
@@ -185,7 +183,6 @@ footer{text-align:center;padding:4px;background:#fff3e0;font-size:13px;color:#4e
 .btn-label span.message{
   color:#c62828;           /* “धार्मिक संदेश” रेड */
 }
-
 .card h3{margin:4px 0;font-size:15px}
 .card{padding:6px 8px}
  
@@ -269,7 +266,7 @@ footer{text-align:center;padding:4px;background:#fff3e0;font-size:13px;color:#4e
   color: #666;            /* हल्का grey, background पर साफ़ दिखे */
   text-align: center;     /* mobile पर balanced look */
   line-height: 1.5;       /* breathing space */
-  margin-top: 4px;        /* ऊपर sections से separation */
+  margin-top: 4px;       /* ऊपर sections से separation */
 }
 
 .share-btn{
@@ -376,50 +373,70 @@ footer{text-align:center;padding:4px;background:#fff3e0;font-size:13px;color:#4e
 <div style="display:flex; gap:16px; flex-wrap:wrap; margin-top:8px; margin-bottom:10px; justify-content:center;">
   
   <button onclick="openChoghadiya()"
-    style="width:72px; height:72px; border-radius:50%; border:none;
-    background:#4a148c; color:#fff; font-size:13px; font-weight:600; display:flex; align-items:center; justify-content:center;">
-    चौघडिया
+    style="padding:7px 12px; border-radius:50px; border:none;
+    background:#4a148c; color:#fff; font-size:15px; font-weight:600; white-space:nowrap;">
+    चौघडिया देखें
   </button>
 
   <button onclick="callJyotishi()"
-    style="width:72px; height:72px; border-radius:50%; border:none;
-    background:#4a148c; color:#fff; font-size:13px; font-weight:600; display:flex; align-items:center; justify-content:center;">
-    ज्योतिषी
+    style="padding:7px 12px; border-radius:50px; border:none;
+    background:#4a148c; color:#fff; font-size:15px; font-weight:600; white-space:nowrap;">
+    ज्योतिषी सम्पर्क
   </button>
 
   <button onclick="openRashiIshta()"
-    style="width:72px; height:72px; border-radius:50%; border:none;
-    background:#4a148c; color:#fff; font-size:13px; font-weight:600; display:flex; align-items:center; justify-content:center;">
-    इष्टदेव
+    style="padding:7px 12px; border-radius:50px; border:none;
+    background:#4a148c; color:#fff; font-size:15px; font-weight:600; white-space:nowrap;">
+    इष्टदेव जानें
   </button>
 </div>
+  
+<div class="card highlight vrat-box">
+  <div class="vrat-left">
+    <h3>🔔 व्रत / त्योहार</h3>
+    <ul id="festivalList"></ul>
+  </div>
 
+  <!-- RIGHT FIXED CATEGORY -->
+  <div class="vrat-right">
+    <div class="vrat-title">📿 व्रत कथाएँ</div>
+
+    <button onclick="openVideoKatha()" class="katha-btn video">
+      ▶️ वीडियो कथा
+    </button>
+
+
+   <button onclick="openAudioModal()" class="katha-btn audio">
+🎧 ऑडियो कथा
+</button>
+  </div>
+</div>
 
 <div class="ask-box">
   <h3 class="ask-heading">AI से जानें भक्ति का भंडार</h3>
   
   <p class="ask-subline">देवी-देवता का नाम लिखें और Ask बटन दबाएं</p>
 
-  <div class="ask-row">
-    <input id="query" placeholder="देवी-देवता लिखें (जैसे: शिव / Shiv)">
-    <button onclick="ask()" style="background:#a83232;color:#fff">Ask</button>
-    <button onclick="resetAsk()" style="background:#1565c0;color:#fff">Reset</button>
-  </div>
+<div class="ask-row">
+  <input id="query" placeholder="देवी-देवता लिखें (जैसे: शिव / Shiv)">
+  <button onclick="ask()">Ask</button>
+  <button onclick="resetAsk()">Reset</button>
+</div>
 
-  <div class="ai-options">
-    <button class="ai-btn" id="btnMantra" onclick="showSection('mantra')"><span class="text">मंत्र</span></button>
-    <button class="ai-btn" id="btnAarti" onclick="showSection('aarti')"><span class="text">आरती</span></button>
-    <button class="ai-btn" id="btnPooja" onclick="showSection('poojaVidhi')"><span class="text">पूजा विधि</span></button>
-    <button class="ai-btn" id="btnChalisa" onclick="showSection('chalisa')"><span class="text">चालीसा</span></button>
-    <button class="ai-btn" id="btnStotra" onclick="showSection('stotra')"><span class="text">स्तोत्र</span></button>
-  </div>
+<div class="ai-options">
+  <button class="ai-btn" onclick="showSection('mantra')"><span class="text">मंत्र</span></button>
+  <button class="ai-btn" onclick="showSection('aarti')"><span class="text">आरती</span></button>
+  <button class="ai-btn" onclick="showSection('poojaVidhi')"><span class="text">पूजा विधि</span></button>
+  <button class="ai-btn" onclick="showSection('chalisa')"><span class="text">चालीसा</span></button>
+  <button class="ai-btn" onclick="showSection('stotra')"><span class="text">स्तोत्र</span></button>
+</div>
 
-  <div id="aiInfo" style="display:none;margin-top:8px;">
-    <h3 id="aiTitle"></h3>
-    <p style="font-size:12px;color:#555">ऊपर दिए गए विकल्पों में से चुनें</p>
-  </div>
+<div id="aiInfo" style="display:none;margin-top:8px;">
+  <h3 id="aiTitle"></h3>
+  <p style="font-size:12px;color:#555">ऊपर दिए गए विकल्पों में से चुनें</p>
+</div>
 
-  <div id="result" class="result"></div>
+<div id="result" class="result"></div>
 </div>
 
 <div class="card"> 
@@ -624,71 +641,73 @@ const aiButtons = document.querySelectorAll(".ai-btn");
 const TYPE_MAP = {
   mantra: "mantra",
   aarti: "aarti",
-  pooja: "poojaVidhi", // ← यहाँ "puja" की जगह "poojaVidhi" रखिएा
+  poojaVidhi: "poojaVidhi", // ← यहाँ "puja" की जगह "poojaVidhi" रखिएा
   chalisa: "chalisa",
   stotra: "stotra",
 };
 
 let bhaktiData = null;
+
 /* ========= ASK ========= */
-async function ask() {
-  let q = query.value.trim().toLowerCase();
-  q = deityAliasMap[q] || q;
+async function ask(){
+  let q=query.value.trim().toLowerCase();
+  q=deityAliasMap[q]||q;
 
-  result.innerHTML = "";
-  aiInfo.style.display = "none";
-  bhaktiData = null;
+  result.innerHTML="";
+  aiInfo.style.display="none";
+  bhaktiData=null;
 
-  aiButtons.forEach(btn => {
-    btn.disabled = true;
+  aiButtons.forEach(btn=>{
+    btn.disabled=true;
     btn.classList.remove("active");
   });
 
-  if (!q) {
-    result.innerHTML = "<p>कृपया देवता का नाम लिखें</p>";
+  if(!q){
+    result.innerHTML="<p>कृपया देवता का नाम लिखें</p>";
     return;
   }
 
-  try {
-    // ✅ Final payload format
-    const res = await fetch("https://bhakti-panchang-backend.onrender.com/api/ask-bhakti", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ deityName: q })   // <-- सही key
+  try{
+    const res=await fetch("https://bhakti-panchang-backend.onrender.com/api/ask-bhakti",{
+      method:"POST",
+      headers:{"Content-Type":"application/json"},
+      body:JSON.stringify({deity:q})
     });
 
-    const data = await res.json();
-    console.log("API RESPONSE:", data);
+    const data=await res.json();
 
-    const content = data.content;
-    const available = data.available || {};
-    if (!content || Object.keys(content).length === 0) {
-      result.innerHTML = "<p>डेटा उपलब्ध नहीं</p>";
+    const content=data?.content||data?.data||data;
+
+    if(!content){
+      result.innerHTML="<p>डेटा उपलब्ध नहीं</p>";
       return;
     }
 
-    bhaktiData = content;
+    bhaktiData=content;
+    console.log("API DATA:", data);
+    console.log("CONTENT:", data.content);
 
-    aiButtons.forEach(btn => {
-      const id = btn.id;
-      const key = TYPE_MAP[id.replace("btn", "").toLowerCase()];
-      const val = bhaktiData[key];
-      const isAvailable = available[key];
+  aiButtons.forEach(btn=>{
+  const uiType = btn.onclick.toString().match(/'(.*?)'/)[1];
+  const key = TYPE_MAP[uiType];
+  const val = bhaktiData[key];
 
-      if (isAvailable && val && (Array.isArray(val) ? val.length > 0 : true)) {
-        btn.disabled = false;
-        btn.classList.add("active");
-      }
-    });
+  let hasData = Array.isArray(val) ? val.length > 0 : !!val;
 
-    aiTitle.innerText = `🙏 ${query.value.trim()}`;
-    aiInfo.style.display = "block";
+  if(hasData){
+    btn.disabled = false;
+    btn.classList.add("active");
+  }
+});
 
-  } catch (e) {
-    console.error("Ask error:", e);
-    result.innerHTML = "<p>सर्वर से उत्तर नहीं मिला</p>";
+    aiTitle.innerText=`🙏 ${query.value.trim()}`;
+    aiInfo.style.display="block";
+
+  }catch(e){
+    result.innerHTML="<p>सर्वर से उत्तर नहीं मिला</p>";
   }
 }
+
 /* ========= SHOW SECTION ========= */
 function showSection(type){
   if(!bhaktiData)return;
@@ -981,6 +1000,7 @@ window.closeSandesh = function () {
     <!-- यहाँ JS से dynamic लिस्ट आएगी -->
   </div>
 </div>
+
 
 </body>
 </html>
