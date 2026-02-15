@@ -630,8 +630,6 @@ const TYPE_MAP = {
 };
 
 let bhaktiData = null;
-
-/* ========= ASK ========= */
 /* ========= ASK ========= */
 async function ask() {
   let q = query.value.trim().toLowerCase();
@@ -652,37 +650,37 @@ async function ask() {
   }
 
   try {
+    // ✅ Variant 1: अगर backend को key "deityName" चाहिए
     const res = await fetch("https://bhakti-panchang-backend.onrender.com/api/ask-bhakti", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ deity: q })
+      body: JSON.stringify({ deityName: q })   // <-- Test this first
     });
+
+    // ✅ Variant 2: अगर backend को सिर्फ़ string चाहिए
+    // const res = await fetch("https://bhakti-panchang-backend.onrender.com/api/ask-bhakti", {
+    //   method: "POST",
+    //   headers: { "Content-Type": "application/json" },
+    //   body: JSON.stringify(q)   // <-- If Variant 1 fails, try this
+    // });
 
     const data = await res.json();
     console.log("API RESPONSE:", data);
 
-    // ✅ Debug logs
-    console.log("AVAILABLE:", data.available);
-    console.log("CONTENT:", data.content);
-
     const content = data.content;
     const available = data.available || {};
     if (!content || Object.keys(content).length === 0) {
-      console.warn("CONTENT EMPTY OR INVALID:", content);
       result.innerHTML = "<p>डेटा उपलब्ध नहीं</p>";
       return;
     }
 
     bhaktiData = content;
-    console.log("BHAKTI DATA:", bhaktiData);
 
     aiButtons.forEach(btn => {
-      const id = btn.id; // btnMantra, btnAarti, btnPooja...
+      const id = btn.id;
       const key = TYPE_MAP[id.replace("btn", "").toLowerCase()];
       const val = bhaktiData[key];
       const isAvailable = available[key];
-
-      console.log("Checking button:", id, "→ key:", key, "→ available:", isAvailable, "→ value:", val);
 
       if (isAvailable && val && (Array.isArray(val) ? val.length > 0 : true)) {
         btn.disabled = false;
@@ -698,6 +696,7 @@ async function ask() {
     result.innerHTML = "<p>सर्वर से उत्तर नहीं मिला</p>";
   }
 }
+
 /* ========= SHOW SECTION ========= */
 function showSection(type){
   if(!bhaktiData)return;
