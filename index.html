@@ -648,17 +648,8 @@ let bhaktiData = null;
 
 /* ========= ASK ========= */
 async function ask() {
-
-const inputBox = document.getElementById("query");
-const raw = inputBox.value.trim();
-
-if (!raw) {
-  result.innerHTML = "<p>कृपया देवता का नाम लिखें</p>";
-  return;
-}
-
-const key = raw.toLowerCase();
-const q = deityAliasMap[key] || raw;
+  const inputBox = document.getElementById("query");
+  const raw = inputBox.value.trim();
 
   result.innerHTML = "";
   aiInfo.style.display = "none";
@@ -669,43 +660,45 @@ const q = deityAliasMap[key] || raw;
     btn.classList.remove("active");
   });
 
-  if (!q) {
+  if (!raw) {
     result.innerHTML = "<p>कृपया देवता का नाम लिखें</p>";
     return;
   }
 
+  // alias mapping
+  const key = raw.toLowerCase();
+  const q = deityAliasMap[key] || raw;
+
   try {
     const res = await fetch("https://bhakti-panchang-backend.onrender.com/api/ask-bhakti", {
-  method: "POST",
-  headers: { "Content-Type": "application/json" },
-  body: JSON.stringify({ deity: q.trim() })
-});
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ deity: q })
+    });
 
-if (!res.ok) {
-  const err = await res.text();
-  console.log("Backend error:", err);
-  result.innerHTML = "<p>डेटा उपलब्ध नहीं</p>";
-  return;
-}
+    if (!res.ok) {
+      result.innerHTML = "<p>डेटा उपलब्ध नहीं</p>";
+      return;
+    }
 
-const data = await res.json();
-console.log("API response:", data);
+    const data = await res.json();
+
+    if (!data || !data.content) {
+      result.innerHTML = "<p>डेटा उपलब्ध नहीं</p>";
+      return;
+    }
 
     bhaktiData = data.content;
 
     aiButtons.forEach(btn => {
-
       const type = btn.getAttribute("onclick").match(/'(.*?)'/)[1];
       const key = TYPE_MAP[type];
       const val = bhaktiData[key];
 
       let hasData = false;
 
-      if (Array.isArray(val)) {
-        hasData = val.length > 0;
-      } else if (typeof val === "string") {
-        hasData = val.trim().length > 0;
-      }
+      if (Array.isArray(val)) hasData = val.length > 0;
+      else if (typeof val === "string") hasData = val.trim().length > 0;
 
       if (hasData) {
         btn.disabled = false;
@@ -713,7 +706,7 @@ console.log("API response:", data);
       }
     });
 
-    aiTitle.innerText = `🙏 ${query.value.trim()}`;
+    aiTitle.innerText = `🙏 ${raw}`;
     aiInfo.style.display = "block";
 
   } catch (e) {
@@ -721,7 +714,6 @@ console.log("API response:", data);
     result.innerHTML = "<p>सर्वर से उत्तर नहीं मिला</p>";
   }
 }
-</script>
 /* ========= SHOW SECTION ========= */
 function showSection(type){
   if(!bhaktiData)return;
