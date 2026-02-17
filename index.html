@@ -255,10 +255,9 @@ footer{text-align:center;padding:4px;background:#fff3e0;font-size:13px;color:#4e
 }
 
 .card {
-  margin-top: 2px;
+  margin: 0;
   border-top: 1px solid #ddd;
-  padding-top: 6px;
-  padding-bottom: 0px;
+  padding: 4px 0 0 0;
 }
 
 .footer-text {
@@ -300,6 +299,11 @@ footer{text-align:center;padding:4px;background:#fff3e0;font-size:13px;color:#4e
   /* सभी buttons एक ही row में */
   .button-row { display:flex; gap:6px; }
   .button-row button { flex:1; min-width:0; }
+  
+  footer {
+  padding:4px 0 !important;
+  margin:0 !important;
+}
 }
 </style>
 </head>
