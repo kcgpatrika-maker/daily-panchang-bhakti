@@ -43,7 +43,10 @@ header{background:linear-gradient(180deg,#ffb300,#f57c00);padding:8px 12px;color
 .result button{display:block;width:100%;margin-top:6px}
 .key-pages ul{margin:0;padding-left:18px}
 .key-pages li{margin:4px 0;font-size:14px}
-footer{text-align:center;padding:2px 0px;background:#fff3e0;font-size:13px;color:#4e342e;line-height:1.5} footer a{display:inline-block;margin-top:0px}
+footer.footer {background: #f5f5f5;font-size: 13px;color: #4e342e;text-align: center;padding: 8px 0;line-height: 1.6;}
+.footer-main {margin-bottom: 4px;font-weight: 500;}
+.footer-links a {margin: 0 6px;color: #4e342e;text-decoration: none;}
+.footer-links a:hover {text-decoration: underline;}
 .ask-heading{display:block;text-align:center;background:#ffe0b2;border:2px solid #000;border-radius:12px;padding:6px;margin:4px 0;color:#bf360c;font-weight:bold;width:100%;box-sizing:border-box}
 .ask-subline{font-size:16px;font-weight:bold;color:#444;margin-bottom:6px}
 .modal{display:none;position:fixed;inset:0;background:rgba(0,0,0,.6);z-index:1000}
@@ -459,13 +462,16 @@ footer{text-align:center;padding:2px 0px;background:#fff3e0;font-size:13px;color
   </div>
 </div>
 
-<footer style="background:#f5f5f5; text-align:center; font-size:13px; padding:6px 0;">
-© 2026 | भक्ति पंचांग | संकलन: कैलाश गौतम
-<br>
-<a href="/privacy.html">Privacy Policy</a> |
-<a href="/about.html">About</a> |
-<a href="/contact.html">Contact</a> |
-<a href="/terms.html">Terms</a>
+<footer class="footer">
+  <div class="footer-main">
+    © 2026 | भक्ति पंचांग | संकलन: कैलाश गौतम
+  </div>
+  <div class="footer-links">
+    <a href="/privacy.html">Privacy Policy</a> |
+    <a href="/about.html">About</a> |
+    <a href="/contact.html">Contact</a> |
+    <a href="/terms.html">Terms</a>
+  </div>
 </footer>
 
 <div class="modal" id="modal">
