@@ -537,7 +537,7 @@ document.getElementById("sandeshBody").innerText = data.dharmikMessage ?? "";
 document.getElementById("sandeshSource").innerText = data.dharmikSource ?? "भक्ति पंचांग";
     }
 
-    // Source (footer / info)
+    // Source (info)
     const panchangSource = document.getElementById("panchangSource");
     if(panchangSource){
       panchangSource.innerText = `📌 स्रोत: ${data.source ?? "Bhakti Panchang API"}`;
