@@ -42,8 +42,7 @@ header{background:linear-gradient(180deg,#ffb300,#f57c00);padding:8px 12px;color
 .result button{display:block;width:100%;margin-top:6px}
 .key-pages ul{margin:0;padding-left:18px}
 .key-pages li{margin:4px 0;font-size:14px}
-footer{text-align:center;font-size:13px;color:#000;padding:10px 0 24px}
-footer a{color:blue;text-decoration:underline;}
+footer{text-align:center;padding:4px;background:#fff3e0;font-size:13px;color:#4e342e}
 .ask-heading{display:block;text-align:center;background:#ffe0b2;border:2px solid #000;border-radius:12px;padding:6px;margin:4px 0;color:#bf360c;font-weight:bold;width:100%;box-sizing:border-box}
 .ask-subline{font-size:16px;font-weight:bold;color:#444;margin-bottom:6px}
 .modal{display:none;position:fixed;inset:0;background:rgba(0,0,0,.6);z-index:1000}
@@ -262,6 +261,15 @@ footer a{color:blue;text-decoration:underline;}
   padding-bottom: 0;
 }
 
+.footer-text {
+  font-size: 13px;        /* readable लेकिन secondary */
+  font-weight: 400;       /* normal weight, ज़्यादा bold नहीं */
+  color: #666;            /* हल्का grey, background पर साफ़ दिखे */
+  text-align: center;     /* mobile पर balanced look */
+  line-height: 1.5;       /* breathing space */
+  margin-top: 4px;       /* ऊपर sections से separation */
+}
+
 .share-btn{
   display:flex;
   flex-direction:column;
@@ -451,6 +459,15 @@ footer a{color:blue;text-decoration:underline;}
   </div>
 </div>
 
+<footer style="background:#f5f5f5; text-align:center; font-size:13px; padding:6px 0;">
+© 2026 | भक्ति पंचांग | संकलन: कैलाश गौतम
+<br>
+<a href="/privacy.html">Privacy Policy</a> |
+<a href="/about.html">About</a> |
+<a href="/contact.html">Contact</a> |
+<a href="/terms.html">Terms</a>
+</footer>
+
 <div class="modal" id="modal">
   <div class="modal-content">
     <span class="close" onclick="modal.style.display='none'">×</span>
@@ -488,14 +505,7 @@ footer a{color:blue;text-decoration:underline;}
     </button>
   </div>
 </div> 
-<footer>
-© 2026 | भक्ति पंचांग | संकलन: कैलाश गौतम
-<br>
-<a href="/privacy.html">Privacy Policy</a> |
-<a href="/about.html">About</a> |
-<a href="/contact.html">Contact</a> |
-<a href="/terms.html">Terms</a>
-</footer>  
+  
 <script>
 /* ===============================
         PANCHANG FETCH + RENDER
@@ -536,7 +546,7 @@ document.getElementById("sandeshBody").innerText = data.dharmikMessage ?? "";
 document.getElementById("sandeshSource").innerText = data.dharmikSource ?? "भक्ति पंचांग";
     }
 
-    // Source (info)
+    // Source (footer / info)
     const panchangSource = document.getElementById("panchangSource");
     if(panchangSource){
       panchangSource.innerText = `📌 स्रोत: ${data.source ?? "Bhakti Panchang API"}`;
