@@ -250,12 +250,68 @@ header{background:linear-gradient(180deg,#ffb300,#f57c00);padding:8px 12px;color
   font-size: 14px;
   color: #333;
 }
+.card {
+  margin-top: 4px;
+  border-top: 1px solid #ddd;
+  padding-top: 8px;   /* Ask सेक्शन से हल्का अलग */
+  padding-bottom: 2px; /* footer से gap न्यूनतम */
+}
+.footer-text {
+  font-size: 13px;        
+  font-weight: 400;       
+  color: #666;            
+  text-align: center;     
+  line-height: 1.5;       
+  margin-top: 4px;        
+}
+
+/* ====== मेरा compact + responsive block ====== */
+body, .container {
+  margin: 0;
+  padding: 0;
+  height: auto;             /* content के हिसाब से height */
+  min-height: 100%;         /* जरूरत पड़ने पर पूरी स्क्रीन cover */
+}
 
 .card {
+  margin-top: 8px;          /* ऊपर sections से हल्का gap */
+  padding-bottom: 12px;     /* Footer से natural separation */
+  border: none;             /* कोई लाइन नहीं */
+}
+
+footer, .footer-text {
+  background: #fff8e1;      
+  text-align: center;       
+  font-size: 13px;          
+  color: #4e342e;           
+  padding: 8px 6px;         
+  border: none !important;  
+  box-shadow: none !important;
+  font-weight: 400;         
+  line-height: 1.5;         
+  margin-top: 8px;          
+}
+
+.modal {
   margin: 0;
-  border-top: 1px solid #ddd;
-  padding-top: 4px;
-  padding-bottom: 0;
+  padding: 0;
+  border: none;
+  box-shadow: none;
+  background: transparent;  
+}
+
+/* Responsive variant */
+@media (max-width: 600px) {
+  footer, .footer-text {
+    font-size: 12px;        
+    padding: 6px 4px;       
+    line-height: 1.4;       
+  }
+
+  .card {
+    margin-top: 6px;        
+    padding-bottom: 10px;   
+  }
 }
 
 .share-btn{
