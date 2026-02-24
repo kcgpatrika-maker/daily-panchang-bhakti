@@ -1,1 +1,321 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>भक्ति पंचांग</title>
+<style>
+/* ===============================
+   बेसिक लेआउट और कार्ड
+=============================== */
+body{margin:0;font-family:sans-serif;background:#fff}
+.header-row{display:flex;justify-content:space-between;align-items:center;padding:8px;background:#f3e5f5}
+.header-title{font-size:18px;font-weight:600;color:#4a148c}
+.tagline{font-size:12px;color:#6a1b9a}
+.section{padding:10px}
+.card{margin-top:8px;padding:8px;border:none!important;box-shadow:none!important;background:#fff}
 
+/* ===============================
+   Footer (फिक्स्ड और क्लियर)
+=============================== */
+footer{background:#fff8e1;text-align:center;font-size:13px;color:#4e342e;padding:8px 6px;border:none!important;box-shadow:none!important;font-weight:400;line-height:1.5;margin:0;width:100%}
+.footer-text{margin-bottom:4px}
+.footer-links{display:block;margin-top:4px;font-size:12px;color:#00695c}
+.footer-links a{color:#00695c;text-decoration:none;margin:0 4px}
+.footer-links a:hover{text-decoration:underline}
+
+/* ===============================
+   Ask Box और बटन
+=============================== */
+.ask-row{display:flex;gap:6px;margin-top:8px}
+.ask-row input{flex:1;max-width:100%;padding:6px}
+.ask-row button{flex:0 0 auto;padding:6px 10px}
+.ai-options{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px;justify-content:center}
+.ai-btn{padding:6px 10px;border:none;border-radius:6px;background:#4a148c;color:#fff;font-size:13px}
+.ai-btn.active{background:#6a1b9a}
+
+/* ===============================
+   Responsive (मोबाइल)
+=============================== */
+@media(max-width:600px){
+  .header-title{font-size:16px}
+  footer{font-size:12px;padding:6px}
+  .footer-links{font-size:11px}
+}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="header-row">
+    <div class="header-left">
+      <img src="/logo.png" alt="Logo" style="height:40px">
+      <div>
+        <div class="header-title">Panchang – Bhakti Guide</div>
+        <div class="tagline">पंचांग • पूजन • त्योहार की जानकारी</div>
+      </div>
+    </div>
+    <div class="header-actions">
+      <div class="share-btn" onclick="sharePage()">🔗 Share</div>
+    </div>
+  </div>
+</header>
+
+<div class="section">
+  <!-- Panchang Wrap -->
+  <div class="panchang-wrap">
+    <div class="panchang-left">
+      <p class="panchang-date"><b id="dateText"></b> | <b id="vaar"></b></p>
+      <p class="panchang-vrat"><span id="maas"></span> · <span id="paksha"></span> · <span id="tithi"></span></p>
+      <p><b>विक्रम संवत:</b> <span id="vikram"></span><span id="vikramName"></span></p>
+      <p><b>शक संवत:</b> <span id="shak"></span><span id="shakName"></span></p>
+      <p>सूर्योदय: <b id="sunrise"></b> | सूर्यास्त: <b id="sunset"></b></p>
+      <p>चंद्रोदय: <b id="moonrise"></b> | चंद्रास्त: <b id="moonset"></b></p>
+      <p id="panchangSource"></p>
+    </div>
+    <div class="panchang-right">
+      <button class="religious-btn" onclick="openReligiousMessage()">✨ आज का धार्मिक संदेश</button>
+    </div>
+  </div>
+
+  <!-- Buttons -->
+  <div style="display:flex;gap:10px;flex-wrap:wrap;justify-content:center;margin:10px 0">
+    <button onclick="openChoghadiya()">चौघडिया देखें</button>
+    <button onclick="callJyotishi()">ज्योतिषी सम्पर्क</button>
+    <button onclick="openRashiIshta()">इष्टदेव जानें</button>
+  </div>
+
+  <!-- Vrat Box -->
+  <div class="card highlight vrat-box">
+    <h3>🔔 व्रत / त्योहार</h3>
+    <ul id="festivalList"></ul>
+    <div class="vrat-right">
+      <button onclick="openVideoKatha()">▶️ वीडियो कथा</button>
+      <button onclick="openAudioModal()">🎧 ऑडियो कथा</button>
+    </div>
+  </div>
+
+  <!-- Ask Box -->
+  <div class="ask-box card">
+    <h3>AI से जानें भक्ति का भंडार</h3>
+    <p>देवी-देवता का नाम लिखें और Ask दबाएं</p>
+    <div class="ask-row">
+      <input id="query" placeholder="देवी-देवता लिखें (जैसे: शिव)">
+      <button onclick="ask()">Ask</button>
+      <button onclick="resetAsk()">Reset</button>
+    </div>
+    <div class="ai-options">
+      <button class="ai-btn" onclick="showSection('mantra')">मंत्र</button>
+      <button class="ai-btn" onclick="showSection('aarti')">आरती</button>
+      <button class="ai-btn" onclick="showSection('poojaVidhi')">पूजा विधि</button>
+      <button class="ai-btn" onclick="showSection('chalisa')">चालीसा</button>
+      <button class="ai-btn" onclick="showSection('stotra')">स्तोत्र</button>
+    </div>
+    <div id="aiInfo" style="display:none;margin-top:8px;">
+      <h3 id="aiTitle"></h3>
+      <p style="font-size:12px;color:#555">ऊपर दिए गए विकल्पों में से चुनें</p>
+    </div>
+    <div id="result" class="result"></div>
+  </div>
+
+  <!-- Channel -->
+  <div class="card">
+    <h3>📺 भक्ति चैनल</h3>
+    <span class="channel-item"><span onclick="window.open('https://aasthatv.tv/channel/live/aastha','_blank')">▶</span> आस्था TV</span>
+    <span class="channel-item"><span onclick="window.open('https://www.sadhna.com/ishwar.html','_blank')">▶</span> ईश्वर TV</span>
+  </div>
+</div>
+
+<footer>
+  <div class="footer-text">© 2026 | भक्ति पंचांग | संकलन: कैलाश गौतम</div>
+  <div class="footer-links">
+    <a href="/privacy.html">प्राइवेसी पॉलिसी</a> | 
+    <a href="/terms.html">नियम एवं शर्तें</a> | 
+    <a href="/contact.html">संपर्क करें</a>
+  </div>
+</footer>
+
+<!-- Modals -->
+<div class="modal" id="sandeshModal">
+  <div class="modal-content">
+    <span class="close" onclick="closeSandesh()">×</span>
+    <h3 id="sandeshTitle">📿 आज का धार्मिक संदेश</h3>
+    <p>स्रोत: <b id="sandeshSource"></b></p>
+    <div id="sandeshBody"></div>
+    <button onclick="shareSandesh()">📤 WhatsApp पर शेयर करें</button>
+  </div>
+</div>
+
+<script>
+/* ===============================
+        PANCHANG FETCH + RENDER
+=============================== */
+async function loadPanchang() {
+  try {
+    const res = await fetch("https://bhakti-panchang-backend.onrender.com/api/panchang", {cache:"no-store"});
+    const data = await res.json();
+
+    // Date & Day
+    dateText.innerText = data.date ?? "—";
+    vaar.innerText = data.day ?? "—";
+
+    // Sunrise / Sunset
+    sunrise.innerText = data.sunrise ?? "—";
+    sunset.innerText = data.sunset ?? "—";
+
+    // Moonrise / Moonset
+    moonrise.innerText = data.moonrise ?? "—";
+    moonset.innerText = data.moonset ?? "—";
+
+    // Vikram & Shak Samvat
+    vikram.innerText = data.vikramSamvat ?? "—";
+    shak.innerText   = data.shakaSamvat ?? "—";
+
+    // Masa, Tithi, Paksha
+    maas.innerText = data.month ?? "—";
+    paksha.innerText = data.paksha ?? "—";
+    tithi.innerText = data.tithi ?? "—";
+
+    // Festivals / Vrat
+    if (Array.isArray(data.festivalList) && data.festivalList.length > 0) {
+      festivalList.innerHTML = data.festivalList.map(f => `<li>${f}</li>`).join("");
+    } else {
+      festivalList.innerHTML = "<li>कोई विशेष व्रत नहीं</li>";
+    }
+
+    // Dharmik Sandesh
+    document.getElementById("sandeshBody").innerText = data.dharmikMessage ?? "";
+    document.getElementById("sandeshSource").innerText = data.dharmikSource ?? "भक्ति पंचांग";
+
+    // Source
+    const panchangSource = document.getElementById("panchangSource");
+    if(panchangSource){
+      panchangSource.innerText = `📌 स्रोत: ${data.source ?? "Bhakti Panchang API"}`;
+    }
+
+  } catch (err) {
+    console.error("Frontend Panchang load error:", err);
+    festivalList.innerHTML = "<li>पंचांग लोड नहीं हो सका</li>";
+  }
+}
+loadPanchang();
+
+/* ===============================
+   ASK BHAKTI – STABLE VERSION
+=============================== */
+const deityAliasMap = {shiv:"शिव",shiva:"शिव",mahadev:"शिव",bholenath:"शिव",shankar:"शिव",hanuman:"हनुमान",bajrangbali:"हनुमान",maruti:"हनुमान",ram:"राम",rama:"राम",shriram:"राम"};
+const query=document.getElementById("query"),result=document.getElementById("result"),aiInfo=document.getElementById("aiInfo"),aiTitle=document.getElementById("aiTitle"),aiButtons=document.querySelectorAll(".ai-btn");
+const TYPE_MAP={mantra:"mantra",aarti:"aarti",poojaVidhi:"poojaVidhi",chalisa:"chalisa",stotra:"stotra"};
+let bhaktiData=null;
+
+async function ask(){
+  const raw=query.value.trim();
+  result.innerHTML="";aiInfo.style.display="none";bhaktiData=null;
+  aiButtons.forEach(btn=>{btn.disabled=true;btn.classList.remove("active")});
+  if(!raw){result.innerHTML="<p>कृपया देवता का नाम लिखें</p>";return;}
+  const key=raw.toLowerCase();const q=deityAliasMap[key]||raw;
+  try{
+    const res=await fetch("https://bhakti-panchang-backend.onrender.com/api/ask-bhakti",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({deity:q})});
+    if(!res.ok){result.innerHTML="<p>डेटा उपलब्ध नहीं</p>";return;}
+    const data=await res.json();
+    if(!data||!data.content){result.innerHTML="<p>डेटा उपलब्ध नहीं</p>";return;}
+    bhaktiData=data.content;
+    aiButtons.forEach(btn=>{
+      const type=btn.getAttribute("onclick").match(/'(.*?)'/)[1];
+      const val=bhaktiData[TYPE_MAP[type]];
+      let hasData=false;
+      if(Array.isArray(val))hasData=val.length>0;else if(typeof val==="string")hasData=val.trim().length>0;
+      if(hasData){btn.disabled=false;btn.classList.add("active")}
+    });
+    aiTitle.innerText=`🙏 ${raw}`;aiInfo.style.display="block";
+  }catch(e){console.error(e);result.innerHTML="<p>सर्वर से उत्तर नहीं मिला</p>";}
+}
+
+function showSection(type){
+  if(!bhaktiData)return;
+  aiButtons.forEach(btn=>btn.classList.remove("active"));
+  const activeBtn=document.querySelector(`.ai-btn[onclick*="${type}"]`);
+  if(activeBtn)activeBtn.classList.add("active");
+  const data=bhaktiData[TYPE_MAP[type]];if(!data)return;
+  let html="";
+  if(type==="mantra"&&Array.isArray(data)){data.forEach(line=>{const t=typeof line==="string"?line.trim():"";if(t)html+=`<p>${t}</p>`})}
+  else if(type==="aarti"&&Array.isArray(data)){data.forEach(item=>{html+=`<p><b>${item.title||""}</b></p>`;if(Array.isArray(item.aarti)){item.aarti.forEach(line=>{html+=`<p>${line}</p>`})}html+="<hr>"})}
+  else if(type==="poojaVidhi"&&Array.isArray(data)){data.forEach(item=>{if(item.text){html+=`<p>${item.text}</p><hr>`}if(item.pdf){html+=`<p><a href="${item.pdf}" target="_blank">📄 ${item.source||"PDF लिंक"}</a></p><hr>`}})}
+  else if(type==="chalisa"&&Array.isArray(data)){data.forEach(item=>{if(item.pdf){html+=`<p><a href="${item.pdf}" target="_blank">📄 ${item.source||"PDF लिंक"}</a></p><hr>`}if(item.text){html+=`<p>${item.text}</p><hr>`}})}
+  else if(type==="stotra"&&Array.isArray(data)){data.forEach(item=>{if(item.pdf){html+=`<p><a href="${item.pdf}" target="_blank">📄 ${item.source||"PDF लिंक"}</a></p><hr>`}if(item.text){html+=`<p>${item.text}</p><hr>`}})}
+  result.innerHTML=html||"<p>डेटा उपलब्ध नहीं</p>";result.scrollIntoView({behavior:"smooth"});
+}
+
+function resetAsk(){query.value="";result.innerHTML="";aiInfo.style.display="none";bhaktiData=null;aiButtons.forEach(btn=>{btn.disabled=true;btn.classList.remove("active")})}
+
+/* ===============================
+   Religious Message
+=============================== */
+const dharmikSandeshMap = {
+  "सोमवार": "शिवजी की आराधना से जीवन में शांति और सुख मिलता है।",
+  "मंगलवार": "हनुमानजी की भक्ति से साहस और शक्ति प्राप्त होती है।",
+  "बुधवार": "गणेशजी की पूजा से बुद्धि और सफलता मिलती है।",
+  "गुरुवार": "विष्णुजी की आराधना से धर्म और ज्ञान की प्राप्ति होती है।",
+  "शुक्रवार": "माँ लक्ष्मी की पूजा से धन और समृद्धि आती है।",
+  "शनिवार": "शनि देव की उपासना से कठिनाइयाँ दूर होती हैं।",
+  "रविवार": "सूर्य देव की आराधना से स्वास्थ्य और ऊर्जा मिलती है।"
+};
+
+function renderSandesh({ text, source }) {
+  document.getElementById("sandeshBody").innerText = text || "आज का संदेश उपलब्ध नहीं है।";
+  document.getElementById("sandeshSource").innerText = source || "भक्ति पंचांग";
+  document.getElementById("sandeshModal").style.display = "block";
+}
+
+window.openReligiousMessage = async function () {
+  try {
+    const res = await fetch("https://bhakti-panchang-backend.onrender.com/api/panchang", { cache: "no-store" });
+    const data = await res.json();
+    if (data?.dharmikMessage) {
+      renderSandesh({ text: data.dharmikMessage, source: data.dharmikSource });
+    } else {
+      const day = document.getElementById("vaar").innerText.trim();
+      renderSandesh({ text: dharmikSandeshMap[day], source: "भक्ति पंचांग (Fallback)" });
+    }
+  } catch (e) {
+    const day = document.getElementById("vaar").innerText.trim();
+    renderSandesh({ text: dharmikSandeshMap[day], source: "भक्ति पंचांग (Fallback)" });
+  }
+};
+
+window.shareSandesh = function () {
+  const text = document.getElementById("sandeshBody").innerText;
+  const source = document.getElementById("sandeshSource").innerText;
+  window.open(`https://wa.me/?text=${encodeURIComponent("📖 आज का धार्मिक संदेश:\n\n" + text + "\n\nस्रोत: " + source)}`);
+};
+
+window.closeSandesh = function () {
+  document.getElementById("sandeshModal").style.display = "none";
+};
+
+/* ===============================
+   Common Modal Close
+=============================== */
+document.querySelectorAll(".modal .close").forEach(btn => {
+  btn.onclick = () => btn.closest(".modal").style.display = "none";
+});
+
+/* ===============================
+   Utility Functions
+=============================== */
+function openChoghadiya() {
+  document.getElementById("choghadiyaModal")?.style.display = "block";
+}
+function callJyotishi() {
+  window.location.href = "tel:+919999999999";
+}
+function openRashiIshta() {
+  document.getElementById("rashiModal")?.style.display = "block";
+}
+function sharePage() {
+  const url = window.location.href;
+  window.open(`https://wa.me/?text=${encodeURIComponent("📅 भक्ति पंचांग देखें: " + url)}`);
+}
+</script>
+</body>
+</html>
