@@ -45,7 +45,7 @@ header{background:linear-gradient(180deg,#ffb300,#f57c00);padding:8px 12px;color
 .modal{margin:0;padding:0;border:none;box-shadow:none;background:transparent;display:none;position:fixed;inset:0;background:rgba(0,0,0,.6);z-index:1000}
 .modal-content{background:#fff;border-radius:12px;margin:12% auto;padding:15px;width:90%;max-height:70%;overflow-y:auto}
 .close{float:right;font-size:20px;cursor:pointer}
-footer,.footer-text{background:#fff8e1;text-align:center;font-size:13px;color:#4e342e;padding:8px 6px;border:none!important;box-shadow:none!important;font-weight:400;line-height:1.5;margin-top:0;position:relative;bottom:0;width:100%}
+footer,.footer-text{background:#fff8e1;text-align:center;font-size:13px;color:#4e342e;padding:8px 6px;border:none!important;box-shadow:none!important;font-weight:400;line-height:1.5;margin:0;width:100%}
 .footer-links{display:block;margin-top:4px;clear:both}
 .footer-links a{font-size:12px;color:#00695c;text-decoration:none;margin:0 4px;}
 .footer-links a:hover{text-decoration:underline;}
@@ -262,65 +262,6 @@ footer,.footer-text{background:#fff8e1;text-align:center;font-size:13px;color:#4
   padding-top: 8px;   /* Ask सेक्शन से हल्का अलग */
   padding-bottom: 2px; /* footer से gap न्यूनतम */
 }
-.footer-text {
-  font-size: 13px;        
-  font-weight: 400;       
-  color: #666;            
-  text-align: center;     
-  line-height: 1.5;       
-  margin-top: 4px;        
-}
-
-/* ====== मेरा compact + responsive block ====== */
-body, .container {
-  margin: 0;
-  padding: 0;
-  height: auto;             /* content के हिसाब से height */
-  min-height: 100%;         /* जरूरत पड़ने पर पूरी स्क्रीन cover */
-}
-
-.card {
-  margin-top: 8px;          /* ऊपर sections से हल्का gap */
-  padding-bottom: 4px;     /* Footer से natural separation */
-  border: none;             /* कोई लाइन नहीं */
-}
-
-footer, .footer-text {
-  background: #fff8e1;      
-  text-align: center;       
-  font-size: 13px;          
-  color: #4e342e;           
-  padding: 8px 6px;         
-  border: none !important;  
-  box-shadow: none !important;
-  font-weight: 400;         
-  line-height: 1.5;         
-  margin-top: 0;
-  position:relative;
-}
-
-.modal {
-  margin: 0;
-  padding: 0;
-  border: none;
-  box-shadow: none;
-  background: transparent;  
-}
-
-/* Responsive variant */
-@media (max-width: 600px) {
-  footer, .footer-text {
-    font-size: 12px;        
-    padding: 6px 4px;       
-    line-height: 1.4;       
-  }
-
-  .card {
-    margin-top: 6px;        
-    padding-bottom: 10px;   
-  }
-}
-
 .share-btn{
   display:flex;
   flex-direction:column;
