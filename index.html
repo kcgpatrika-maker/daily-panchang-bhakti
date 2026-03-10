@@ -49,16 +49,16 @@ header{background:linear-gradient(180deg,#ffb300,#f57c00);padding:8px 12px;color
 
 .panchang-source{margin:4px 0 0;font-size:12px;color:#666}
 
-.ask-row{display:flex;gap:8px;margin:8px 0;flex-wrap:wrap}
+.ask-row{display:flex;gap:8px;margin:8px 0} 
 
-.ask-row input{flex:1 1 180px;padding:10px;border-radius:8px;border:1px solid #ccc}
-
+.ask-row input{flex:1;padding:10px;border-radius:8px;border:1px solid #ccc}
+  
 .ask-row button{padding:12px 14px;border-radius:50px;border:none;font-weight:600}
 
 .ask-row button:first-of-type{background:#a83232;color:#fff}
-
+  
 .ask-row button:last-of-type{background:#1565c0;color:#fff}
-
+  
 .highlight{background:linear-gradient(135deg,#ffe082,#ffcc80);border-left:5px solid #ff6f00}
 
 .highlight h3{margin:0 0 6px;font-size:15px;color:#b71c1c}
@@ -79,7 +79,7 @@ header{background:linear-gradient(180deg,#ffb300,#f57c00);padding:8px 12px;color
 
 .ask-subline{font-size:16px;font-weight:bold;color:#444;margin-bottom:6px}
 
-.modal{display:none;position:fixed;inset:0;background:rgba(0,0,0,.6);z-index:1000}
+.modal{margin:0;padding:0;border:none;box-shadow:none;background:transparent;display:none;position:fixed;inset:0;background:rgba(0,0,0,.6);z-index:1000}
 
 .modal-content{background:#fff;border-radius:12px;margin:12% auto;padding:15px;width:90%;max-height:70%;overflow-y:auto}
 
@@ -153,24 +153,22 @@ display:flex;
 gap:8px;
 margin-top:0;
 background:#fff8e1;
-flex-wrap:wrap;
-justify-content:center;
 }
 
-.ai-btn{
-flex:0 0 auto;
-border:1px solid #81c784;
-border-radius:50%;
-background:#c8e6c9;
-color:#1b5e20;
-width:64px;
-height:64px;
-font-size:16px;
-text-align:center;
-cursor:not-allowed;
-display:flex;
-align-items:center;
-justify-content:center;
+.ai-btn {
+  flex: 1;
+  border: 1px solid #81c784; /* हल्का हरा बॉर्डर */
+  border-radius: 50%;        /* अब पूरी तरह गोल */
+  background: #c8e6c9;       /* हल्का हरा shade */
+  color: #1b5e20;
+  width: 64px;               /* fix चौड़ाई */
+  height: 64px;              /* fix ऊँचाई */
+  font-size: 16px;
+  text-align: center;
+  cursor: not-allowed;
+  display: flex;
+  align-items: center;
+  justify-content: center;   /* टेक्स्ट को बीच में रखने के लिए */
 }
 
 .ai-btn .text{
@@ -348,17 +346,17 @@ color:#fff;
   /* Text sizes */
   .panchang-left{font-size:14px}
   .panchang-left p:first-child{font-size:17px;font-weight:700}
-  .btn-label{font-size:14px}
-  .ai-btn{font-size:16px;padding:12px 6px}
+  .btn-label{font-size:15px}
+  .ai-btn{font-size:18px;padding:14px 8px}
 
   /* Header हमेशा एक लाइन में */
   .header-row{flex-wrap:nowrap}
-  .header-title{font-size:17px;white-space:nowrap}
-  .tagline{font-size:12px}
+  .header-title{font-size:18px;white-space:nowrap}
+  .tagline{font-size:13px}
 
   /* Buttons row responsive */
   .button-row{display:flex;gap:6px}
-  .button-row button{flex:1 1 18%;min-width:0}
+  .button-row button { flex:1; min-width:0; }
   
   /* Panchang stacking */
   .panchang-wrap{flex-direction:row;align-items:flex-start;justify-content:space-between}
