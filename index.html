@@ -359,10 +359,11 @@ color:#fff;
   /* Buttons row responsive */
   .button-row{display:flex;gap:6px}
   .button-row button{flex:1;min-width:0}
+  .button-row{flex-wrap:wrap}
 
   /* Panchang stacking */
-  .panchang-wrap{flex-direction:column;align-items:flex-start}
-  .panchang-right{align-items:flex-start;margin-top:8px}
+  .panchang-wrap{flex-direction:row;align-items:flex-start;justify-content:space-between}
+  .panchang-right{align-items:flex-end;margin-top:0}
 
 }
 /* ===== LOADING SPINNER ===== */
