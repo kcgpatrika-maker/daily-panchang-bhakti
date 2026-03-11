@@ -1390,14 +1390,20 @@ function resetAsk(){
 }
 /* ===== Common Functions ===== */
 
-function openChoghadiya() {
-  document.getElementById("choghadiyaModal").style.display = "block";
+function openChoghadiya(){
+  modalTitle.innerText="⏰ आज का चौघड़िया";
+  modalBody.innerHTML=`<img src="choghadiya.png" style="width:100%">`;
+  modal.style.display="block";
 }
-function callJyotishi() {
-  window.location.href = "tel:+919414335462";
+
+function callJyotishi(){
+  window.location.href="tel:919414335462";
 }
-function openRashiIshta() {
-  document.getElementById("rashiModal").style.display = "block";
+
+function openRashiIshta(){
+  modalTitle.innerText="🔮 राशि अनुसार इष्ट देव";
+  modalBody.innerHTML=`<img src="rashi-ishta-dev.png" style="width:100%">`;
+  modal.style.display="block";
 }
 /* ===== SHARE PAGE ===== */
 
