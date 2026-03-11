@@ -79,7 +79,7 @@ header{background:linear-gradient(180deg,#ffb300,#f57c00);padding:8px 12px;color
 
 .ask-subline{font-size:16px;font-weight:bold;color:#444;margin-bottom:6px}
 
-.modal{margin:0;padding:0;border:none;box-shadow:none;background:transparent;display:none;position:fixed;inset:0;background:rgba(0,0,0,.6);z-index:1000}
+.modal{display:none;position:fixed;inset:0;background:rgba(0,0,0,.6);z-index:1000}
 
 .modal-content{background:#fff;border-radius:12px;margin:12% auto;padding:15px;width:90%;max-height:70%;overflow-y:auto}
 
@@ -346,8 +346,8 @@ color:#fff;
   /* Text sizes */
   .panchang-left{font-size:14px}
   .panchang-left p:first-child{font-size:17px;font-weight:700}
-  .btn-label{font-size:15px}
-  .ai-btn{font-size:18px;padding:14px 8px}
+  .btn-label{font-size:14px}
+  .ai-btn{font-size:16px;padding:12px 6px}
 
   /* Header हमेशा एक लाइन में */
   .header-row{flex-wrap:nowrap}
@@ -360,7 +360,7 @@ color:#fff;
   
   /* Panchang stacking */
   .panchang-wrap{flex-direction:row;align-items:flex-start;justify-content:space-between}
-  .panchang-right{align-items:flex-end;margin-top:2}
+  .panchang-right{align-items:flex-end;margin-top:4}
 
 }
 /* ===== LOADING SPINNER ===== */
@@ -1388,15 +1388,30 @@ function resetAsk(){
   });
 
 }
-// ===== Common Functions =====
-function openChoghadiya() {
-  document.getElementById("choghadiyaModal").style.display = "block";
+/* ===== Common Functions ===== */
+
+function openChoghadiya(){
+
+  const modal = document.getElementById("choghadiyaModal");
+
+  if(modal) modal.style.display="block";
+
 }
-function callJyotishi() {
-  window.location.href = "tel:+919414335462";
+
+
+function callJyotishi(){
+
+  window.location.href="tel:+919999999999";
+
 }
-function openRashiIshta() {
-  document.getElementById("rashiModal").style.display = "block";
+
+
+function openRashiIshta(){
+
+  const modal = document.getElementById("rashiModal");
+
+  if(modal) modal.style.display="block";
+
 }
 
 /* ===== SHARE PAGE ===== */
