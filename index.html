@@ -360,7 +360,7 @@ color:#fff;
   
   /* Panchang stacking */
   .panchang-wrap{flex-direction:row;align-items:flex-start;justify-content:space-between}
-  .panchang-right{align-items:flex-end;margin-top:0}
+  .panchang-right{align-items:flex-end;margin-top:2}
 
 }
 /* ===== LOADING SPINNER ===== */
@@ -1388,36 +1388,16 @@ function resetAsk(){
   });
 
 }
-/* ===============================
-      COMMON MODALS
-=============================== */
-
-/* ===== Common Functions ===== */
-
-function openChoghadiya(){
-
-  const modal = document.getElementById("choghadiyaModal");
-
-  if(modal) modal.style.display="block";
-
+// ===== Common Functions =====
+function openChoghadiya() {
+  document.getElementById("choghadiyaModal").style.display = "block";
 }
-
-
-function callJyotishi(){
-
-  window.location.href="tel:+919999999999";
-
+function callJyotishi() {
+  window.location.href = "tel:+919414335462";
 }
-
-
-function openRashiIshta(){
-
-  const modal = document.getElementById("rashiModal");
-
-  if(modal) modal.style.display="block";
-
+function openRashiIshta() {
+  document.getElementById("rashiModal").style.display = "block";
 }
-
 
 /* ===== SHARE PAGE ===== */
 
