@@ -721,30 +721,47 @@ color:#fff;
 /* ===============================
         PANCHANG FETCH + RENDER
 =============================== */
-
 async function loadPanchang(retry=0){
-document.getElementById("loadingSpinner").style.display = "block";
 
-  try{
+const spinner=document.getElementById("loadingSpinner");
+spinner.style.display="block";
 
-    // Loading indicator (future spinner support)
-    document.body.classList.add("loading");
+try{
 
-    const controller = new AbortController();
-    const timeout = setTimeout(()=>controller.abort(),8000);
+document.body.classList.add("loading");
 
-    const res = await fetch(
-      "https://bhakti-panchang-backend.onrender.com/api/panchang",
-      {signal:controller.signal}
-    );
+const controller=new AbortController();
+const timeout=setTimeout(()=>controller.abort(),15000);
 
-    clearTimeout(timeout);
+const res=await fetch(
+"https://bhakti-panchang-backend.onrender.com/api/panchang",
+{signal:controller.signal}
+);
 
-    if(!res.ok){
-      throw new Error("API response error");
-    }
+clearTimeout(timeout);
 
-    const data = await res.json();
+if(!res.ok){
+throw new Error("API response error");
+}
+
+const data=await res.json();
+
+renderPanchang(data);
+
+}
+
+catch(err){
+console.log("Panchang error",err);
+}
+
+finally{
+
+spinner.style.display="none";
+document.body.classList.remove("loading");
+
+}
+
+}
 
 
     /* DATE + DAY */
