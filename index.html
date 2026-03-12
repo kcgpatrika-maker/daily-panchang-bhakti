@@ -722,46 +722,28 @@ color:#fff;
         PANCHANG FETCH + RENDER
 =============================== */
 async function loadPanchang(retry=0){
+document.getElementById("loadingSpinner").style.display = "block";
 
-const spinner=document.getElementById("loadingSpinner");
-spinner.style.display="block";
+  try{
 
-try{
+    // Loading indicator (future spinner support)
+    document.body.classList.add("loading");
 
-document.body.classList.add("loading");
+    const controller = new AbortController();
+    const timeout = setTimeout(()=>controller.abort(),8000);
 
-const controller=new AbortController();
-const timeout=setTimeout(()=>controller.abort(),15000);
+    const res = await fetch(
+      "https://bhakti-panchang-backend.onrender.com/api/panchang",
+      {signal:controller.signal}
+    );
 
-const res=await fetch(
-"https://bhakti-panchang-backend.onrender.com/api/panchang",
-{signal:controller.signal}
-);
+    clearTimeout(timeout);
 
-clearTimeout(timeout);
+    if(!res.ok){
+      throw new Error("API response error");
+    }
 
-if(!res.ok){
-throw new Error("API response error");
-}
-
-const data=await res.json();
-
-renderPanchang(data);
-
-}
-
-catch(err){
-console.log("Panchang error",err);
-}
-
-finally{
-
-spinner.style.display="none";
-document.body.classList.remove("loading");
-
-}
-
-}
+    const data = await res.json();
 
 
     /* DATE + DAY */
