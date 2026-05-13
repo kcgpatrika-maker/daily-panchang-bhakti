@@ -94,7 +94,45 @@ footer,.footer-text{background:#fff8e1;text-align:center;font-size:13px;color:#4
 .footer-links a{font-size:12px;color:#00695c;text-decoration:none;margin:0 4px}
 
 .footer-links a:hover{text-decoration:underline}
+/* ===== Pandit Service Button ===== */
 
+.pandit-service-wrap{
+text-align:center;
+margin:10px 0 14px;
+}
+
+.pandit-btn{
+width:100%;
+padding:10px 12px;
+border:none;
+border-radius:50px;
+background:linear-gradient(90deg,#6a1b9a,#4a148c);
+color:#fff;
+font-size:14px;
+font-weight:600;
+cursor:pointer;
+box-shadow:0 2px 6px rgba(0,0,0,.18);
+}
+
+.pandit-highlight{
+color:#ffd54f;
+font-weight:800;
+}
+
+.pandit-call-btn{
+display:block;
+width:100%;
+margin-top:8px;
+padding:10px;
+border:none;
+border-radius:10px;
+background:#4a148c;
+color:#fff;
+font-size:15px;
+font-weight:600;
+text-decoration:none;
+box-sizing:border-box;
+}
 /* ===== Vrat Katha Right Panel Fix ===== */
 
 .vrat-box{
@@ -653,7 +691,19 @@ color:#fff;
 यहाँ आपको आज का पंचांग, व्रत-त्योहार और भक्ति से जुड़ी जानकारी सरल रूप में मिलती है।
 </p>
 </div>
-  
+
+<div class="pandit-service-wrap">
+
+<button class="pandit-btn"
+onclick="openPanditService()">
+
+📞 <span class="pandit-highlight">
+पंडित सेवा
+</span> : पूजा एवं अनुष्ठान हेतु
+
+</button>
+
+</div>     
 <footer>
 
 © 2026 | भक्ति पंचांग | संकलन: कैलाश गौतम
@@ -1414,6 +1464,43 @@ function openRashiIshta(){
   modalBody.innerHTML=`<img src="rashi-ishta-dev.png" style="width:100%">`;
   modal.style.display="block";
 }
+
+function openPanditService(){
+
+modalTitle.innerText="📿 पूजा एवं अनुष्ठान हेतु पंडित सेवा";
+
+modalBody.innerHTML=`
+
+<a class="pandit-call-btn"
+href="tel:6377419075">
+📞 पं. महेश कुमार
+</a>
+
+<a class="pandit-call-btn"
+href="tel:9214501767">
+📞 पं. रमेश कुमार
+</a>
+
+<a class="pandit-call-btn"
+href="tel:0000000000">
+📞 पं. अंकित (शीघ्र उपलब्ध)
+</a>
+
+<a class="pandit-call-btn"
+href="#">
+📞 पं. (शीघ्र उपलब्ध)
+</a>
+
+<a class="pandit-call-btn"
+href="#">
+📞 पं. (शीघ्र उपलब्ध)
+</a>
+
+`;
+
+modal.style.display="block";
+
+}     
 /* ===== SHARE PAGE ===== */
 
 function sharePage(){
