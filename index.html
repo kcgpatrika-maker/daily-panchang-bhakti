@@ -96,42 +96,36 @@ footer,.footer-text{background:#fff8e1;text-align:center;font-size:13px;color:#4
 .footer-links a:hover{text-decoration:underline}
 /* ===== Pandit Service Button ===== */
 
-.pandit-service-wrap{
-text-align:center;
-margin:2px 0 10px;
-}
-
 .pandit-btn{
 width:100%;
-padding:10px 12px;
 border:none;
 border-radius:50px;
-background:linear-gradient(90deg,#ff9800,#f57c00);
-color:#fff;
-font-size:14px;
-font-weight:600;
+background:#fff;
+display:flex;
+align-items:center;
+overflow:hidden;
+padding:0;
 cursor:pointer;
 box-shadow:0 2px 6px rgba(0,0,0,.18);
 }
 
-.pandit-highlight{
-color:#d50000;
+.pandit-text{
+padding:10px 14px;
+background:#fff3cd;
+color:#c62828;
 font-weight:800;
+font-size:14px;
+white-space:nowrap;
 }
 
-.pandit-call-btn{
-display:block;
-width:100%;
-margin-top:8px;
-padding:10px;
-border:none;
-border-radius:10px;
-background:#4a148c;
+.pandit-call{
+flex:1;
+padding:10px 12px;
+background:linear-gradient(90deg,#ff9800,#f57c00);
 color:#fff;
-font-size:15px;
+font-size:14px;
 font-weight:600;
-text-decoration:none;
-box-sizing:border-box;
+text-align:center;
 }
 /* ===== Vrat Katha Right Panel Fix ===== */
 
@@ -252,6 +246,7 @@ flex-direction:column;
 align-items:center;
 justify-content:center;
 min-width:92px;
+margin-top:8px;
 }
 
 .religious-btn{
@@ -360,10 +355,12 @@ color:#333;
 
 .card{
 margin-top:8px;
-padding-bottom:12px;
+padding-bottom:4px;
 border:none;
 }
-
+.card p{
+margin-bottom:4px;
+}
 /* ===== Share Button ===== */
 
 .share-btn{
@@ -697,9 +694,13 @@ color:#fff;
 <button class="pandit-btn"
 onclick="openPanditService()">
 
-📞 <span class="pandit-highlight">
+<span class="pandit-text">
 पंडित सेवा
-</span> : पूजा एवं अनुष्ठान हेतु
+</span>
+
+<span class="pandit-call">
+📞 पूजा एवं अनुष्ठान हेतु
+</span>
 
 </button>
 
