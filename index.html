@@ -403,6 +403,117 @@ font-size:13px;
 font-weight:600;
 color:#fff;
 }
+/* ===== धार्मिक ज्ञान कोष ===== */
+
+.knowledge-box{
+
+background:#fff;
+
+padding:12px;
+
+margin:12px 0;
+
+border-radius:12px;
+
+box-shadow:0 2px 6px rgba(0,0,0,.12);
+
+}
+
+.knowledge-box h3{
+
+margin:0 0 10px;
+
+text-align:center;
+
+font-size:20px;
+
+color:#b71c1c;
+
+}
+
+.knowledge-card{
+
+display:flex;
+
+justify-content:space-between;
+
+align-items:center;
+
+background:#fff8e1;
+
+border-left:5px solid #ff9800;
+
+padding:12px;
+
+margin-bottom:10px;
+
+border-radius:10px;
+
+cursor:pointer;
+
+transition:.25s;
+
+}
+
+.knowledge-card:hover{
+
+background:#fff3cd;
+
+transform:translateY(-2px);
+
+}
+
+.k-title{
+
+font-size:17px;
+
+font-weight:700;
+
+color:#bf360c;
+
+margin-bottom:4px;
+
+}
+
+.k-text{
+
+font-size:14px;
+
+color:#555;
+
+}
+
+.k-arrow{
+
+font-size:26px;
+
+color:#ff6f00;
+
+font-weight:bold;
+
+}
+
+@media(max-width:600px){
+
+.k-title{
+
+font-size:16px;
+
+}
+
+.k-text{
+
+font-size:13px;
+
+}
+
+.k-arrow{
+
+font-size:22px;
+
+}
+
+}     
 /* ===== MOBILE ===== */
 @media (max-width:600px){
 
@@ -706,15 +817,6 @@ color:#fff;
 
 </div>
 
-<div class="card">
-<h3>पंचांग क्या है?</h3>
-<p>
-पंचांग हिंदू कैलेंडर का महत्वपूर्ण भाग है। इसमें तिथि, वार, नक्षत्र, योग और करण की जानकारी दी जाती है। 
-धार्मिक कार्य, व्रत और पूजा के लिए लोग रोज़ पंचांग देखते हैं। 
-यहाँ आपको आज का पंचांग, व्रत-त्योहार और भक्ति से जुड़ी जानकारी सरल रूप में मिलती है।
-</p>
-</div>
-
 <div class="pandit-service-wrap">
 
 <button class="pandit-btn"
@@ -731,6 +833,118 @@ onclick="openPanditService()">
 </button>
 
 </div> 
+
+<!-- ===== धार्मिक ज्ञान कोष ===== -->
+
+<div class="knowledge-box">
+
+<h3>📚 धार्मिक ज्ञान कोष</h3>
+
+<div class="knowledge-card"
+onclick="location.href='yatra.html'">
+
+<div>
+
+<div class="k-title">
+🚩 प्रमुख धार्मिक यात्राएँ
+</div>
+
+<div class="k-text">
+भारत के प्रमुख तीर्थ, धाम एवं यात्रा मार्ग
+</div>
+
+</div>
+
+<div class="k-arrow">➜</div>
+
+</div>
+
+
+<div class="knowledge-card"
+onclick="location.href='mandir.html'">
+
+<div>
+
+<div class="k-title">
+🛕 प्रमुख मंदिर
+</div>
+
+<div class="k-text">
+इतिहास, धार्मिक महत्व एवं दर्शन जानकारी
+</div>
+
+</div>
+
+<div class="k-arrow">➜</div>
+
+</div>
+
+
+<div class="knowledge-card"
+onclick="location.href='mele.html'">
+
+<div>
+
+<div class="k-title">
+🎉 प्रमुख मेले-उत्सव
+</div>
+
+<div class="k-text">
+भारत के प्रसिद्ध धार्मिक मेले एवं उत्सव
+</div>
+
+</div>
+
+<div class="k-arrow">➜</div>
+
+</div>
+
+
+<div class="knowledge-card"
+onclick="location.href='sant.html'">
+
+<div>
+
+<div class="k-title">
+🙏 भक्ति संत एवं भजन
+</div>
+
+<div class="k-text">
+महान संतों का जीवन, विचार एवं भक्ति साहित्य
+</div>
+
+</div>
+
+<div class="k-arrow">➜</div>
+
+</div>
+
+</div>     
+<footer>
+
+© 2026 | भक्ति पंचांग | संकलन: कैलाश गौतम
+
+<div class="footer-links">
+
+<a href="/about.html">हमारे बारे में</a> | 
+<a href="/privacy.html">प्राइवेसी पॉलिसी</a> | 
+<a href="/terms.html">नियम एवं शर्तें</a> | 
+<a href="/contact.html">संपर्क करें</a>
+
+</div>
+</footer>
+</div> 
+<div class="card">
+
+<h3>भक्ति और पूजा का महत्व</h3>
+
+<p>
+भारतीय संस्कृति में दैनिक पूजा, मंत्र जाप और व्रत का विशेष महत्व माना गया है।
+नियमित पूजा और आध्यात्मिक अभ्यास से मन को शांति, सकारात्मक ऊर्जा और आत्मिक संतुलन प्राप्त होता है।
+भक्ति पंचांग का उद्देश्य धार्मिक जानकारी को सरल रूप में लोगों तक पहुँचाना है ताकि दैनिक जीवन में धर्म और आध्यात्मिकता से जुड़ाव बना रहे।
+</p>
+
+</div>
 <div class="card">
 
 <h3>भक्ति पंचांग में क्या-क्या मिलता है?</h3>
@@ -750,33 +964,14 @@ onclick="openPanditService()">
 <li>भक्ति चैनल और धार्मिक सामग्री</li>
 
 </ul>
-
-</div> 
 <div class="card">
-
-<h3>भक्ति और पूजा का महत्व</h3>
-
+<h3>पंचांग क्या है?</h3>
 <p>
-भारतीय संस्कृति में दैनिक पूजा, मंत्र जाप और व्रत का विशेष महत्व माना गया है।
-नियमित पूजा और आध्यात्मिक अभ्यास से मन को शांति, सकारात्मक ऊर्जा और आत्मिक संतुलन प्राप्त होता है।
-भक्ति पंचांग का उद्देश्य धार्मिक जानकारी को सरल रूप में लोगों तक पहुँचाना है ताकि दैनिक जीवन में धर्म और आध्यात्मिकता से जुड़ाव बना रहे।
+पंचांग हिंदू कैलेंडर का महत्वपूर्ण भाग है। इसमें तिथि, वार, नक्षत्र, योग और करण की जानकारी दी जाती है। 
+धार्मिक कार्य, व्रत और पूजा के लिए लोग रोज़ पंचांग देखते हैं। 
+यहाँ आपको आज का पंचांग, व्रत-त्योहार और भक्ति से जुड़ी जानकारी सरल रूप में मिलती है।
 </p>
-
-</div>     
-<footer>
-
-© 2026 | भक्ति पंचांग | संकलन: कैलाश गौतम
-
-<div class="footer-links">
-
-<a href="/about.html">हमारे बारे में</a> | 
-<a href="/privacy.html">प्राइवेसी पॉलिसी</a> | 
-<a href="/terms.html">नियम एवं शर्तें</a> | 
-<a href="/contact.html">संपर्क करें</a>
-
 </div>
-</footer>
-
 
 <div class="modal" id="modal">
 
