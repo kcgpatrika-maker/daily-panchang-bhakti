@@ -1,30 +1,266 @@
 <!DOCTYPE html>
 <html lang="hi">
-
 <head>
 
 <meta charset="UTF-8">
-
-<meta name="viewport"
-content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
 
 <title>प्रमुख धार्मिक यात्राएँ | भक्ति पंचांग</title>
 
 <meta name="description"
-content="भारत की प्रमुख धार्मिक यात्राओं, तीर्थस्थलों और धामों की जानकारी। काशी विश्वनाथ, चारधाम, वैष्णो देवी, अमरनाथ, सोमनाथ, रामेश्वरम् सहित प्रमुख तीर्थों का परिचय।">
+content="भारत की प्रमुख धार्मिक यात्राओं, तीर्थस्थलों और धामों की जानकारी।">
 
 <meta name="keywords"
-content="धार्मिक यात्रा, तीर्थ यात्रा, चारधाम, काशी विश्वनाथ, वैष्णो देवी, अमरनाथ, भक्ति पंचांग">
+content="धार्मिक यात्रा, तीर्थ, चारधाम, काशी, वैष्णो देवी, अमरनाथ">
 
 <meta name="robots"
 content="index,follow">
 
-<link rel="canonical"
-href="https://daily-panchang-bhakti.onrender.com/yatra.html">
-
 <style>
 
-/* PART-2 में CSS आएगा */
+html,body{
+margin:0;
+padding:0;
+font-family:system-ui;
+background:#fff8e1;
+color:#4e342e;
+}
+
+*{
+box-sizing:border-box;
+}
+
+.container{
+max-width:900px;
+margin:auto;
+padding:12px;
+}
+
+/* ---------- Breadcrumb ---------- */
+
+.breadcrumb{
+
+font-size:14px;
+
+margin-bottom:10px;
+
+color:#666;
+
+}
+
+.breadcrumb a{
+
+text-decoration:none;
+
+color:#1565c0;
+
+font-weight:600;
+
+}
+
+.breadcrumb a:hover{
+
+text-decoration:underline;
+
+}
+
+/* ---------- Heading ---------- */
+
+.page-title{
+
+background:#fff;
+
+padding:14px;
+
+border-radius:12px;
+
+box-shadow:0 2px 6px rgba(0,0,0,.10);
+
+margin-bottom:12px;
+
+}
+
+.page-title h1{
+
+margin:0;
+
+font-size:28px;
+
+color:#b71c1c;
+
+}
+
+.page-title p{
+
+margin-top:8px;
+
+font-size:15px;
+
+line-height:1.7;
+
+}
+
+/* ---------- Intro ---------- */
+
+.intro{
+
+background:#ffffff;
+
+padding:16px;
+
+border-radius:12px;
+
+box-shadow:0 2px 6px rgba(0,0,0,.10);
+
+margin-bottom:15px;
+
+line-height:1.9;
+
+font-size:16px;
+
+}
+
+/* ---------- यात्रा कार्ड ---------- */
+
+.yatra-card{
+
+display:flex;
+
+justify-content:space-between;
+
+align-items:center;
+
+background:#ffffff;
+
+border-left:5px solid #ff9800;
+
+border-radius:10px;
+
+padding:14px;
+
+margin-bottom:10px;
+
+cursor:pointer;
+
+transition:.25s;
+
+box-shadow:0 2px 5px rgba(0,0,0,.08);
+
+}
+
+.yatra-card:hover{
+
+background:#fff9e8;
+
+transform:translateY(-2px);
+
+}
+
+.y-title{
+
+font-size:18px;
+
+font-weight:bold;
+
+color:#bf360c;
+
+margin-bottom:5px;
+
+}
+
+.y-desc{
+
+font-size:14px;
+
+color:#555;
+
+}
+
+.arrow{
+
+font-size:24px;
+
+color:#ff6f00;
+
+font-weight:bold;
+
+}
+
+/* ---------- Home Button ---------- */
+
+.home-btn{
+
+margin-top:20px;
+
+text-align:center;
+
+}
+
+.home-btn a{
+
+display:inline-block;
+
+background:#ff9800;
+
+color:#fff;
+
+padding:12px 20px;
+
+border-radius:30px;
+
+font-weight:bold;
+
+text-decoration:none;
+
+}
+
+.home-btn a:hover{
+
+background:#ef6c00;
+
+}
+
+/* ---------- Mobile ---------- */
+
+@media(max-width:600px){
+
+.page-title h1{
+
+font-size:22px;
+
+}
+
+.page-title p{
+
+font-size:14px;
+
+}
+
+.intro{
+
+font-size:15px;
+
+}
+
+.y-title{
+
+font-size:16px;
+
+}
+
+.y-desc{
+
+font-size:13px;
+
+}
+
+.arrow{
+
+font-size:20px;
+
+}
+
+}
 
 </style>
 
@@ -32,54 +268,56 @@ href="https://daily-panchang-bhakti.onrender.com/yatra.html">
 
 <body>
 
-<header>
+<div class="container">
 
-<div class="header-title">
+<div class="breadcrumb">
+
+<a href="index.html">🏠 मुख्य पृष्ठ</a>
+
+>
+
+📚 धार्मिक ज्ञान कोष
+
+>
+
 🚩 प्रमुख धार्मिक यात्राएँ
+
 </div>
 
-<div class="header-subtitle">
-भारत के प्रमुख तीर्थ एवं यात्रा मार्ग
-</div>
+<div class="page-title">
 
-</header>
-
-<div class="section">
-
-<div class="intro-card">
-
-<h1>भारत की प्रमुख धार्मिक यात्राएँ</h1>
+<h1>🚩 प्रमुख धार्मिक यात्राएँ</h1>
 
 <p>
 
-भारत को देवभूमि कहा जाता है। यहाँ स्थित तीर्थ, धाम और प्राचीन मंदिर केवल आस्था के केंद्र नहीं हैं, बल्कि भारतीय संस्कृति, इतिहास और आध्यात्मिक परंपरा के जीवंत प्रतीक भी हैं।
-
-इस अनुभाग में आपको देश की प्रमुख धार्मिक यात्राओं, उनके महत्व, पहुँचने के मार्ग, दर्शन की जानकारी तथा उनसे जुड़ी विशेष मान्यताओं का सरल एवं विश्वसनीय परिचय मिलेगा।
+भारत की महान आध्यात्मिक परंपरा से जुड़े प्रमुख तीर्थ, धाम एवं धार्मिक यात्राओं की जानकारी।
 
 </p>
 
 </div>
 
-<!-- PART-3 में यात्रा कार्ड आएँगे -->
+<div class="intro">
+
+भारत में धार्मिक यात्राओं की परंपरा हजारों वर्षों से चली आ रही है। देश के विभिन्न भागों में स्थित तीर्थस्थल केवल पूजा-अर्चना के केंद्र नहीं हैं, बल्कि भारतीय संस्कृति, इतिहास, आध्यात्मिक साधना और सामाजिक एकता के प्रतीक भी हैं।
+
+इस अनुभाग में आपको प्रमुख धार्मिक यात्राओं, उनके धार्मिक महत्व, स्थान, विशेषताओं तथा संबंधित जानकारी का सरल एवं विश्वसनीय परिचय मिलेगा। आगे प्रत्येक यात्रा का विस्तृत लेख भी उपलब्ध कराया जाएगा।
 
 </div>
 
-<footer>
+<!-- ===== PART-2 ===== -->
+<!-- यहाँ यात्रा कार्ड आएँगे -->
 
-© 2026 | भक्ति पंचांग
-
-<br>
-
-संकलन एवं प्रस्तुति : कैलाश गौतम
-
-<br><br>
+<div class="home-btn">
 
 <a href="index.html">
+
 🏠 मुख्य पृष्ठ पर लौटें
+
 </a>
 
-</footer>
+</div>
+
+</div>
 
 </body>
-
 </html>
