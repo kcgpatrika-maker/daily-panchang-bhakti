@@ -39,7 +39,59 @@ font-weight:600;
 .breadcrumb a:hover{
 text-decoration:underline;
 }
+/* ================= List Page ================= */
 
+.page-title{
+
+background:#fff;
+
+padding:16px;
+
+border-radius:12px;
+
+box-shadow:0 2px 8px rgba(0,0,0,.10);
+
+margin-bottom:15px;
+
+}
+
+.page-title h1{
+
+margin:0;
+
+font-size:30px;
+
+color:#b71c1c;
+
+}
+
+.page-title p{
+
+margin-top:10px;
+
+font-size:16px;
+
+line-height:1.8;
+
+}
+
+.intro{
+
+background:#fff;
+
+padding:18px;
+
+border-radius:12px;
+
+box-shadow:0 2px 8px rgba(0,0,0,.10);
+
+margin-bottom:18px;
+
+font-size:16px;
+
+line-height:1.9;
+
+}
 /* ================= Article ================= */
 
 .article-box{
