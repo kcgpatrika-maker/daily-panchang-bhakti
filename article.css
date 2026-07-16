@@ -228,7 +228,73 @@ transition:.25s;
 .home-btn a:hover{
 background:#ef6c00;
 }
+/* ================= List Cards ================= */
 
+.yatra-card{
+
+display:flex;
+
+justify-content:space-between;
+
+align-items:center;
+
+background:#fff;
+
+border-left:5px solid #ff9800;
+
+border-radius:10px;
+
+padding:15px;
+
+margin-bottom:12px;
+
+cursor:pointer;
+
+transition:.25s;
+
+box-shadow:0 2px 6px rgba(0,0,0,.10);
+
+}
+
+.yatra-card:hover{
+
+background:#fff9e8;
+
+transform:translateY(-2px);
+
+}
+
+.y-title{
+
+font-size:19px;
+
+font-weight:700;
+
+color:#bf360c;
+
+margin-bottom:5px;
+
+}
+
+.y-desc{
+
+font-size:15px;
+
+color:#555;
+
+line-height:1.6;
+
+}
+
+.arrow{
+
+font-size:26px;
+
+font-weight:bold;
+
+color:#ff6f00;
+
+}
 /* ================= Tables ================= */
 
 table{
