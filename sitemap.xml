@@ -1,24 +1,325 @@
 <?xml version="1.0" encoding="UTF-8"?>
+
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 
-<url>
-  <loc>https://daily-panchang-bhakti.onrender.com/</loc>
-</url>
+  <url>
+    <loc>https://daily-panchang-bhakti.onrender.com/</loc>
+    <lastmod>2026-08-19</lastmod>
+  </url>
 
-<url>
-  <loc>https://daily-panchang-bhakti.onrender.com/privacy.html</loc>
-</url>
+  <url>
+    <loc>https://daily-panchang-bhakti.onrender.com/about.html</loc>
+    <lastmod>2026-08-19</lastmod>
+  </url>
 
-<url>
-  <loc>https://daily-panchang-bhakti.onrender.com/about.html</loc>
-</url>
+  <url>
+    <loc>https://daily-panchang-bhakti.onrender.com/contact.html</loc>
+    <lastmod>2026-08-19</lastmod>
+  </url>
 
-<url>
-  <loc>https://daily-panchang-bhakti.onrender.com/contact.html</loc>
-</url>
+  <url>
+    <loc>https://daily-panchang-bhakti.onrender.com/privacy.html</loc>
+    <lastmod>2026-08-19</lastmod>
+  </url>
 
-<url>
-  <loc>https://daily-panchang-bhakti.onrender.com/terms.html</loc>
-</url>
+  <url>
+    <loc>https://daily-panchang-bhakti.onrender.com/terms.html</loc>
+    <lastmod>2026-08-19</lastmod>
+  </url>
+
+  <url>
+    <loc>https://daily-panchang-bhakti.onrender.com/ask-bhakti.html</loc>
+    <lastmod>2026-08-19</lastmod>
+  </url>
+
+  <url>
+    <loc>https://daily-panchang-bhakti.onrender.com/yatra.html</loc>
+    <lastmod>2026-08-19</lastmod>
+  </url>
+
+  <url>
+    <loc>https://daily-panchang-bhakti.onrender.com/mandir.html</loc>
+    <lastmod>2026-08-19</lastmod>
+  </url>
+
+  <url>
+    <loc>https://daily-panchang-bhakti.onrender.com/mela.html</loc>
+    <lastmod>2026-08-19</lastmod>
+  </url>
+
+  <url>
+    <loc>https://daily-panchang-bhakti.onrender.com/sant.html</loc>
+    <lastmod>2026-08-19</lastmod>
+  </url>
+
+  <url>
+    <loc>https://daily-panchang-bhakti.onrender.com/adi-shankaracharya.html</loc>
+    <lastmod>2026-08-19</lastmod>
+  </url>
+
+  <url>
+    <loc>https://daily-panchang-bhakti.onrender.com/chaitanya-mahaprabhu.html</loc>
+    <lastmod>2026-08-19</lastmod>
+  </url>
+
+  <url>
+    <loc>https://daily-panchang-bhakti.onrender.com/dadu-dayal.html</loc>
+    <lastmod>2026-08-19</lastmod>
+  </url>
+
+  <url>
+    <loc>https://daily-panchang-bhakti.onrender.com/eknath.html</loc>
+    <lastmod>2026-08-19</lastmod>
+  </url>
+
+  <url>
+    <loc>https://daily-panchang-bhakti.onrender.com/gyaneshwar.html</loc>
+    <lastmod>2026-08-19</lastmod>
+  </url>
+
+  <url>
+    <loc>https://daily-panchang-bhakti.onrender.com/guru-nanak.html</loc>
+    <lastmod>2026-08-19</lastmod>
+  </url>
+
+  <url>
+    <loc>https://daily-panchang-bhakti.onrender.com/kabirdas.html</loc>
+    <lastmod>2026-08-19</lastmod>
+  </url>
+
+  <url>
+    <loc>https://daily-panchang-bhakti.onrender.com/meerabai.html</loc>
+    <lastmod>2026-08-19</lastmod>
+  </url>
+
+  <url>
+    <loc>https://daily-panchang-bhakti.onrender.com/nabhadas.html</loc>
+    <lastmod>2026-08-19</lastmod>
+  </url>
+
+  <url>
+    <loc>https://daily-panchang-bhakti.onrender.com/namdev.html</loc>
+    <lastmod>2026-08-19</lastmod>
+  </url>
+
+  <url>
+    <loc>https://daily-panchang-bhakti.onrender.com/narsi-mehta.html</loc>
+    <lastmod>2026-08-19</lastmod>
+  </url>
+
+  <url>
+    <loc>https://daily-panchang-bhakti.onrender.com/ravidas.html</loc>
+    <lastmod>2026-08-19</lastmod>
+  </url>
+
+  <url>
+    <loc>https://daily-panchang-bhakti.onrender.com/ramanand.html</loc>
+    <lastmod>2026-08-19</lastmod>
+  </url>
+
+  <url>
+    <loc>https://daily-panchang-bhakti.onrender.com/surdas.html</loc>
+    <lastmod>2026-08-19</lastmod>
+  </url>
+
+  <url>
+    <loc>https://daily-panchang-bhakti.onrender.com/swami-haridas.html</loc>
+    <lastmod>2026-08-19</lastmod>
+  </url>
+
+  <url>
+    <loc>https://daily-panchang-bhakti.onrender.com/tukaram.html</loc>
+    <lastmod>2026-08-19</lastmod>
+  </url>
+
+  <url>
+    <loc>https://daily-panchang-bhakti.onrender.com/tulsidas.html</loc>
+    <lastmod>2026-08-19</lastmod>
+  </url>
+
+  <url>
+    <loc>https://daily-panchang-bhakti.onrender.com/vallabhacharya.html</loc>
+    <lastmod>2026-08-19</lastmod>
+  </url>
+
+  <url>
+    <loc>https://daily-panchang-bhakti.onrender.com/amarnath.html</loc>
+    <lastmod>2026-08-19</lastmod>
+  </url>
+
+  <url>
+    <loc>https://daily-panchang-bhakti.onrender.com/ayodhya-ram-mandir.html</loc>
+    <lastmod>2026-08-19</lastmod>
+  </url>
+
+  <url>
+    <loc>https://daily-panchang-bhakti.onrender.com/banke-bihari.html</loc>
+    <lastmod>2026-08-19</lastmod>
+  </url>
+
+  <url>
+    <loc>https://daily-panchang-bhakti.onrender.com/beneshwar.html</loc>
+    <lastmod>2026-08-19</lastmod>
+  </url>
+
+  <url>
+    <loc>https://daily-panchang-bhakti.onrender.com/brahma-pushkar.html</loc>
+    <lastmod>2026-08-19</lastmod>
+  </url>
+
+  <url>
+    <loc>https://daily-panchang-bhakti.onrender.com/char-dham.html</loc>
+    <lastmod>2026-08-19</lastmod>
+  </url>
+
+  <url>
+    <loc>https://daily-panchang-bhakti.onrender.com/dwarka.html</loc>
+    <lastmod>2026-08-19</lastmod>
+  </url>
+
+  <url>
+    <loc>https://daily-panchang-bhakti.onrender.com/gangasagar.html</loc>
+    <lastmod>2026-08-19</lastmod>
+  </url>
+
+  <url>
+    <loc>https://daily-panchang-bhakti.onrender.com/golden-temple.html</loc>
+    <lastmod>2026-08-19</lastmod>
+  </url>
+
+  <url>
+    <loc>https://daily-panchang-bhakti.onrender.com/jagannath-puri.html</loc>
+    <lastmod>2026-08-19</lastmod>
+  </url>
+
+  <url>
+    <loc>https://daily-panchang-bhakti.onrender.com/kamakhya.html</loc>
+    <lastmod>2026-08-19</lastmod>
+  </url>
+
+  <url>
+    <loc>https://daily-panchang-bhakti.onrender.com/kashi-vishwanath.html</loc>
+    <lastmod>2026-08-19</lastmod>
+  </url>
+
+  <url>
+    <loc>https://daily-panchang-bhakti.onrender.com/khatu-shyam.html</loc>
+    <lastmod>2026-08-19</lastmod>
+  </url>
+
+  <url>
+    <loc>https://daily-panchang-bhakti.onrender.com/konark-surya.html</loc>
+    <lastmod>2026-08-19</lastmod>
+  </url>
+
+  <url>
+    <loc>https://daily-panchang-bhakti.onrender.com/mahakal.html</loc>
+    <lastmod>2026-08-19</lastmod>
+  </url>
+
+  <url>
+    <loc>https://daily-panchang-bhakti.onrender.com/mathura-janmabhoomi.html</loc>
+    <lastmod>2026-08-19</lastmod>
+  </url>
+
+  <url>
+    <loc>https://daily-panchang-bhakti.onrender.com/meenakshi.html</loc>
+    <lastmod>2026-08-19</lastmod>
+  </url>
+
+  <url>
+    <loc>https://daily-panchang-bhakti.onrender.com/padmanabhaswamy.html</loc>
+    <lastmod>2026-08-19</lastmod>
+  </url>
+
+  <url>
+    <loc>https://daily-panchang-bhakti.onrender.com/pashupatinath.html</loc>
+    <lastmod>2026-08-19</lastmod>
+  </url>
+
+  <url>
+    <loc>https://daily-panchang-bhakti.onrender.com/prayagraj.html</loc>
+    <lastmod>2026-08-19</lastmod>
+  </url>
+
+  <url>
+    <loc>https://daily-panchang-bhakti.onrender.com/ramdevra.html</loc>
+    <lastmod>2026-08-19</lastmod>
+  </url>
+
+  <url>
+    <loc>https://daily-panchang-bhakti.onrender.com/rameshwaram.html</loc>
+    <lastmod>2026-08-19</lastmod>
+  </url>
+
+  <url>
+    <loc>https://daily-panchang-bhakti.onrender.com/salasar-balaji.html</loc>
+    <lastmod>2026-08-19</lastmod>
+  </url>
+
+  <url>
+    <loc>https://daily-panchang-bhakti.onrender.com/siddhivinayak.html</loc>
+    <lastmod>2026-08-19</lastmod>
+  </url>
+
+  <url>
+    <loc>https://daily-panchang-bhakti.onrender.com/somnath.html</loc>
+    <lastmod>2026-08-19</lastmod>
+  </url>
+
+  <url>
+    <loc>https://daily-panchang-bhakti.onrender.com/tirupati-balaji.html</loc>
+    <lastmod>2026-08-19</lastmod>
+  </url>
+
+  <url>
+    <loc>https://daily-panchang-bhakti.onrender.com/vaishno-devi.html</loc>
+    <lastmod>2026-08-19</lastmod>
+  </url>
+
+  <url>
+    <loc>https://daily-panchang-bhakti.onrender.com/bihu.html</loc>
+    <lastmod>2026-08-19</lastmod>
+  </url>
+
+  <url>
+    <loc>https://daily-panchang-bhakti.onrender.com/chhath.html</loc>
+    <lastmod>2026-08-19</lastmod>
+  </url>
+
+  <url>
+    <loc>https://daily-panchang-bhakti.onrender.com/durga-puja.html</loc>
+    <lastmod>2026-08-19</lastmod>
+  </url>
+
+  <url>
+    <loc>https://daily-panchang-bhakti.onrender.com/ganeshotsav.html</loc>
+    <lastmod>2026-08-19</lastmod>
+  </url>
+
+  <url>
+    <loc>https://daily-panchang-bhakti.onrender.com/gangaur.html</loc>
+    <lastmod>2026-08-19</lastmod>
+  </url>
+
+  <url>
+    <loc>https://daily-panchang-bhakti.onrender.com/kumbh-mela.html</loc>
+    <lastmod>2026-08-19</lastmod>
+  </url>
+
+  <url>
+    <loc>https://daily-panchang-bhakti.onrender.com/onam.html</loc>
+    <lastmod>2026-08-19</lastmod>
+  </url>
+
+  <url>
+    <loc>https://daily-panchang-bhakti.onrender.com/pongal.html</loc>
+    <lastmod>2026-08-19</lastmod>
+  </url>
+
+  <url>
+    <loc>https://daily-panchang-bhakti.onrender.com/shravani-mela.html</loc>
+    <lastmod>2026-08-19</lastmod>
+  </url>
 
 </urlset>
